@@ -50,9 +50,14 @@
   --rail-dim:#8C836B;
   --tape-h:40px;
   --foot-h:26px;
+  /* the animal's lane down the right edge of a chart slide; the slide's
+     content fills everything to the left of it */
+  --lane-r:clamp(150px,15vw,420px);
 }
 
 *{box-sizing:border-box}
+html,body{height:100%}
+[hidden]{display:none !important}
 body{
   margin:0;background:var(--ink);color:var(--bone);
   font-family:var(--f-text);overflow:hidden;-webkit-font-smoothing:antialiased;
@@ -142,7 +147,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
   position:absolute;z-index:6;left:5.5vw;
   top:clamp(84px,10vh,132px);
   bottom:80px;
-  width:clamp(340px,46vw,720px);
+  width:clamp(340px,50vw,960px);
   overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;
   /* Deliberately no width transition: the column is re-measured and scaled
      to fit the moment a slide renders, and an animating width would be
@@ -160,8 +165,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 /* A chart stacked under four bullets makes the column far too tall, so a
    chart slide spends horizontal space instead: header across the top,
    bullets left, chart right, and the animal steps back to make room. */
-.stage.has-chart .lower{width:min(1100px,66vw)}
-.stage.is-wide   .lower{width:min(1240px,72vw)}
+/* A chart slide spends the whole frame: the column runs from the left margin
+   to the animal's lane, with no fixed pixel cap, so a 1920 or ultra-wide
+   screen gets a bigger chart rather than a band of empty scenery. The cap in
+   vh only stops a 21:9 screen stretching the grid into a ribbon. */
+.stage.has-chart .lower,.stage.is-wide .lower{width:auto;right:var(--lane-r);max-width:180vh}
 .stage.has-chart .col{
   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.95fr);
   column-gap:clamp(20px,3vw,46px);align-items:start;
@@ -259,7 +267,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
   filter:drop-shadow(0 20px 26px rgba(8,7,5,.85));
   transition:width .5s ease,opacity .5s ease;
 }
-.stage.has-chart .beast{width:min(18vw,205px);left:82%;opacity:.6}
+.stage.has-chart .beast{width:min(calc(var(--lane-r) - 2.4vw),300px);left:calc(100% - var(--lane-r) + 1.2vw);opacity:.75}
 .beast svg{display:block;width:100%;height:auto;overflow:visible}
 /* Travelling backwards through the week mirrors the animal. The brand plate
    has to stay readable, so it counter-flips inside the mirrored group. */
@@ -357,6 +365,18 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 }
 .disclaimer .back:hover,.disclaimer .back:focus-visible{color:var(--gold-hi)}
 .disclaimer .back:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
+/* Full screen (F). Lives in the footer because the footer is the one bar on
+   every screen, the start screen included; hidden where the browser has no
+   Fullscreen API (an iPhone), so it never offers what it cannot do. */
+.disclaimer .fs{
+  flex:none;margin-left:14px;display:inline-flex;align-items:center;gap:6px;
+  min-height:24px;padding:0 9px;border:1px solid var(--line);border-radius:2px;
+  color:var(--bone-2);font-weight:600;white-space:nowrap;line-height:1;
+}
+.disclaimer .fs svg{width:12px;height:12px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.disclaimer .fs:hover,.disclaimer .fs:focus-visible{color:var(--gold-hi);border-color:var(--gold)}
+.disclaimer .fs[aria-pressed="true"]{color:var(--gold-hi)}
+@media (max-width:760px){.disclaimer .fs{margin-left:8px;padding:0 7px}.disclaimer .fs .fs-t{display:none}}
 @media (max-width:1100px){.disclaimer{font-size:10px}}
 @media (max-width:760px){:root{--foot-h:38px}.disclaimer{font-size:9.5px}}
 @media (max-width:440px){:root{--foot-h:52px}}
@@ -399,6 +419,16 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .flagline{left:20px;top:calc(var(--tape-h) + 14px);display:flex;gap:8px;align-items:center}
 .flagline .demo{background:var(--gold);color:var(--ink-2);padding:4px 8px;border-radius:2px;font-weight:600}
 .flagline .stamp{color:var(--muted)}
+/* The view picked at the start screen, on every slide. It is the viewer's
+   and never changes until a restart; the chip on each slide is the data's. */
+.yourview{
+  display:inline-flex;align-items:center;gap:6px;padding:3px 9px 3px 7px;
+  border-radius:2px;border:1px solid;white-space:nowrap;color:var(--bone);background:rgba(8,7,5,.72);
+}
+.yourview svg{width:13px;height:13px;display:block;fill:currentColor;flex:none}
+.yourview b{font-weight:600}
+.yourview.bull{color:#F0D488;border-color:rgba(240,212,136,.5)}
+.yourview.bear{color:#BFCCDC;border-color:rgba(191,204,220,.45)}
 .hint{right:20px;top:calc(var(--tape-h) + 14px);display:flex;align-items:center;gap:8px;color:var(--muted);transition:opacity .6s}
 .hint kbd{border:1px solid #6E6754;border-radius:2px;padding:2px 6px;background:rgba(24,21,16,.85);color:var(--bone-2);font-family:inherit;font-size:9.5px}
 .stage.is-running .hint{opacity:0}
@@ -447,7 +477,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
   font-family:var(--f-text);font-weight:300;color:var(--bone-2);
   font-size:clamp(14px,1.35vw,19px);max-width:50ch;margin:0;line-height:1.55;
 }
-.faceoff{width:min(760px,72vw);max-height:34vh}
+/* width follows the height budget too: the 3D faceoff holds a 52:20 ratio, so
+   a width-only rule let it run past 34vh on a 720p screen and under the copy */
+.faceoff{width:min(760px,72vw,88vh);max-height:34vh}
 .faceoff svg{display:block;width:100%;height:auto;overflow:visible}
 
 .picks{display:flex;gap:clamp(12px,2vw,22px);flex-wrap:wrap;justify-content:center}
@@ -467,6 +499,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 .pick.bull:hover,.pick.bull:focus-visible{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 22px 44px -24px var(--gold)}
 .pick.bear:hover,.pick.bear:focus-visible{border-color:var(--bear);box-shadow:0 0 0 1px var(--bear),0 22px 44px -24px var(--bear-dim)}
 .pick:hover,.pick:focus-visible{transform:translateY(-2px)}
+.pick kbd{font-family:var(--f-mono);font-size:11px;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:2px;padding:1px 5px;margin-left:8px;vertical-align:4px}
+@media (max-width:900px),(hover:none){.pick kbd{display:none}}
 
 .gate-foot{
   display:flex;flex-direction:column;gap:6px;align-items:center;
@@ -494,7 +528,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
   .stop .full{display:none}
   .stop .short{display:inline}
   .stop{padding:14px 2px;letter-spacing:.06em}
-  .stage.is-wide .lower,.stage.has-chart .lower{width:auto}
+  .stage.is-wide .lower,.stage.has-chart .lower{width:auto;right:6vw;max-width:none}
   .stage.has-chart .col{display:block}
   .stage.has-chart .col > .chartwrap{margin-top:clamp(14px,2.4vh,24px)}
   .beast{width:46vw;left:auto;right:-3vw;opacity:.45}
@@ -503,7 +537,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
   .vignette{background:linear-gradient(180deg,rgba(8,7,5,.78),rgba(8,7,5,.35) 26%,rgba(8,7,5,.94) 76%)}
   .hint,.byline{display:none}
   .counter{right:14px;bottom:52px}
-  .faceoff{width:92vw;max-height:26vh}
+  .faceoff{width:min(92vw,67vh);max-height:26vh}
 }
 @media (prefers-reduced-motion:reduce){
   .tape-run,.leg,.tail,.bob,.puff,.speedlines i,.ground::after,.leg .knee,.beast .head,
@@ -621,18 +655,21 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 
 /* ── the settlement ────────────────────────────────────── */
 .verdict{
-  display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:start;
+  display:block;
   margin-top:clamp(14px,2.4vh,24px);padding:clamp(12px,1.8vh,18px) clamp(14px,2vw,20px);
   border:1px solid var(--line);border-left-width:3px;border-radius:2px;
   background:rgba(24,21,16,.88);
 }
-.verdict.bull{border-left-color:var(--gold)}
-.verdict.bear{border-left-color:var(--bear)}
-.verdict svg{width:26px;height:26px;grid-row:1 / span 2;display:block;fill:currentColor}
-.verdict.bull svg{color:#F0D488}
-.verdict.bear svg{color:#BFCCDC}
+.verdict{border-left-color:var(--gold)}
+.verdict svg{display:block;fill:currentColor;flex:none}
 .verdict p{margin:0;font-size:clamp(12.5px,1.55vh,16px);line-height:1.5;color:var(--bone)}
 .verdict p b{font-weight:600;color:var(--bone)}
+.verdict .v-rows{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:8px}
+.verdict .v-row{display:inline-flex;align-items:center;gap:9px;font-family:var(--f-mono);font-size:clamp(9.5px,1.15vh,11.5px);letter-spacing:.14em;text-transform:uppercase;color:#9A9280}
+.verdict .v-tag{display:inline-flex;align-items:center;gap:6px;padding:3px 9px 3px 7px;border-radius:2px;border:1px solid;white-space:nowrap}
+.verdict .v-tag svg{width:14px;height:14px;grid-row:auto}
+.verdict .v-tag.bull{color:#F0D488;border-color:rgba(240,212,136,.5);background:rgba(210,166,60,.14)}
+.verdict .v-tag.bear{color:#BFCCDC;border-color:rgba(191,204,220,.45);background:rgba(120,140,165,.16)}
 .verdict .verdict-time{
   font-family:var(--f-mono);font-size:clamp(9.5px,1.15vh,11.5px);
   letter-spacing:.14em;text-transform:uppercase;color:#9A9280;
@@ -779,13 +816,22 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
      the clock moves down out of the reading area and the slide count moves
      across to the corner the byline has vacated. Both keep full-size hit
      targets down there, which a bar-height dock could not. */
-  .deckside{top:auto;bottom:64px;right:12px;gap:0}
-  .counter{left:14px;right:auto;bottom:70px}
-  .lower{bottom:130px}
-  .timer{min-width:0;gap:0 6px;padding:7px 4px 7px 12px;grid-template-areas:"clock ctl"}
+  /* A phone is portrait and height is everything: the clock docks into the
+     top bar instead of floating over the slide, so the column runs from the
+     bar to the rail. */
+  :root{--tape-h:48px}
+  .deckside{top:0;right:0;gap:0}
+  .timer{height:var(--tape-h);min-width:0;gap:0 2px;padding:0 0 0 12px;grid-template-areas:"clock ctl";
+    border:0;border-left:1px solid var(--line);border-radius:0;background:#080705;box-shadow:none}
   .t-pace,.t-bar{display:none}
+  .counter{left:14px;right:auto;bottom:54px}
+  .lower{top:calc(var(--tape-h) + 46px);bottom:74px}
+  /* the header's room is no longer shared with the clock up here, so it
+     takes the full width instead of wrapping one word to a line */
+  .stage.is-wide .col > .eyebrow,.stage.is-wide .col > .dayname,.stage.is-wide .col > .daterow{max-width:none}
+  .eyebrow{letter-spacing:.12em;gap:8px}
+  .chip{white-space:nowrap}
   .why{max-width:none}
-  .verdict{grid-template-columns:auto 1fr}
 }
 @media (max-height:560px){
   .timer{padding:6px 6px 7px 10px;min-width:170px}
@@ -799,7 +845,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 </head><body>
 <button class="skip" id="skip" type="button">Next beat</button>
 <p class="sr" id="say" role="status" aria-live="polite"></p>
-<div class="stage" id="stage">
+<main class="stage" id="stage" aria-label="Weekly Market Update">
   <div class="worlds" id="worlds"></div>
   <div class="ground"></div>
   <div class="vignette"></div>
@@ -817,7 +863,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
     <div class="tape-track"><div class="tape-run" id="tapeRun"></div></div>
   </div>
 
-  <div class="flagline"><span class="demo" id="demoChip">Demo copy</span><span class="stamp" id="stamp"></span></div>
+  <div class="flagline"><span class="demo" id="demoChip">Demo copy</span><span class="yourview" id="yourView" hidden></span><span class="stamp" id="stamp"></span></div>
   <div class="deckside">
     <div class="timer" id="timer" data-state="idle" role="group" aria-label="Presentation timer">
       <div class="t-clock">
@@ -852,14 +898,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
     <div class="gate-kicker" id="gateKicker"></div>
     <h1 class="gate-title">Who runs the week?</h1>
     <div class="faceoff" id="faceoff"></div>
-    <p class="gate-sub">Pick a view before we start. Each slide is then carried by the animal that matched that topic &mdash; and the close shows how your view lined up with the week&rsquo;s data.</p>
+    <p class="gate-sub">Pick a view before we start. Your pick stays yours to the close; the animal on each slide shows only which way that topic&rsquo;s data leaned.</p>
     <div class="picks">
-      <button class="pick bull" data-kind="bull">
-        <span class="pick-name">Bull</span>
+      <button class="pick bull" data-kind="bull" type="button" aria-keyshortcuts="ArrowLeft 1">
+        <span class="pick-name">Bull<kbd aria-hidden="true">&larr;</kbd></span>
         <span class="pick-note">Constructive view &middot; leans higher</span>
       </button>
-      <button class="pick bear" data-kind="bear">
-        <span class="pick-name">Bear</span>
+      <button class="pick bear" data-kind="bear" type="button" aria-keyshortcuts="ArrowRight 2">
+        <span class="pick-name">Bear<kbd aria-hidden="true">&rarr;</kbd></span>
         <span class="pick-note">Cautious view &middot; leans lower</span>
       </button>
     </div>
@@ -868,9 +914,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
       <span id="gateBy"></span>
     </div>
   </div>
-</div>
+</main>
 
-<footer class="disclaimer" id="disclaimer"><a class="back" href="../../">&larr; Portfolio</a><span>Educational market commentary &middot; not investment advice &middot; figures from public sources as of the dates shown &middot; not affiliated with any employer</span></footer>
+<footer class="disclaimer" id="disclaimer"><a class="back" href="../../">&larr; Portfolio</a><span>Educational market commentary &middot; not investment advice &middot; figures from public sources as of the dates shown &middot; not affiliated with any employer</span><button class="fs" id="fsBtn" type="button" aria-pressed="false" aria-keyshortcuts="F" title="Full screen (F)" aria-label="Full screen" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span class="fs-t">Full screen</span></button></footer>
 
 <script>
 /* ==================================================================
@@ -2146,10 +2192,11 @@ root.sceneHTML = sceneHTML;
  * charts.js — chart module for the market-update deck
  * Plain browser JS. No modules, no build step, no dependencies.
  *
- * Exposes exactly three globals:
+ * Exposes exactly four globals:
  *   CHART_CSS          a CSS string — inline it ONCE in the page <head>
  *   chartSVG(spec,opts) returns an HTML string for one chart
  *   chartAttach(rootEl) wires hover / tooltip / keyboard / reveal
+ *   chartFit(rootEl)    re-fits cards now (after a host sets data-maxh)
  *
  * ---------------------------------------------------------------------------
  * WIRING IT UP (once per page)
@@ -2282,7 +2329,7 @@ root.sceneHTML = sceneHTML;
  * series identity, so a re-skin can't silently break the validated palette.
  * ========================================================================== */
 
-var chartSVG, chartAttach;
+var chartSVG, chartAttach, chartFit;
 
 const CHART_CSS = `
 .gfc{
@@ -3296,6 +3343,18 @@ const CHART_CSS = `
     return wired;
   };
 
+  /* chartFit(root): re-run the fit on every card under root now, e.g. after
+     the host changed a slot's data-maxh. Returns how many were redrawn. */
+  chartFit = function chartFit(rootEl) {
+    var root = rootEl || document, n = 0;
+    var found = root.querySelectorAll ? root.querySelectorAll('.gfc') : [];
+    for (var i = 0; i < found.length; i++) {
+      if (!found[i].__gfcWired) { if (wire(found[i])) n++; continue; }
+      if (fitWidth(found[i])) { hover(found[i]); n++; }
+    }
+    return n;
+  };
+
   /* ---- auto-fit: redraw the card at the width of the slot it landed in, so
      the SVG renders 1:1 and the axis type keeps its designed size. The card
      element itself is kept (only its innards are swapped) so any reference the
@@ -3303,10 +3362,20 @@ const CHART_CSS = `
   function fitWidth(fig) {
     var specRaw = fig.getAttribute('data-gfc-spec');
     if (!specRaw) return false;
-    var box = fig.getBoundingClientRect();
-    if (!box.width) return false;
-    var target = Math.round(box.width);
-    if (fig.__gfcFitW != null && Math.abs(target - fig.__gfcFitW) < 10) return false;
+    /* the SLOT's layout width, not the card's: the card's own width is
+       whatever it was last drawn at, so measuring it could only ever shrink
+       a chart, never grow one into a wider column. And clientWidth is the
+       unscaled layout width: the deck scales its column with a transform to
+       fit short screens, and measuring the scaled box fed back on itself -
+       each re-fit drew the chart at 80% of the last one, until a laptop-sized
+       window showed a chart a third of its slot with the labels cut off. */
+    var host = fig.parentElement;
+    var target = Math.round(host && host.clientWidth ? host.clientWidth : fig.getBoundingClientRect().width);
+    if (!target) return false;
+    /* a host can cap the plot height (data-maxh on the slot) when a short
+       screen needs the room; the chart then gets flatter, not smaller */
+    var maxh = host ? parseFloat(host.getAttribute('data-maxh')) || 0 : 0;
+    if (fig.__gfcFitW != null && Math.abs(target - fig.__gfcFitW) < 10 && fig.__gfcMaxH === maxh) return false;
     var blob;
     try { blob = JSON.parse(specRaw); } catch (e) { return false; }
     if (!blob || !blob.s) return false;
@@ -3316,6 +3385,7 @@ const CHART_CSS = `
     var pad = PRESET[o.size === 'hero' ? 'hero' : 'column'].padX;
     o.width = target;
     o.height = Math.round(Math.max(20, target - pad) * (blob.r || 0.45));   /* hold the aspect */
+    if (maxh) o.height = Math.min(o.height, maxh);
     o._fit = true;
     var html = chartSVG(blob.s, o);
     var tpl = document.createElement('div');
@@ -3323,12 +3393,14 @@ const CHART_CSS = `
     var nf = tpl.firstElementChild;
     if (!nf) return false;
     fig.__gfcFitW = target;
+    fig.__gfcMaxH = maxh;
     fig.setAttribute('style', nf.getAttribute('style') || '');
     if (nf.hasAttribute('data-gfc')) fig.setAttribute('data-gfc', nf.getAttribute('data-gfc'));
     else fig.removeAttribute('data-gfc');
     fig.innerHTML = nf.innerHTML;
     return true;
   }
+
 
   /* One painted frame in the pre-state first, so the transition actually runs
      (a just-swapped card has no before-change style). rAF is the right hook —
@@ -3365,7 +3437,9 @@ const CHART_CSS = `
           if (fitWidth(fig)) hover(fig);
         }, 0);
       });
-      ro.observe(fig);
+      /* watch the SLOT: the card has a definite width of its own, so it
+         never resizes when its column does */
+      ro.observe(fig.parentElement || fig);
     }
 
     /* reveal — the deck adds `is-in` on its own click; this is the safety net
@@ -5967,7 +6041,7 @@ let beast3d = null, face3d = null;
 /* kind is the animal currently on screen and changes with the story;
    call is the view picked at the gate, compared with the week's data on
    the scoreboard. It is an interactive prompt, not advice. */
-const S = { i:0, r:0, kind:null, call:null, busy:false, started:false, world:null };
+const S = { i:0, r:0, kind:null, call:null, busy:false, started:false, world:null, gen:0 };
 
 /* The questions page. It is added here rather than written into the week's
    data because that data is rewritten every week - by hand or by a job - and
@@ -6118,6 +6192,22 @@ const MOOD_MARK = {
 };
 const moodMark = (k) => MOOD_MARK[k] || '';
 const moodWord = (k) => k === 'bull' ? 'Bull' : 'Bear';
+/* The chip on each slide is the DATA's lean for that topic, and says so in
+   words: "Bull tape" on its own, straight after someone picked Bear, read as
+   the deck changing their pick. */
+const leanLabel = (k, pending) => `Data ${pending ? 'leans' : 'leaned'} ${k}`;
+/* The two picks in the order they sit on screen, so the left arrow always
+   takes the left-hand button whatever order the markup is in. */
+const pickOrder = () => [...document.querySelectorAll('.pick')].map(b => b.dataset.kind);
+const isKind = (k) => k === 'bull' || k === 'bear';
+function paintYourView(){
+  const el = $('#yourView');
+  if(!el) return;
+  if(!S.call){ el.hidden = true; el.innerHTML = ''; return; }
+  el.className = 'yourview ' + S.call;
+  el.innerHTML = `${moodMark(S.call)}<span>Your view: <b>${moodWord(S.call)}</b></span>`;
+  el.hidden = false;
+}
 
 /* ── the clock ───────────────────────────────────────
    Six minutes, exactly. Measured against the wall clock and never by
@@ -6289,7 +6379,7 @@ function slideHTML(d){
   let html = `
     <div class="eyebrow">
       <span class="chip"><span class="dot" aria-hidden="true"></span>${scene.badge}</span>
-      <span class="mood ${mood}">${moodMark(mood)}${moodWord(mood)} ${pending ? 'lean' : 'tape'}</span>
+      <span class="mood ${mood}">${moodMark(mood)}${leanLabel(mood, pending)}</span>
       ${pending ? `<span class="pendchip"><span class="pdot"></span>${d.pendingLabel || 'Figures to come'}</span>` : ''}
       <span>${d.sub || ''}</span>
     </div>
@@ -6300,7 +6390,7 @@ function slideHTML(d){
   /* Why this animal, in one line. Not a reveal: it belongs to the header,
      and the room should be able to read it while the first bullet lands. */
   if(d.moodNote && !d.scores){
-    const key = pending ? 'What decides it' : `Why the ${mood}`;
+    const key = pending ? 'What decides it' : `Why the data leaned ${mood}`;
     html += `<p class="why ${mood}${pending ? ' pending' : ''}"><span class="why-k">${key}</span><span>${d.moodNote}</span></p>`;
   }
 
@@ -6341,23 +6431,31 @@ function slideHTML(d){
 }
 
 /* The close compares the view picked at the gate with the week's data. It
-   describes the past week only and is not a forecast or a recommendation. */
+   describes the past week only and is not a forecast or a recommendation.
+   The two are always shown side by side and labelled - "Your view" is what
+   the viewer picked and is never changed by the deck; "The week's data" is
+   the data's own lean. Showing only the data's animal here (as this did
+   before) read as the deck overruling the viewer's pick. */
 function verdictHTML(d, mood){
   const up = d.scores.filter(s => +s.pct > 0).length;
   const n  = d.scores.length;
-  const called = S.call
-    ? `You picked the <b>${moodWord(S.call)}</b> view. ${S.call === mood ? 'This week&rsquo;s data matched it.' : 'This week&rsquo;s data pointed the other way.'} `
-    : '';
-  if(d.state === 'pending'){
-    return `<div class="verdict reveal ${mood}">
-      ${moodMark(mood)}
-      <p>${d.verdictNote || 'The week is still running: the scoreboard settles on Friday&rsquo;s close, and the comparison with your view settles with it.'}</p>
+  const pending = d.state === 'pending';
+  const rows = `<div class="v-rows">
+      ${S.call ? `<span class="v-row">Your view <span class="v-tag ${S.call}">${moodMark(S.call)}${moodWord(S.call)}</span></span>` : ''}
+      <span class="v-row">The week&rsquo;s data <span class="v-tag ${mood}">${moodMark(mood)}${pending ? 'leans' : 'leaned'} ${mood}</span></span>
+    </div>`;
+  const picked = S.call ? `You picked the <b>${moodWord(S.call)}</b> view. ` : '';
+  if(pending){
+    return `<div class="verdict reveal">
+      ${rows}
+      <p>${picked}${d.verdictNote || 'The week is still running: the scoreboard settles on Friday&rsquo;s close, and the comparison with your view settles with it.'}</p>
       <p class="verdict-time" id="tElapsed"></p>
     </div>`;
   }
-  return `<div class="verdict reveal ${mood}">
-      ${moodMark(mood)}
-      <p>${called}${up} of ${n} markets closed higher, so the week&rsquo;s data leans <b>${moodWord(mood)}</b>. A description of the past week, not a forecast.</p>
+  const matched = S.call ? (S.call === mood ? 'This week&rsquo;s data matched it: ' : 'This week&rsquo;s data pointed the other way: ') : '';
+  return `<div class="verdict reveal">
+      ${rows}
+      <p>${picked}${matched}${up} of ${n} markets closed higher, so the week&rsquo;s data leaned <b>${mood}</b>. A description of the past week, not a forecast.</p>
       <p class="verdict-time" id="tElapsed"></p>
     </div>`;
 }
@@ -6379,6 +6477,30 @@ function tilesHTML(stats){
     </div>`;
   }).join('');
   return `<div class="tiles reveal">${tiles}</div>`;
+}
+
+/* On a short screen the charts give up height before the type gives up
+   size: measure the overflow with every chart at its natural aspect, then
+   flatten the charts by that much (never below 150px of plot) and only then
+   let fitColumn scale what is left. Done once per render and on resize. A
+   phone scrolls instead. */
+function capCharts(){
+  const col = lower.firstElementChild;
+  const roots = [...lower.querySelectorAll('.chart-root')];
+  if(!col || !roots.length || typeof chartFit !== 'function') return;
+  roots.forEach(r => r.removeAttribute('data-maxh'));
+  col.style.setProperty('--fit', '1');
+  col.style.marginBottom = '0px';
+  chartFit(lower);
+  if(innerWidth < 900) return;
+  const over = col.getBoundingClientRect().height - (lower.clientHeight - 14);
+  if(over <= 0) return;
+  roots.forEach(r => {
+    const svg = r.querySelector('.gfc-svg');
+    const h = svg ? svg.getBoundingClientRect().height : 0;
+    if(h) r.setAttribute('data-maxh', Math.max(innerHeight < 800 ? 120 : 150, Math.round(h - over)));
+  });
+  chartFit(lower);
 }
 
 /* Shrink the column in small steps until it fits the available height.
@@ -6416,6 +6538,11 @@ function fitColumn(){
     const shown = col.getBoundingClientRect().height;
     col.style.marginBottom = Math.round(shown - shown / f) + 'px';
   }
+  /* A column that still scrolls at the smallest step is a scrollable region,
+     and a keyboard user has to be able to reach it to scroll it. Only then:
+     a tab stop on a column that fits would be a stop that does nothing. */
+  if(lower.scrollHeight > lower.clientHeight + 2) lower.setAttribute('tabindex', '0');
+  else lower.removeAttribute('tabindex');
 }
 
 function renderSlide(idx){
@@ -6450,6 +6577,7 @@ function renderSlide(idx){
   document.title = `${d.label} — ${BRAND.name}`;
   /* Synchronous, not rAF: rAF never fires in a hidden tab, and the deck
      may well be loaded in a background tab before anyone looks at it. */
+  if(chartsOf(d).length && typeof chartAttach === 'function'){ try{ chartAttach(lower); capCharts(); }catch(e){} }
   fitColumn();
   if(chartsOf(d).length) setTimeout(fitColumn, 260);
 }
@@ -6495,6 +6623,9 @@ function swapRunner(kind, dir){
 
 function goTo(next){
   if(S.busy || next < 0 || next >= WEEK.length) return;
+  /* A restart mid-run must not let this run's timers land afterwards and
+     paint a slide or swap an animal behind the fresh start screen. */
+  const gen = S.gen;
   const dir = next > S.i ? 1 : -1;
   /* Which animal carries you into this day - the day's own, not the one
      the presenter picked at the gate. */
@@ -6537,6 +6668,7 @@ function goTo(next){
   beastEl.style.left = off;
 
   setTimeout(() => {
+    if(gen !== S.gen) return;
     if(nextKind !== S.kind) swapRunner(nextKind, dir);
     beastEl.style.transition = 'none';
     beastEl.style.left = on;
@@ -6546,6 +6678,7 @@ function goTo(next){
   }, RUN * 0.54);
 
   setTimeout(() => {
+    if(gen !== S.gen) return;
     if(outgoing) outgoing.remove();
     incoming.querySelectorAll('.layer').forEach(l => { l.style.transition='none'; l.style.transform='none'; });
     stage.classList.remove('is-running');
@@ -6571,7 +6704,10 @@ function restart(){
   preStart(true);
   gate.classList.remove('gone');
   gate.classList.remove('intro'); void gate.offsetWidth; gate.classList.add('intro');
-  S.started = false; S.i = 0; S.r = 0; S.world = null; S.kind = null; S.call = null;
+  S.gen++;
+  S.started = false; S.busy = false; S.i = 0; S.r = 0; S.world = null; S.kind = null; S.call = null;
+  paintYourView();
+  stage.classList.remove('is-running', 'has-chart', 'two-charts', 'is-visual', 'is-qa');
   T.running = false; T.left = TALK_MS; tFace(); tPaint();
   worlds.innerHTML = ''; lower.innerHTML = '';
   if(beast3d){ try{ beast3d.destroy(); }catch(e){} beast3d = null; }
@@ -6606,8 +6742,12 @@ function mountRunner(kind){
 
 function start(kind){
   /* The pick is a view on the week, compared with the data at the
-     close. What runs on screen from here is each day's own animal. */
+     close. What runs on screen from here is each day's own animal, and
+     the viewer's pick stays on screen beside it, labelled as theirs. */
+  if(S.started || !isKind(kind)) return;
+  const gen = S.gen;
   S.call = kind;
+  paintYourView();
   S.kind = moodFor(WEEK[0]);
   S.started = true;
   mountRunner(S.kind);
@@ -6618,8 +6758,34 @@ function start(kind){
   S.world = makeWorld(WEEK[0].region);
   worlds.appendChild(S.world);
   renderSlide(0);
+  say(`You picked the ${moodWord(kind)} view. ${WEEK[0].label}. ${WEEK[0].headline}`);
   tStart();
-  setTimeout(revealNext, 420);
+  setTimeout(() => { if(gen === S.gen) revealNext(); }, 420);
+}
+
+/* ── full screen ─────────────────────────────────────── */
+const FS_OK = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+const fsOn = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+function toggleFullscreen(){
+  if(!FS_OK) return;
+  const de = document.documentElement;
+  try{
+    if(fsOn()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    else{
+      const p = (de.requestFullscreen || de.webkitRequestFullscreen).call(de);
+      if(p && p.catch) p.catch(() => {});
+    }
+  }catch(e){ /* refused: stay windowed */ }
+}
+function paintFullscreen(){
+  const b = $('#fsBtn');
+  if(!b) return;
+  b.hidden = !FS_OK;
+  const on = fsOn();
+  b.setAttribute('aria-pressed', String(on));
+  b.setAttribute('aria-label', on ? 'Exit full screen' : 'Full screen');
+  b.title = on ? 'Exit full screen (F)' : 'Full screen (F)';
+  const t = b.querySelector('.fs-t'); if(t) t.textContent = on ? 'Exit full screen' : 'Full screen';
 }
 
 function mountFaceoffArt(){
@@ -6695,7 +6861,13 @@ function boot(){
   guard($('#tToggle'), tToggle);
   guard($('#tReset'),  tReset);
   guard($('#tNotes'),  toggleNotes);
-  guard($('#skip'),    () => S.started ? advance() : start('bull'));
+  /* On the start screen the skip button takes you to the picks; it never
+     picks a side for you. */
+  guard($('#skip'),    () => { if(S.started) advance(); else { const f = gate.querySelector('.pick'); if(f) f.focus(); } });
+  guard($('#fsBtn'),   toggleFullscreen);
+  paintFullscreen();
+  document.addEventListener('fullscreenchange', paintFullscreen);
+  document.addEventListener('webkitfullscreenchange', paintFullscreen);
   tFace();
   /* Four paints a second keeps the seconds honest without being a loop. */
   setInterval(tPaint, 250);
@@ -6705,22 +6877,29 @@ function boot(){
      tooltip, the values table, the rail, the clock. The rest of the stage
      is the one big Next button the deck is built around. */
   stage.addEventListener('click', e => {
-    if(e.target.closest('.gfc,.rail,.gate,.timer,.notes,button,a,summary,input,[tabindex]')) return;
+    if(e.target.closest('.gfc,.rail,.gate,.timer,.notes,button,a,summary,input,[tabindex]:not(.lower)')) return;
     advance();
   });
   addEventListener('keydown', e => {
     /* A browser shortcut is not ours to take. */
     if(e.ctrlKey || e.metaKey || e.altKey) return;
+    if(e.key === 'f' || e.key === 'F'){ e.preventDefault(); toggleFullscreen(); return; }
+    /* On the start screen the arrows and 1/2 always pick a side, even with a
+       pick focused, and they follow the buttons as they sit on screen: left
+       arrow or 1 is the left-hand button (Bull), right arrow or 2 the
+       right-hand one (Bear). This used to be hard-wired the other way round,
+       so pressing left for the Bull on the left started the Bear. */
+    if(!S.started){
+      const order = pickOrder();
+      if(e.key === 'ArrowLeft'  || e.key === '1'){ e.preventDefault(); start(order[0]); return; }
+      if(e.key === 'ArrowRight' || e.key === '2'){ e.preventDefault(); start(order[1]); return; }
+    }
     /* Neither is a keystroke aimed at a control the user has focused. */
     const onControl = e.target && e.target.closest &&
-      e.target.closest('button,a,summary,input,select,textarea,[tabindex]');
+      e.target.closest('button,a,summary,input,select,textarea,[tabindex]:not(.lower)');
     if(onControl && ['Enter',' ','Spacebar','ArrowLeft','ArrowRight'].includes(e.key)) return;
     const isSpace = e.code === 'Space' || e.key === ' ' || e.key === 'Spacebar';
-    if(!S.started){
-      if(e.key === 'ArrowLeft')  { e.preventDefault(); start('bear'); }
-      if(e.key === 'ArrowRight') { e.preventDefault(); start('bull'); }
-      return;
-    }
+    if(!S.started) return;
     if(isSpace || e.key === 'ArrowRight' || e.key === 'Enter'){ e.preventDefault(); advance(); }
     else if(e.key === 'ArrowLeft'){ e.preventDefault(); back(); }
     else if(e.key.toLowerCase() === 'r'){ e.preventDefault(); restart(); }
@@ -6729,7 +6908,10 @@ function boot(){
     else if(e.key === '0'){ e.preventDefault(); tReset(); }
     else if(/^[1-9]$/.test(e.key)){ const n = +e.key - 1; if(n < WEEK.length) goTo(n); }
   });
+  let rz = 0;
   addEventListener('resize', () => {
+    clearTimeout(rz);
+    rz = setTimeout(() => { try{ capCharts(); }catch(e){} fitColumn(); }, 120);
     fitColumn();
     if(beast3d) beast3d.resize();
     if(face3d) face3d.resize();
