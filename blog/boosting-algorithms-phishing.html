@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boosting Algorithms for Phishing Detection: Features, Tuning and Evaluation · Catalin Bondari</title>
+  <meta name="description" content="How gradient boosting is applied to phishing email detection, and what matters most: features, imbalance-aware metrics, tuning and stacking.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/boosting-algorithms-phishing.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="Boosting Algorithms for Phishing Detection: Features, Tuning and Evaluation · Catalin Bondari">
+  <meta property="og:description" content="How gradient boosting is applied to phishing email detection, and what matters most: features, imbalance-aware metrics, tuning and stacking.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/boosting-algorithms-phishing.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2024-03-12">
+  <meta name="author" content="Catalin Bondari &amp; Bohdan Boiprav">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Boosting Algorithms for Phishing Detection: Features, Tuning and Evaluation · Catalin Bondari">
+  <meta name="twitter:description" content="How gradient boosting is applied to phishing email detection, and what matters most: features, imbalance-aware metrics, tuning and stacking.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; machine learning / boosting / phishing / classification</p>
+        <h1 id="post-title" class="post-title">Boosting Algorithms for Phishing Detection: Features, Tuning and Evaluation</h1>
+        <p class="lede">How gradient boosting is applied to phishing email detection, and what matters most: features, imbalance-aware metrics, tuning and stacking.</p>
+        <dl class="facts">
+          <div><dt>Authors</dt><dd>Catalin Bondari &amp; Bohdan Boiprav</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2024-03-12" class="post-date">12 Mar 2024</time></dd></div>
+          <div><dt>Reading time</dt><dd>4 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>Phishing detection is a good fit for gradient-boosted trees. The inputs are usually tabular (counts, flags, ratios and scores extracted from a message), the classes are heavily imbalanced, and attackers keep changing their tactics. This post covers what I have found matters most when tuning a boosted model for the job, and where common advice gets muddled. It was written with Bohdan Boiprav.</p>
+
+<h2>What boosting does</h2>
+<p>Boosting builds a strong classifier by adding weak learners one at a time, usually shallow decision trees, with each new learner concentrating on the mistakes of the ensemble so far. The three names you will meet most often differ in how they do that:</p>
+<ul>
+<li>AdaBoost increases the weight of misclassified examples, so the next tree pays more attention to them.</li>
+<li>Gradient boosting fits each new tree to the gradient of a loss function with respect to the current predictions. For squared error that gradient is just the residual.</li>
+<li>XGBoost is not a separate idea. It is a fast, regularised implementation of gradient boosting (<a href="https://arxiv.org/abs/1603.02754" rel="noopener">Chen &amp; Guestrin, 2016</a>), as are LightGBM and scikit-learn&rsquo;s histogram-based estimators.</li>
+</ul>
+<p>The scikit-learn guide to <a href="https://scikit-learn.org/stable/modules/ensemble.html" rel="noopener">ensemble methods</a> describes AdaBoost and gradient boosting in detail.</p>
+
+<h2>Features usually matter more than the algorithm</h2>
+<p>A boosted model can only use what you give it. For phishing email, the useful signals tend to fall into a few groups:</p>
+<ul>
+<li>Message content: word frequencies, the presence of urgency or credential-related terms, and the ratio of links to text.</li>
+<li>URLs: length, number of subdomains, use of raw IP addresses, mismatch between the visible link text and the real target, and the age of the domain.</li>
+<li>Headers and sender: failed SPF or DKIM checks, a reply-to address that differs from the sender, and whether the sender has ever written to the recipient before.</li>
+<li>Attachments: file type and whether the file is an archive or macro-enabled document.</li>
+</ul>
+<p>Each of these is cheap to compute and easy to explain, which matters when someone asks why a message was quarantined. New features that capture a new tactic usually move the result more than another round of tuning.</p>
+
+<h2>Measure the right thing</h2>
+<p>Phishing is rare compared with legitimate mail, so accuracy is almost useless: a model that flags nothing can score above 95% on accuracy if only a few percent of messages are malicious. Use precision, recall and the area under the precision-recall curve instead. In scikit-learn that last one is <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.average_precision_score.html" rel="noopener"><code>average_precision_score</code></a>. Also split the data by time rather than at random. Phishing campaigns change, and a random split lets the model see near-duplicates of its test messages.</p>
+
+<h2>Tune hyperparameters with a sensible metric</h2>
+<p>The settings that matter most are the learning rate, the number of boosting iterations, the maximum tree depth and the minimum number of samples per leaf. A lower learning rate generally needs more iterations. Random search is usually enough to find a good region, and Bayesian optimisation is worth trying if each fit is slow. The example below runs on synthetic data, not real email, and shows the structure of the search.</p>
+<pre tabindex="0"><code class="language-python">from sklearn.datasets import make_classification
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.metrics import average_precision_score
+from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold, train_test_split
+
+# Stand-in for an email feature matrix: ~2% positives (phishing), 20 numeric features
+X, y = make_classification(n_samples=6_000, n_features=20, n_informative=8,
+                           weights=[0.98], flip_y=0.01, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, stratify=y, random_state=0)
+
+search = RandomizedSearchCV(
+    HistGradientBoostingClassifier(class_weight="balanced", random_state=0),
+    param_distributions={
+        "learning_rate": [0.03, 0.05, 0.1, 0.2],
+        "max_depth": [3, 4, 6, None],
+        "max_iter": [100, 200, 400],
+        "min_samples_leaf": [20, 50, 100],
+    },
+    n_iter=6,
+    scoring="average_precision",
+    cv=StratifiedKFold(3, shuffle=True, random_state=0),
+    random_state=0,
+)
+search.fit(X_train, y_train)
+
+print("CV average precision:  ", round(search.best_score_, 3))
+print("Test average precision:", round(average_precision_score(
+    y_test, search.predict_proba(X_test)[:, 1]), 3))
+print("Baseline (prevalence): ", round(y_test.mean(), 3))</code></pre>
+<p>When I ran this, the output was a cross-validated average precision of 0.635 and a test value of 0.687, against a baseline equal to the positive rate of 0.025. Those numbers describe a synthetic dataset and say nothing about real phishing. The point of the baseline line is that average precision should always be read against the prevalence of the positive class.</p>
+
+<h2>Combine models carefully</h2>
+<p>Stacking trains a final model on the predictions of several base models, for example a boosted-tree model on header features and a text classifier on the message body. It can help when the base models see genuinely different information. It helps much less when you stack three boosted-tree models trained on the same columns, because their errors are highly correlated. Always generate the base-model predictions out of fold, otherwise the final model learns from leaked labels.</p>
+
+<h2>Where transfer learning fits</h2>
+<p>The earlier version of this post suggested that transfer learning can be used to improve boosting algorithms directly. That was imprecise. Transfer learning applies to neural networks: a language model pretrained on a large text corpus is fine-tuned on labelled phishing and legitimate emails. Boosted trees do not transfer knowledge in that way.</p>
+<p>The two can still work together. Either use the fine-tuned language model as a classifier in its own right and feed its output score to the boosted model as one more feature, or use a pretrained model to produce text embeddings and train the trees on those alongside the hand-built features. In both cases the boosted model stays a tabular learner, and the language model supplies a text-understanding signal it could not compute itself.</p>
+
+<h2>Summary</h2>
+<ul>
+<li>Gradient boosting is a strong default for tabular phishing features.</li>
+<li>New, well-chosen features and a time-based evaluation matter more than which boosting library you use.</li>
+<li>Judge models on precision, recall and average precision, and compare against the base rate.</li>
+<li>Tune the learning rate, tree depth and iteration count together.</li>
+<li>Stack models that see different information, and use language-model scores or embeddings as inputs rather than expecting trees to &ldquo;transfer&rdquo;.</li>
+</ul>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://arxiv.org/abs/1603.02754" rel="noopener">XGBoost: A Scalable Tree Boosting System<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Tianqi Chen and Carlos Guestrin</span></li>
+            <li><a href="https://scikit-learn.org/stable/modules/ensemble.html" rel="noopener">scikit-learn user guide: Ensembles (AdaBoost, gradient boosting, stacking)<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; scikit-learn developers</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--next" href="linear-regression-statistics.html"><span class="pn-dir">Newer</span><span class="pn-title">How Linear Regression Works: Least Squares, Normal Equations and Gradient Descent</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

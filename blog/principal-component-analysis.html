@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Principal Component Analysis Explained, with a Python Example · Catalin Bondari</title>
+  <meta name="description" content="What PCA does, how to run it in scikit-learn on correlated data, how to choose the number of components, and the mistakes to avoid.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/principal-component-analysis.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="Principal Component Analysis Explained, with a Python Example · Catalin Bondari">
+  <meta property="og:description" content="What PCA does, how to run it in scikit-learn on correlated data, how to choose the number of components, and the mistakes to avoid.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/principal-component-analysis.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2024-04-11">
+  <meta name="author" content="Catalin Bondari &amp; Bohdan Boiprav">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Principal Component Analysis Explained, with a Python Example · Catalin Bondari">
+  <meta name="twitter:description" content="What PCA does, how to run it in scikit-learn on correlated data, how to choose the number of components, and the mistakes to avoid.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; statistics / pca / dimensionality reduction / python</p>
+        <h1 id="post-title" class="post-title">Principal Component Analysis Explained, with a Python Example</h1>
+        <p class="lede">What PCA does, how to run it in scikit-learn on correlated data, how to choose the number of components, and the mistakes to avoid.</p>
+        <dl class="facts">
+          <div><dt>Authors</dt><dd>Catalin Bondari &amp; Bohdan Boiprav</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2024-04-11" class="post-date">11 Apr 2024</time></dd></div>
+          <div><dt>Reading time</dt><dd>4 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>Datasets with dozens of correlated columns are common: a panel of asset returns, a set of customer attributes, a block of risk factors. Principal component analysis (PCA) is a standard way to summarise them with a handful of new variables. This post explains what it does, how to use it in Python and where it goes wrong. It was written with Bohdan Boiprav.</p>
+
+<h2>The idea</h2>
+<p>PCA finds a new set of axes for your data. The first axis, the first principal component, points in the direction along which the data varies most. The second is the direction of greatest remaining variance that is perpendicular to the first, and so on. Each component is a weighted combination of the original columns, the components are uncorrelated with one another, and they are ordered by how much variance they capture.</p>
+<p>If several original columns move together, one component can stand in for all of them. You keep the first few components and drop the rest, which gives you fewer columns while retaining most of the variation.</p>
+
+<h2>How it works</h2>
+<ol>
+<li>Centre each column by subtracting its mean. Usually also scale it to unit variance.</li>
+<li>Compute the covariance (or correlation) matrix of the columns.</li>
+<li>Find its eigenvectors and eigenvalues. The eigenvectors are the principal directions, and each eigenvalue is the variance along its direction.</li>
+<li>Project the data onto the top <code>k</code> eigenvectors.</li>
+</ol>
+<p>Libraries normally get the same result from a singular value decomposition of the centred data matrix, which is more numerically stable. Jonathon Shlens&rsquo; <a href="https://arxiv.org/abs/1404.1100" rel="noopener">tutorial on PCA</a> gives a readable derivation of both views.</p>
+
+<h2>An example with simulated returns</h2>
+<p>The code below builds eight synthetic return series driven by two hidden factors plus noise, standardises them and runs PCA. The data are made up for illustration.</p>
+<pre tabindex="0"><code class="language-python">import numpy as np
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+rng = np.random.default_rng(1)
+n_days, n_assets = 750, 8
+factors = rng.normal(size=(n_days, 2))                 # two hidden drivers
+loadings = rng.normal(size=(2, n_assets))
+returns = factors @ loadings + rng.normal(scale=0.5, size=(n_days, n_assets))
+
+Z = StandardScaler().fit_transform(returns)            # centre and scale first
+pca = PCA().fit(Z)
+
+print(pca.explained_variance_ratio_.round(3))
+print(pca.explained_variance_ratio_.cumsum().round(3))
+
+pca2 = PCA(n_components=0.90).fit(Z)                   # keep 90% of variance
+print(pca2.n_components_)
+print(pca2.transform(Z).shape)</code></pre>
+<p>On my run the explained-variance ratios were 0.620, 0.272, 0.045, 0.027 and smaller values after that. The first two components account for 89.2% of the variance, which matches the two factors built into the data. Asking scikit-learn to keep 90% of the variance then selects three components, because 89.2% falls just short. That is a useful reminder that a variance threshold is a convention, not a law. Look at the whole curve, often plotted as a scree plot, and choose with the use case in mind.</p>
+<p>The same technique is used on real market data. Principal components of a yield-curve history, for example, are commonly interpreted as broad shifts in level, slope and curvature. Treat that as an interpretation you check against the loadings, not something PCA guarantees.</p>
+
+<h2>What PCA is good for</h2>
+<ul>
+<li>Reducing correlated inputs before a model that struggles with multicollinearity, such as an unregularised regression.</li>
+<li>Visualising high-dimensional data by plotting the first two or three components.</li>
+<li>Compressing data and filtering out low-variance directions that are often noise.</li>
+<li>Summarising risk: seeing how many independent drivers explain most of the movement in a set of assets.</li>
+</ul>
+
+<h2>Common mistakes</h2>
+<p>Several claims in the earlier version of this post were looser than they should have been, so here are the corrections and caveats.</p>
+<ul>
+<li>PCA is feature extraction, not feature selection. The components are new variables built from all of the original ones. No original column is dropped or kept as such, which is why the output is harder to read.</li>
+<li>It does not automatically improve a model. Reducing dimensions can speed up training and reduce overfitting, but PCA ignores the target. A direction with low variance can still be the most predictive one. Compare with and without PCA using cross-validation.</li>
+<li>Scale matters. Without standardisation, a column measured in large units dominates the first component simply because its variance is bigger.</li>
+<li>PCA is linear. It cannot capture curved structure. Other methods such as kernel PCA or manifold learning exist for that.</li>
+<li>Fit it on training data only. Fitting on the full dataset before splitting leaks information from the test set. Put it in a scikit-learn <code>Pipeline</code> so this happens automatically.</li>
+<li>Interpretation takes work. Check the loadings (<code>pca.components_</code>) to see which original columns drive each component, and be wary of naming components too confidently.</li>
+</ul>
+
+<h2>Summary</h2>
+<p>PCA rotates the data onto uncorrelated axes ordered by variance, so you can keep a few and discard the rest. Standardise first, choose the number of components by looking at the explained-variance curve, fit inside cross-validation, and keep in mind that variance is not the same thing as relevance. The scikit-learn <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html" rel="noopener">PCA documentation</a> covers the parameters and solvers.</p>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://arxiv.org/abs/1404.1100" rel="noopener">A Tutorial on Principal Component Analysis<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Jonathon Shlens</span></li>
+            <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html" rel="noopener">scikit-learn: sklearn.decomposition.PCA<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; scikit-learn developers</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--prev" href="linear-regression-statistics.html"><span class="pn-dir">Older</span><span class="pn-title">How Linear Regression Works: Least Squares, Normal Equations and Gradient Descent</span></a><a class="pn pn--next" href="web-scraping-techniques.html"><span class="pn-dir">Newer</span><span class="pn-title">Web Scraping Techniques: From HTML Parsing to Headless Browsers</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

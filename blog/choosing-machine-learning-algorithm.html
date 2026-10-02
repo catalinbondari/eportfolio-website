@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to Choose a Machine Learning Algorithm for Tabular Data · Catalin Bondari</title>
+  <meta name="description" content="A short sequence of questions for picking a model on tabular data: define the target, consider how it is used, start with a baseline, compare fairly.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/choosing-machine-learning-algorithm.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="How to Choose a Machine Learning Algorithm for Tabular Data · Catalin Bondari">
+  <meta property="og:description" content="A short sequence of questions for picking a model on tabular data: define the target, consider how it is used, start with a baseline, compare fairly.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/choosing-machine-learning-algorithm.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2026-09-29">
+  <meta name="author" content="Catalin Bondari">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How to Choose a Machine Learning Algorithm for Tabular Data · Catalin Bondari">
+  <meta name="twitter:description" content="A short sequence of questions for picking a model on tabular data: define the target, consider how it is used, start with a baseline, compare fairly.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; machine learning / scikit-learn / model selection</p>
+        <h1 id="post-title" class="post-title">How to Choose a Machine Learning Algorithm for Tabular Data</h1>
+        <p class="lede">A short sequence of questions for picking a model on tabular data: define the target, consider how it is used, start with a baseline, compare fairly.</p>
+        <dl class="facts">
+          <div><dt>Author</dt><dd>Catalin Bondari</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2026-09-29" class="post-date">29 Sep 2026</time></dd></div>
+          <div><dt>Reading time</dt><dd>4 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>People often ask &ldquo;which algorithm should I use?&rdquo; as if there were a lookup table. There is not, and the scikit-learn team say as much on their own <a href="https://scikit-learn.org/stable/machine_learning_map.html" rel="noopener">estimator flowchart</a>, which is offered as a rough guide rather than a rule. What there is instead is a short sequence of questions that narrows the field quickly. This is the sequence I use for tabular data, which covers most problems in finance and reporting: rows of trades, holdings, customers or transactions with a few dozen columns each.</p>
+
+<h2>1. What exactly are you predicting?</h2>
+<p>Before any algorithm, pin down the target. A number (next month&rsquo;s fund flows) is regression. A category (will this client churn, is this email phishing) is classification. No target at all (group these securities by behaviour) is unsupervised. It sounds obvious, but a surprising number of projects stall because the target was never defined precisely. &ldquo;Detect bad data&rdquo; is not a target. &ldquo;Flag price records that a reviewer later corrected&rdquo; is.</p>
+<p>The definition also tells you what labels you have. If nobody has ever recorded which records were corrected, you have an unsupervised problem whether you like it or not.</p>
+
+<h2>2. How will the output be used?</h2>
+<p>This question eliminates more candidates than any technical one. Ask who acts on the prediction and what they need from it.</p>
+<ul>
+<li>If a person must explain each decision, for example to a client, an auditor or a model validation team, start with models whose reasoning can be read directly: logistic regression, linear regression or a shallow decision tree.</li>
+<li>If the output is a ranking for a review queue, you need well-ordered scores more than readable coefficients, and gradient-boosted trees usually do this well.</li>
+<li>If the prediction runs inside a nightly batch, training and scoring speed rarely matter. If it runs on every keystroke, they do.</li>
+</ul>
+
+<h2>3. How much data, and what shape?</h2>
+<p>A few hundred rows will not support a flexible model; a regularised linear model or a small tree is safer. With tens of thousands of rows and a mix of numeric and categorical columns, tree ensembles are a strong default. A 2022 benchmark across 45 tabular datasets found that tree-based models remained state-of-the-art on medium-sized data of around 10,000 samples, ahead of deep learning (<a href="https://arxiv.org/abs/2207.08815" rel="noopener">Grinsztajn et al., 2022</a>). Neural networks earn their place when the inputs are text, images or long sequences, which is a different problem from a spreadsheet.</p>
+<p>Also check the class balance. If the positive class is 1% of rows, the algorithm matters less than how you evaluate it, which I cover in <a href="confusion-matrices-classification-reports.html">reading a confusion matrix when the positives are rare</a>.</p>
+
+<h2>4. Start with a baseline you cannot argue with</h2>
+<p>Before training anything clever, measure what &ldquo;dumb&rdquo; gets you. scikit-learn ships a <a href="https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html" rel="noopener">DummyClassifier</a> that always predicts the most frequent class or predicts at random. Then train one simple, interpretable model. Every more complex model has to beat both by enough to justify the extra cost of explaining and maintaining it.</p>
+
+<h2>5. Compare a short list, fairly</h2>
+<p>Three or four candidates are enough. Compare them with the same cross-validation folds and the same metric, chosen for the business problem rather than out of habit. A sketch:</p>
+<pre tabindex="0"><code>from sklearn.model_selection import StratifiedKFold, cross_val_score
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.dummy import DummyClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier, HistGradientBoostingClassifier
+
+candidates = {
+    "baseline": DummyClassifier(strategy="most_frequent"),
+    "logistic": make_pipeline(StandardScaler(),
+                              LogisticRegression(max_iter=1000, class_weight="balanced")),
+    "forest":   RandomForestClassifier(n_estimators=300, class_weight="balanced"),
+    "boosting": HistGradientBoostingClassifier(),
+}
+
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+for name, model in candidates.items():
+    scores = cross_val_score(model, X, y, cv=cv, scoring="average_precision")
+    print(f"{name:9s} {scores.mean():.3f} &plusmn; {scores.std():.3f}")</code></pre>
+<p>Stratified folds keep the class ratio stable in each split, and putting the scaler inside a pipeline stops information from the validation fold leaking into training. The scikit-learn guide to <a href="https://scikit-learn.org/stable/modules/cross_validation.html" rel="noopener">cross-validation</a> covers both points. If your rows are ordered in time, which is true of almost all market data, swap the shuffled folds for <code>TimeSeriesSplit</code> so you never train on the future.</p>
+<p>Look at the spread as well as the mean. If two models are within one standard deviation of each other, pick the simpler one.</p>
+
+<h2>A worked shortlist</h2>
+<p>To make this concrete, here is how the questions might play out for an illustrative problem: flagging holdings records likely to need manual correction before month-end reporting.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Worked shortlist example">
+<table>
+<caption class="visually-hidden">Questions and answers for an illustrative model-selection problem</caption>
+<thead><tr><th scope="col">Question</th><th scope="col">Illustrative answer</th><th scope="col">Effect on the shortlist</th></tr></thead>
+<tbody>
+<tr><th scope="row">Target</th><td>Was the record corrected? (yes/no)</td><td>Binary classification</td></tr>
+<tr><th scope="row">Use</td><td>Ranked queue for a reviewer</td><td>Scores and ranking matter most</td></tr>
+<tr><th scope="row">Explainability</td><td>Reviewer wants a reason per flag</td><td>Keep logistic regression in; tree models need feature attributions</td></tr>
+<tr><th scope="row">Data</td><td>~20,000 rows, mixed columns, ~3% positives</td><td>Tree ensembles likely strong; evaluate with average precision</td></tr>
+<tr><th scope="row">Order</td><td>Monthly snapshots</td><td>Time-based validation, not shuffled folds</td></tr>
+</tbody>
+</table>
+</div>
+<p>That leaves a baseline, logistic regression and gradient boosting, compared on later months. If boosting wins clearly, ship it with per-record explanations. If it wins narrowly, ship the logistic model, because a reviewer who understands why a record was flagged will trust the queue.</p>
+
+<h2>The part that matters more than the algorithm</h2>
+<p>In my experience the choice between two reasonable algorithms changes results far less than the quality of the features and labels. A clean, well-defined target and two or three features that capture how errors actually happen will do more than any amount of model shopping. Choose a sensible model quickly, then spend the time on the data.</p>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://www.kdnuggets.com/unlock-the-secrets-to-choosing-the-perfect-machine-learning-algorithm" rel="noopener">Original article on KDnuggets<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Dr Roi Yehoshua</span></li>
+            <li><a href="https://scikit-learn.org/stable/machine_learning_map.html" rel="noopener">Choosing the right estimator<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; scikit-learn developers</span></li>
+            <li><a href="https://arxiv.org/abs/2207.08815" rel="noopener">Why do tree-based models still outperform deep learning on tabular data?<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Léo Grinsztajn, Edouard Oyallon and Gaël Varoquaux</span></li>
+            <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html" rel="noopener">sklearn.dummy.DummyClassifier<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; scikit-learn developers</span></li>
+            <li><a href="https://scikit-learn.org/stable/modules/cross_validation.html" rel="noopener">Cross-validation: evaluating estimator performance<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; scikit-learn developers</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--prev" href="quantum-computing-data-science.html"><span class="pn-dir">Older</span><span class="pn-title">Quantum Computing and Data Science: What May Change, and What Already Needs Attention</span></a><a class="pn pn--next" href="python-tkinter-intermediate.html"><span class="pn-dir">Newer</span><span class="pn-title">Building a Desktop Tool Your Colleagues Can Use with Python&#x27;s tkinter</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why BERT Mattered: From Static Word Vectors to Contextual Language Models · Catalin Bondari</title>
+  <meta name="description" content="How BERT moved NLP from one vector per word to context-aware representations, what it built on, and why it mattered for financial text.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/bert-revolutionizing-nlp.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="Why BERT Mattered: From Static Word Vectors to Contextual Language Models · Catalin Bondari">
+  <meta property="og:description" content="How BERT moved NLP from one vector per word to context-aware representations, what it built on, and why it mattered for financial text.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/bert-revolutionizing-nlp.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2026-09-14">
+  <meta name="author" content="Catalin Bondari">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Why BERT Mattered: From Static Word Vectors to Contextual Language Models · Catalin Bondari">
+  <meta name="twitter:description" content="How BERT moved NLP from one vector per word to context-aware representations, what it built on, and why it mattered for financial text.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; nlp / bert / machine learning</p>
+        <h1 id="post-title" class="post-title">Why BERT Mattered: From Static Word Vectors to Contextual Language Models</h1>
+        <p class="lede">How BERT moved NLP from one vector per word to context-aware representations, what it built on, and why it mattered for financial text.</p>
+        <dl class="facts">
+          <div><dt>Author</dt><dd>Catalin Bondari</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2026-09-14" class="post-date">14 Sep 2026</time></dd></div>
+          <div><dt>Reading time</dt><dd>4 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>Take the word &ldquo;bank&rdquo;. In &ldquo;the central bank held rates&rdquo;, &ldquo;we walked along the river bank&rdquo; and &ldquo;Monday is a bank holiday&rdquo; it means three different things. Anyone working with financial text runs into this constantly: &ldquo;yield&rdquo;, &ldquo;security&rdquo;, &ldquo;position&rdquo; and &ldquo;call&rdquo; all change meaning with their neighbours. The short version of why BERT mattered is that it was the model that made handling this kind of context the default, and made it cheap enough for everyone else to use.</p>
+
+<h2>Before: one vector per word</h2>
+<p>Through the mid-2010s, a common starting point for NLP was word embeddings such as word2vec (<a href="https://arxiv.org/abs/1301.3781" rel="noopener">Mikolov et al., 2013</a>). Each word in the vocabulary gets a single vector, learned from which words tend to appear near it. These vectors captured useful similarity: words used in similar ways end up close together.</p>
+<p>The limitation is in the design. &ldquo;Bank&rdquo; gets one vector, which is a blend of every sense it was trained on. Whatever model you build on top has to untangle the meaning from the surrounding words by itself, usually with a task-specific architecture and plenty of labelled data.</p>
+<figure class="fig fig-ctx">
+<div class="ctx" role="group" aria-label="Static versus contextual embeddings for the word bank">
+<div class="ctx-col">
+<p class="ctx-h">Static embedding</p>
+<p class="ctx-row"><span>the central <b>bank</b> held rates</span><span class="ctx-vec">v<sub>bank</sub></span></p>
+<p class="ctx-row"><span>along the river <b>bank</b></span><span class="ctx-vec">v<sub>bank</sub></span></p>
+<p class="ctx-row"><span>a <b>bank</b> holiday</span><span class="ctx-vec">v<sub>bank</sub></span></p>
+</div>
+<div class="ctx-col">
+<p class="ctx-h">Contextual (BERT)</p>
+<p class="ctx-row"><span>the central <b>bank</b> held rates</span><span class="ctx-vec ctx-a">v<sub>1</sub></span></p>
+<p class="ctx-row"><span>along the river <b>bank</b></span><span class="ctx-vec ctx-b">v<sub>2</sub></span></p>
+<p class="ctx-row"><span>a <b>bank</b> holiday</span><span class="ctx-vec ctx-c">v<sub>3</sub></span></p>
+</div>
+</div>
+<figcaption>A static model gives &ldquo;bank&rdquo; the same vector everywhere. A contextual model produces a different vector for each occurrence, computed from the whole sentence.</figcaption>
+</figure>
+
+<h2>The pieces that were already there</h2>
+<p>BERT did not appear from nowhere. In 2017 the Transformer architecture showed that attention, where every token can look directly at every other token, could replace recurrent networks for translation (<a href="https://arxiv.org/abs/1706.03762" rel="noopener">Vaswani et al., 2017</a>). In early 2018 ELMo produced contextual word vectors from a language model trained in both directions and showed they improved many tasks when added as features (<a href="https://arxiv.org/abs/1802.05365" rel="noopener">Peters et al., 2018</a>). OpenAI&rsquo;s first GPT model the same year pre-trained a Transformer on unlabelled text and then fine-tuned it, but, as the BERT paper points out, it read text left to right only.</p>
+<p>So contextual representations, Transformers and pre-train-then-fine-tune all existed. What was missing was a way to train a deep Transformer that used context from both sides of every word at once.</p>
+
+<h2>What BERT changed</h2>
+<p>The BERT paper (<a href="https://arxiv.org/abs/1810.04805" rel="noopener">Devlin et al., 2018</a>) solved the bidirectional problem with a simple training trick. If a model can see the whole sentence, predicting the next word is trivial, so instead BERT hides a random 15% of the input tokens and learns to fill them in. This &ldquo;masked language model&rdquo; objective lets every layer use left and right context together. A second objective trained the model to tell whether two sentences actually followed each other.</p>
+<p>The bigger shift was in how the model was used afterwards. For a new task you keep the whole pre-trained network, add one small output layer and fine-tune everything on your labelled examples. Sentiment, question answering, entity tagging and sentence-pair tasks all used the same recipe. The paper reported new state-of-the-art results on eleven tasks, including a GLUE score of 80.5%, a 7.7-point absolute improvement, and a SQuAD v1.1 test F1 of 93.2.</p>
+<p>Just as important, Google released the code and pre-trained weights (<a href="https://github.com/google-research/bert" rel="noopener">google-research/bert</a>). Teams without the budget to pre-train a model could download one and fine-tune it in hours on a single GPU. That is what turned a strong paper into a turning point.</p>
+
+<h2>Why it mattered outside research</h2>
+<p>Three practical effects stand out to me.</p>
+<p><strong>Smaller labelled datasets became workable.</strong> Because most of the language knowledge comes from pre-training, a classifier for, say, financial news headlines can reach useful accuracy with far fewer labelled examples than a model trained from scratch would need. Labelling is usually the expensive part of a text project, so this changed what was worth attempting.</p>
+<p><strong>One architecture for many tasks.</strong> Instead of a bespoke model per problem, teams could standardise on one encoder and swap the head. That simplifies maintenance in the same way that standardising on one SQL dialect does.</p>
+<p><strong>Domain versions followed quickly.</strong> FinBERT, for example, continued pre-training BERT on financial text and fine-tuned it for financial sentiment analysis (<a href="https://arxiv.org/abs/1908.10063" rel="noopener">Araci, 2019</a>). The same pattern appeared in legal, biomedical and scientific text.</p>
+<p>It also reached ordinary users. In 2019 Google said BERT would help Search better understand one in ten English-language queries in the US (<a href="https://blog.google/products/search/search-language-understanding-bert/" rel="noopener">Google, 2019</a>).</p>
+
+<h2>Where it stands now</h2>
+<p>BERT is no longer the frontier. Larger generative models built on the same Transformer foundations now handle tasks that BERT could not, such as writing text and following instructions. BERT also has hard limits: the original models accept at most 512 tokens, so long documents must be split, and they do not generate text.</p>
+<p>But BERT-style encoders are still a sensible choice for a lot of everyday work: classifying short texts, tagging entities, or producing embeddings for search and de-duplication. They are small, fast and cheap to run, and their behaviour is easier to evaluate than a general-purpose chatbot&rsquo;s. If the task is &ldquo;put this sentence in one of six buckets&rdquo;, a fine-tuned encoder is often the right tool.</p>
+<p>The lasting idea is the one in the diagram above: a word&rsquo;s representation should depend on its sentence. Almost every NLP system since has been built on that assumption. For the hands-on side, see my companion post on <a href="mastering-bert-guide.html">tokens, embeddings and fine-tuning with BERT</a>.</p>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://medium.com/data-science/bert-why-its-been-revolutionizing-nlp-5d1bcae76a13" rel="noopener">Original article on Towards Data Science<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Jerry Wei</span></li>
+            <li><a href="https://arxiv.org/abs/1810.04805" rel="noopener">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Jacob Devlin, Ming-Wei Chang, Kenton Lee and Kristina Toutanova</span></li>
+            <li><a href="https://arxiv.org/abs/1301.3781" rel="noopener">Efficient Estimation of Word Representations in Vector Space<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Tomas Mikolov et al.</span></li>
+            <li><a href="https://arxiv.org/abs/1706.03762" rel="noopener">Attention Is All You Need<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Ashish Vaswani et al.</span></li>
+            <li><a href="https://arxiv.org/abs/1802.05365" rel="noopener">Deep contextualized word representations<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Matthew E. Peters et al.</span></li>
+            <li><a href="https://github.com/google-research/bert" rel="noopener">google-research/bert<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Google Research</span></li>
+            <li><a href="https://arxiv.org/abs/1908.10063" rel="noopener">FinBERT: Financial Sentiment Analysis with Pre-trained Language Models<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Dogu Araci</span></li>
+            <li><a href="https://blog.google/products/search/search-language-understanding-bert/" rel="noopener">Understanding searches better than ever before<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Google</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--prev" href="confusion-matrices-classification-reports.html"><span class="pn-dir">Older</span><span class="pn-title">Reading a Confusion Matrix When the Positive Class Is Rare</span></a><a class="pn pn--next" href="free-courses-python-data-science.html"><span class="pn-dir">Newer</span><span class="pn-title">Free Python and Data Science Courses Worth Your Time</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

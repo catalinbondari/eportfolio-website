@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bank customer churn prediction · Catalin Bondari</title>
+  <meta name="description" content="Predicts which bank customers are likely to leave, using the Kaggle BankChurners data: one-hot encoding, SMOTE, PCA, then Random Forest vs SVM.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/work/bank-churn-prediction.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="Bank customer churn prediction · Catalin Bondari">
+  <meta property="og:description" content="Predicts which bank customers are likely to leave, using the Kaggle BankChurners data: one-hot encoding, SMOTE, PCA, then Random Forest vs SVM.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/work/bank-churn-prediction.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bank customer churn prediction · Catalin Bondari">
+  <meta name="twitter:description" content="Predicts which bank customers are likely to leave, using the Kaggle BankChurners data: one-hot encoding, SMOTE, PCA, then Random Forest vs SVM.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="case">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects" aria-current="true"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="wrap case-head">
+      <a class="back" href="../#projects"><span class="arrow" aria-hidden="true">&larr;</span> All projects</a>
+      <p class="eyebrow">Project P-06 &middot; Dublin City University coursework</p>
+      <h1>Bank customer churn prediction</h1>
+      <p class="lede">A customer churn prediction project on the Kaggle BankChurners dataset. It builds models that identify customers at risk of leaving.</p>
+      <dl class="facts">
+        <div><dt>Code</dt><dd class="dd-na">Link to follow</dd></div>
+        <div><dt>Credit</dt><dd>With Bohdan Boiprav</dd></div>
+        <div><dt>Stack</dt><dd>Python · SMOTE · PCA · Random Forest · SVM</dd></div>
+      </dl>
+    </div>
+    <div class="wrap case-body">
+      <figure class="proj-fig proj-fig--svg">
+        <svg class="proj-svg" viewBox="0 0 320 96" role="img" aria-label="Schematic: overall retention falls while a churn-risk curve separates" preserveAspectRatio="none"><path class="pv-wave" d="M0 14 C40 16 70 22 110 34 S190 58 230 66 S290 76 320 78"/><path class="pv-line pv-line--dim" d="M0 14 C60 15 120 18 180 22 S280 28 320 30"/><g class="pv-dots"><circle cx="110" cy="34" r="3"/><circle cx="230" cy="66" r="3"/></g></svg>
+        <figcaption>Schematic only, no data.</figcaption>
+      </figure>
+      <section class="case-section" aria-labelledby="s1">
+        <h2 id="s1"><span class="index">01</span> <span>What it is</span></h2>
+        <div class="body panel" data-panel>
+          <p>The analysis starts by exploring the customer churn dataset: demographics, account details and, most importantly, a churn status for each customer. Visualisations show the distribution of:</p><ul class="points"><li>Customer age</li><li>Gender</li><li>Number of dependents</li><li>Education level</li><li>Marital status</li><li>Income category</li><li>Card category</li><li>Months as a customer</li><li>Total number of accounts held</li><li>Months of inactivity in the past year</li><li>Credit limit</li><li>Total transaction amount</li><li>The proportion of churning vs. non-churning customers</li></ul>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="s2">
+        <h2 id="s2"><span class="index">02</span> <span>Method</span></h2>
+        <div class="body panel" data-panel>
+          <ul class="points"><li><strong>One-hot encoding.</strong> Categorical features such as education level are one-hot encoded.</li><li><strong>SMOTE.</strong> Synthetic Minority Oversampling Technique addresses the imbalanced classes, since churners are a smaller group.</li><li><strong>PCA.</strong> Principal Component Analysis reduces the dimensionality created by one-hot encoding.</li><li><strong>Models.</strong> Random Forest and Support Vector Machine (SVM) classifiers, assessed with 5-fold cross-validation.</li></ul>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="s3">
+        <h2 id="s3"><span class="index">03</span> <span>Evaluation</span></h2>
+        <div class="body panel" data-panel>
+          <p>The F1 score is the primary metric for comparing the two models.</p>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="s4">
+        <h2 id="s4"><span class="index">04</span> <span>Tools</span></h2>
+        <div class="body panel" data-panel>
+          <ul class="tags" aria-label="Technologies"><li>Python</li><li>One-hot encoding</li><li>SMOTE</li><li>PCA</li><li>Random Forest</li><li>SVM</li><li>5-fold cross-validation</li></ul>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="s5">
+        <h2 id="s5"><span class="index">05</span> <span>Credits</span></h2>
+        <div class="body panel" data-panel>
+          <p>Authors: Bohdan Boiprav &amp; Catalin Bondari. Data: Kaggle BankChurners. Licensed under the MIT License. The repository link will follow.</p>
+        </div>
+      </section>
+    </div>
+    <div class="wrap case-next">
+      <p class="eyebrow">Next project</p>
+      <a href="phishing-email-classification.html">Phishing email classification <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

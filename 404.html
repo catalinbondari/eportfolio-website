@@ -3,61 +3,47 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- GitHub Pages serves this file for any missing path at any depth. The base element
+       anchors every relative link and asset to the project path, so it works at any depth. -->
+  <base href="/eportfolio-website/">
   <title>Page not found · Catalin Bondari</title>
   <meta name="description" content="This page could not be found.">
   <meta name="robots" content="noindex">
-  <meta name="color-scheme" content="light dark">
-  <!-- GitHub Pages serves this file for any missing path at any depth, so it is
-       self-contained (inline styles, absolute links) instead of using relative assets. -->
-  <link rel="icon" href="https://catalinbondari.github.io/eportfolio-website/assets/img/favicon.svg" type="image/svg+xml">
-  <script>(function(d){d.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")d.setAttribute("data-theme",t)}catch(e){}})(document.documentElement);</script>
-  <style>
-    @font-face { font-family: "Newsreader"; font-weight: 500; font-display: swap; src: url("https://catalinbondari.github.io/eportfolio-website/assets/fonts/newsreader-latin-500-normal.woff2") format("woff2"); }
-    @font-face { font-family: "IBM Plex Sans"; font-weight: 400; font-display: swap; src: url("https://catalinbondari.github.io/eportfolio-website/assets/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
-    @font-face { font-family: "IBM Plex Sans"; font-weight: 500; font-display: swap; src: url("https://catalinbondari.github.io/eportfolio-website/assets/fonts/ibm-plex-sans-latin-500-normal.woff2") format("woff2"); }
-    @font-face { font-family: "IBM Plex Mono"; font-weight: 400; font-display: swap; src: url("https://catalinbondari.github.io/eportfolio-website/assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
-    :root { color-scheme: light; --bg:#FAFAF9; --fg:#0F172A; --muted:#475569; --border:#E2E8F0; --control:#7C8798; --accent:#1E3A8A; --on-accent:#FFFFFF; }
-    :root[data-theme="dark"] { color-scheme: dark; --bg:#0B0F14; --fg:#E6EAF0; --muted:#98A2B3; --border:#232C3A; --control:#647084; --accent:#7AA2F7; --on-accent:#0B0F14; }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) { color-scheme: dark; --bg:#0B0F14; --fg:#E6EAF0; --muted:#98A2B3; --border:#232C3A; --control:#647084; --accent:#7AA2F7; --on-accent:#0B0F14; }
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--fg); font: 400 1rem/1.6 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-    .skip-link { position: absolute; left: 16px; top: 8px; padding: 12px 16px; background: var(--accent); color: var(--on-accent); border-radius: 4px; transform: translateY(-160%); }
-    .skip-link:focus { transform: none; }
-    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
-    header, main { max-width: 1152px; margin: 0 auto; padding: 0 16px; }
-    header { display: flex; align-items: center; min-height: 64px; border-bottom: 1px solid var(--border); }
-    .brand { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: var(--fg); text-decoration: none; font-weight: 500; }
-    .mark { display: inline-grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--fg); border-radius: 2px; font: 500 15px/1 "Newsreader", Georgia, serif; }
-    main:focus { outline: none; }
-    main { padding-top: 96px; padding-bottom: 96px; }
-    .code { font: 400 0.8125rem/1.6 "IBM Plex Mono", ui-monospace, Menlo, monospace; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; }
-    h1 { font: 500 clamp(2.375rem, 1.6rem + 3.2vw, 4rem)/1.15 "Newsreader", "Source Serif 4", Georgia, serif; letter-spacing: -0.02em; text-wrap: balance; margin: 0 0 24px; }
-    p { max-width: 65ch; }
-    .lede { font-size: 1.125rem; color: var(--muted); margin: 0 0 32px; }
-    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-    .button { display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; border: 1px solid var(--accent); border-radius: 4px; background: var(--accent); color: var(--on-accent); font-weight: 500; text-decoration: none; transition: transform 120ms cubic-bezier(0.23,1,0.32,1); }
-    .button--ghost { background: transparent; color: var(--fg); border-color: var(--control); }
-    .button:active { transform: scale(0.98); }
-    @media (min-width: 768px) { header, main { padding: 0 32px; } main { padding-top: 128px; } }
-    @media (prefers-reduced-motion: reduce) { .button { transition: none; } .button:active { transform: none; } }
-  </style>
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="preload" href="assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script type="module" src="assets/js/app.js?v=5"></script>
 </head>
-<body>
+<body data-root="./" data-page="404">
   <a class="skip-link" href="#main">Skip to content</a>
-  <header>
-    <a class="brand" href="https://catalinbondari.github.io/eportfolio-website/">
-      <span class="mark" aria-hidden="true">CB</span><span>Catalin Bondari</span>
-    </a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="./">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+      </div>
+    </div>
   </header>
   <main id="main" tabindex="-1">
-    <p class="code">Error 404</p>
-    <h1>This page could not be found</h1>
-    <p class="lede">The link may be out of date, or the page may have moved. The home page lists everything on this site.</p>
-    <div class="actions">
-      <a class="button" href="https://catalinbondari.github.io/eportfolio-website/">Go to the home page</a>
-      <a class="button button--ghost" href="https://catalinbondari.github.io/eportfolio-website/#work">See selected work</a>
+    <div class="wrap lost">
+      <p class="code" aria-hidden="true">404</p>
+      <p class="eyebrow"><span class="prompt" aria-hidden="true">&gt;</span> Error 404 &middot; route not found</p>
+      <h1>This page could not be found</h1>
+      <p class="lede">The link may be out of date, or the page may have moved. The home page lists everything on this site.</p>
+      <div class="actions">
+        <a class="button" href="./">Go to the home page</a>
+        <a class="button button--ghost" href="./#work">See selected work</a>
+      </div>
     </div>
   </main>
 </body>

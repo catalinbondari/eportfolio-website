@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phishing email classification · Catalin Bondari</title>
+  <meta name="description" content="Six classical models and a fine-tuned BERT transformer, compared on telling phishing emails from legitimate ones, with LIME explanations.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/work/phishing-email-classification.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="Phishing email classification · Catalin Bondari">
+  <meta property="og:description" content="Six classical models and a fine-tuned BERT transformer, compared on telling phishing emails from legitimate ones, with LIME explanations.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/work/phishing-email-classification.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Phishing email classification · Catalin Bondari">
+  <meta name="twitter:description" content="Six classical models and a fine-tuned BERT transformer, compared on telling phishing emails from legitimate ones, with LIME explanations.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="case">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects" aria-current="true"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="wrap case-head">
+      <a class="back" href="../#projects"><span class="arrow" aria-hidden="true">&larr;</span> All projects</a>
+      <p class="eyebrow">Project P-01 &middot; Dublin City University coursework</p>
+      <h1>Phishing email classification</h1>
+      <p class="lede">This project tackles the critical challenge of email phishing detection. It uses various machine learning models, including the pre-trained BERT (Bidirectional Encoder Representations from Transformers) model, to distinguish between phishing (spam) and legitimate (non-spam) emails.</p>
+      <dl class="facts">
+        <div><dt>Code</dt><dd><a href="https://github.com/catalinbondari/phishing-email-classification" rel="noopener">Repository<span class="visually-hidden"> on GitHub</span></a></dd></div>
+        <div><dt>Credit</dt><dd>With Bohdan Boiprav</dd></div>
+        <div><dt>Stack</dt><dd>Python · PyTorch · Hugging Face Transformers · LIME</dd></div>
+      </dl>
+    </div>
+    <div class="wrap case-body">
+      <figure class="proj-fig">
+        <img src="../assets/img/projects/phishing-email-classification.webp" alt="Illustrative photo: a phone showing a phishing email warning." width="640" height="480" loading="lazy" decoding="async">
+      </figure>
+      <section class="case-section" aria-labelledby="s1">
+        <h2 id="s1"><span class="index">01</span> <span>What it is</span></h2>
+        <div class="body panel" data-panel>
+          <p>The script is a toolkit for evaluating and comparing the performance of different machine learning models on the task of email classification. These models include:</p><ul class="points"><li>Logistic Regression</li><li>Decision Trees</li><li>Random Forests</li><li>Gradient Boosting</li><li>Naive Bayes</li><li>Multi-Layer Perceptrons</li></ul><p>By analysing the performance of these models, you can identify the most effective approach for accurately classifying emails and protecting users from phishing scams.</p>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="s2">
+        <h2 id="s2"><span class="index">02</span> <span>Method</span></h2>
+        <div class="body panel" data-panel>
+          <ul class="points"><li><strong>Data preparation.</strong> Loads and preprocesses email data from a CSV file, including label encoding and splitting the dataset for training and evaluation.</li><li><strong>Custom email dataset class.</strong> A custom <code>EmailDataset</code> class handles tokenisation so the data meets the BERT model&rsquo;s input requirements.</li><li><strong>Model comparison.</strong> Trains and evaluates Logistic Regression, Decision Trees, Random Forests, Gradient Boosting, Naive Bayes and Multi-Layer Perceptrons on the same task.</li><li><strong>BERT in action.</strong> Uses PyTorch and the Hugging Face Transformers library to train and optimise a BERT model specifically for email classification.</li><li><strong>Making predictions.</strong> A <code>predict</code> function classifies new emails as phishing or safe with the trained models.</li><li><strong>Saving trained models.</strong> Model states are saved, so they can be reloaded for classification without retraining.</li><li><strong>Understanding predictions.</strong> The LIME (Local Interpretable Model-Agnostic Explanations) library explains the model&rsquo;s predictions on specific emails.</li></ul>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="s3">
+        <h2 id="s3"><span class="index">03</span> <span>Tools</span></h2>
+        <div class="body panel" data-panel>
+          <ul class="tags" aria-label="Technologies"><li>Python</li><li>PyTorch</li><li>Hugging Face Transformers</li><li>BERT</li><li>LIME</li><li>Logistic Regression</li><li>Decision Trees</li><li>Random Forests</li><li>Gradient Boosting</li><li>Naive Bayes</li><li>Multi-Layer Perceptrons</li></ul>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="s4">
+        <h2 id="s4"><span class="index">04</span> <span>Evaluation</span></h2>
+        <div class="body panel" data-panel>
+          <p>To assess each model during training, the script calculates training and validation loss, accuracy, precision, recall and F1-score.</p>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="s5">
+        <h2 id="s5"><span class="index">05</span> <span>Credits</span></h2>
+        <div class="body panel" data-panel>
+          <p>Authors: Bohdan Boiprav &amp; Catalin Bondari. Dublin City University coursework. Licensed under the MIT License.</p>
+        </div>
+      </section>
+    </div>
+    <div class="wrap case-next">
+      <p class="eyebrow">Next project</p>
+      <a href="telegram-bi-bot.html">Telegram BI bot <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

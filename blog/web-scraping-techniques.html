@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web Scraping Techniques: From HTML Parsing to Headless Browsers · Catalin Bondari</title>
+  <meta name="description" content="A practical guide to scraping in Python: regex vs DOM parsing, headless browsers for JavaScript pages, crawling at scale, and scraping responsibly.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/web-scraping-techniques.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="Web Scraping Techniques: From HTML Parsing to Headless Browsers · Catalin Bondari">
+  <meta property="og:description" content="A practical guide to scraping in Python: regex vs DOM parsing, headless browsers for JavaScript pages, crawling at scale, and scraping responsibly.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/web-scraping-techniques.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2024-04-30">
+  <meta name="author" content="Catalin Bondari &amp; Bohdan Boiprav">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Web Scraping Techniques: From HTML Parsing to Headless Browsers · Catalin Bondari">
+  <meta name="twitter:description" content="A practical guide to scraping in Python: regex vs DOM parsing, headless browsers for JavaScript pages, crawling at scale, and scraping responsibly.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; web scraping / python / data collection</p>
+        <h1 id="post-title" class="post-title">Web Scraping Techniques: From HTML Parsing to Headless Browsers</h1>
+        <p class="lede">A practical guide to scraping in Python: regex vs DOM parsing, headless browsers for JavaScript pages, crawling at scale, and scraping responsibly.</p>
+        <dl class="facts">
+          <div><dt>Authors</dt><dd>Catalin Bondari &amp; Bohdan Boiprav</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2024-04-30" class="post-date">30 Apr 2024</time></dd></div>
+          <div><dt>Reading time</dt><dd>4 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>Plenty of useful data sits on web pages that offer no download or API: published rate tables, regulatory notices, prices, directories. Web scraping is the practice of collecting that data with code. The right technique depends on how the page is built, and choosing the simplest one that works saves a lot of maintenance. This post was written with Bohdan Boiprav.</p>
+
+<h2>Check for an easier source first</h2>
+<p>Before writing a scraper, look for an official API, a CSV or Excel download, an RSS feed or a data portal. These are stable, documented and clearly permitted. Open your browser&rsquo;s network tab as well: many pages load their data from a JSON endpoint, and calling that endpoint is simpler and more reliable than parsing the page. Whether you are allowed to use it is a separate question, covered below.</p>
+
+<h2>Technique 1: Pattern matching on raw HTML</h2>
+<p>The oldest approach is to download the HTML as text and extract data with regular expressions or string slicing. It works for a tiny, fixed snippet, and it breaks as soon as the markup shifts: an extra attribute, a changed class name or reordered tags. HTML is not a regular language, and patterns that look right on one page quietly return wrong values on the next. I would use this only as a last resort.</p>
+
+<h2>Technique 2: Parsing the DOM</h2>
+<p>A better approach is to parse the HTML into a tree and query it. The Document Object Model (DOM) represents a page as nested elements, and you select what you need with CSS selectors or XPath, such as &ldquo;the second cell in each row of the table with id <code>rates</code>&rdquo;. Libraries such as <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/" rel="noopener">Beautiful Soup</a> and lxml do this.</p>
+<p>The earlier draft of this post said that DOM-based scraping depends on a browser&rsquo;s rendering engine and is resource-hungry. That conflated two things. A library that parses the HTML you downloaded needs no browser and is fast and light. The browser enters the picture only when the content is generated by JavaScript, which is the next technique. See the MDN <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction" rel="noopener">introduction to the DOM</a> for background.</p>
+<p>The snippet below checks <code>robots.txt</code> rules and then parses a small table. It runs offline, using a string in place of a live page.</p>
+<pre tabindex="0"><code class="language-python">from urllib import robotparser
+from bs4 import BeautifulSoup
+
+# 1. Check robots.txt before fetching (offline demo: parse rules from a string)
+rp = robotparser.RobotFileParser()
+rp.parse(["User-agent: *", "Disallow: /private/"])
+print(rp.can_fetch("my-research-bot", "https://example.com/rates"))
+print(rp.can_fetch("my-research-bot", "https://example.com/private/x"))
+
+# 2. Parse with a real HTML parser, not regular expressions
+html = """
+&lt;table id="rates"&gt;
+  &lt;tr&gt;&lt;th&gt;Tenor&lt;/th&gt;&lt;th&gt;Yield&lt;/th&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;2Y&lt;/td&gt;&lt;td&gt;3.10&lt;/td&gt;&lt;/tr&gt;
+  &lt;tr&gt;&lt;td&gt;10Y&lt;/td&gt;&lt;td&gt;3.45&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+"""
+soup = BeautifulSoup(html, "html.parser")
+rows = soup.select("table#rates tr")[1:]
+data = {r.find_all("td")[0].text: float(r.find_all("td")[1].text) for r in rows}
+print(data)</code></pre>
+<p>This prints <code>True</code>, <code>False</code> and <code>{'2Y': 3.1, '10Y': 3.45}</code>. The yields are invented for the example. Selectors tied to meaningful attributes, such as an id or a data attribute, survive redesigns better than long positional paths.</p>
+
+<h2>Technique 3: Headless browsers</h2>
+<p>Many modern sites send an almost empty page and build the content in the browser with JavaScript. A plain HTTP request then returns no data. Headless browser tools such as <a href="https://playwright.dev/python/docs/intro" rel="noopener">Playwright</a>, Selenium and Puppeteer drive a real browser engine without a visible window. They run the page&rsquo;s scripts, wait for content to appear and then let you read the final DOM.</p>
+<pre tabindex="0"><code class="language-python">from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+    browser = p.chromium.launch()
+    page = browser.new_page()
+    page.goto("https://example.com/rates")
+    page.wait_for_selector("table#rates")      # wait for JavaScript to render it
+    html = page.content()                      # then parse as above
+    browser.close()</code></pre>
+<p>The cost is real: a browser uses much more CPU and memory than an HTTP client and is slower, and the automation adds its own failure modes, such as timeouts and pop-ups. Use it only for pages that need it. If the data comes from a JSON endpoint behind the page, calling that directly is cheaper.</p>
+
+<h2>Technique 4: Crawling at scale</h2>
+<p>Scraping a few pages is a script. Scraping many thousands needs a crawler that manages a queue of URLs, retries failures, throttles requests and stores results. <a href="https://docs.scrapy.org/en/latest/" rel="noopener">Scrapy</a> is a mature Python framework for this. For jobs spread across several machines, projects such as <a href="https://github.com/istresearch/scrapy-cluster" rel="noopener">Scrapy Cluster</a> use Redis and Kafka to share the work. The earlier draft also described &ldquo;probabilistic IP rotation&rdquo; to avoid anti-scraping measures, and it named a tool I could not verify, so I have dropped both. Evading a site&rsquo;s defences is a different activity from collecting data it intends to share, and it is where legal and ethical problems tend to start.</p>
+
+<h2>Being a good citizen</h2>
+<ul>
+<li>Read <code>robots.txt</code>. The <a href="https://www.rfc-editor.org/rfc/rfc9309" rel="noopener">Robots Exclusion Protocol</a> is a standard way for sites to say which paths crawlers should avoid. The RFC itself notes that these rules are not a form of access authorisation, so they do not replace the site&rsquo;s terms of use.</li>
+<li>Read the terms of service, and check whether the data is personal, copyrighted or licensed.</li>
+<li>Identify your scraper with a descriptive User-Agent and a contact address.</li>
+<li>Rate-limit your requests and cache what you download, so you do not hit the same page twice.</li>
+<li>Keep the raw HTML you extracted from, so you can re-parse when your logic changes or a value looks wrong.</li>
+</ul>
+
+<h2>A note on machine learning</h2>
+<p>There is research on learning to extract structured records from semi-structured pages without hand-written selectors, including approaches based on graph neural networks. I would treat it as a research direction rather than a replacement for selectors. For a handful of known sources, a selector plus a validation check is easier to debug.</p>
+
+<h2>Choosing a technique</h2>
+<p>Start with an official source. If there is none, parse the DOM with a proper library. Use a headless browser only when the data is rendered by JavaScript and no underlying endpoint is available. Move to a crawling framework when volume demands it. Then validate what you collect: row counts, value ranges and missing fields, because a scraper that fails silently is worse than one that crashes.</p>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/" rel="noopener">Beautiful Soup documentation<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Leonard Richardson</span></li>
+            <li><a href="https://www.rfc-editor.org/rfc/rfc9309" rel="noopener">RFC 9309: Robots Exclusion Protocol<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; M. Koster, G. Illyes, H. Zeller, L. Sassman</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--prev" href="principal-component-analysis.html"><span class="pn-dir">Older</span><span class="pn-title">Principal Component Analysis Explained, with a Python Example</span></a><a class="pn pn--next" href="power-bi-vs-tableau.html"><span class="pn-dir">Newer</span><span class="pn-title">Power BI vs Tableau: A Practical Comparison of Data Engines, Calculations and Analytics</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

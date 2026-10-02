@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Power BI vs Tableau: A Practical Comparison of Data Engines, Calculations and Analytics · Catalin Bondari</title>
+  <meta name="description" content="A fair comparison of Power BI and Tableau covering data storage, DAX versus table calculations, built-in analytics and sharing, based on vendor docs.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/power-bi-vs-tableau.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="Power BI vs Tableau: A Practical Comparison of Data Engines, Calculations and Analytics · Catalin Bondari">
+  <meta property="og:description" content="A fair comparison of Power BI and Tableau covering data storage, DAX versus table calculations, built-in analytics and sharing, based on vendor docs.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/power-bi-vs-tableau.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2024-05-16">
+  <meta name="author" content="Catalin Bondari &amp; Bohdan Boiprav">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Power BI vs Tableau: A Practical Comparison of Data Engines, Calculations and Analytics · Catalin Bondari">
+  <meta name="twitter:description" content="A fair comparison of Power BI and Tableau covering data storage, DAX versus table calculations, built-in analytics and sharing, based on vendor docs.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; power bi / tableau / business intelligence / data visualisation</p>
+        <h1 id="post-title" class="post-title">Power BI vs Tableau: A Practical Comparison of Data Engines, Calculations and Analytics</h1>
+        <p class="lede">A fair comparison of Power BI and Tableau covering data storage, DAX versus table calculations, built-in analytics and sharing, based on vendor docs.</p>
+        <dl class="facts">
+          <div><dt>Authors</dt><dd>Catalin Bondari &amp; Bohdan Boiprav</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2024-05-16" class="post-date">16 May 2024</time></dd></div>
+          <div><dt>Reading time</dt><dd>4 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>Power BI and Tableau are the two business intelligence tools people most often compare. Both turn data into interactive reports and dashboards, and both are mature enough that the choice rarely comes down to a missing feature. This post compares them on the points that tend to matter in practice: how data is stored and queried, how calculations are written, what analytics are built in, and how reports are shared. It was written with Bohdan Boiprav.</p>
+<p>One correction to the earlier version up front. It described the two products as running different &ldquo;statistical methods&rdquo; and listed low-level internals such as DirectX graphics, bitmap indexing and zone maps. I could not confirm those details in either vendor&rsquo;s documentation, so I have removed them. What follows sticks to what the vendors document.</p>
+
+<h2>Data storage and query engines</h2>
+<p>Both tools can either keep a copy of the data or query the source live.</p>
+<ul>
+<li>Power BI&rsquo;s <a href="https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-storage-mode" rel="noopener">Import mode</a> stores a snapshot of the data in the model. The data are compressed and held by the VertiPaq engine, which Microsoft describes in its guidance on <a href="https://learn.microsoft.com/en-us/power-bi/guidance/import-modeling-data-reduction" rel="noopener">reducing Import model size</a>. DirectQuery is the alternative: data stay at the source and each visual sends a query when it loads.</li>
+<li>Tableau offers live connections and extracts. An extract is a <code>.hyper</code> file, queried by Tableau&rsquo;s Hyper engine, which Tableau documents as a <a href="https://help.tableau.com/current/api/hyper_api/en-us/index.html" rel="noopener">SQL engine for fast analytics</a>. The <a href="https://help.tableau.com/current/pro/desktop/en-us/extracting_data.htm" rel="noopener">extract documentation</a> covers when to use each option.</li>
+</ul>
+<p>The practical points are the same in both products. A stored copy is fast but needs a refresh schedule, and a live connection is current but only as fast as the source database. Whichever you choose, shaping the data well before it reaches the tool, with one row per fact and clean dimension tables, matters more than the engine.</p>
+
+<h2>Modelling and calculations</h2>
+<p>Power BI is built around a semantic model: tables, relationships and measures written in DAX. A measure is evaluated in the filter context of each visual, so one definition works at every level of a report. Tableau lets you define relationships between tables too, but a lot of logic lives in calculated fields, level-of-detail expressions and table calculations attached to a particular view.</p>
+<p>A simple share-of-total shows the difference in approach. The DAX version is a reusable measure:</p>
+<pre tabindex="0"><code class="language-text">Sales Share =
+DIVIDE ( [Total Sales], CALCULATE ( [Total Sales], ALL ( Product ) ) )</code></pre>
+<p>The Tableau version is a table calculation:</p>
+<pre tabindex="0"><code class="language-text">SUM([Sales]) / TOTAL(SUM([Sales]))</code></pre>
+<p>Both produce each product&rsquo;s share of the grand total. The DAX measure works from the model, so you can reuse it on any visual that filters by product. The Tableau calculation works on the data in the view and is affected by how the view is laid out. Neither is better in general. DAX rewards people who think in terms of models and filter context, and Tableau&rsquo;s calculations feel natural for analysts who build views interactively.</p>
+
+<h2>Built-in analytics</h2>
+<p>The earlier draft said Power BI offers a wider range of statistical tools while Tableau is better for exploratory work. The documentation does not support that split. Both ship a useful set of built-in analytics:</p>
+<ul>
+<li>Tableau includes trend lines, <a href="https://help.tableau.com/current/pro/desktop/en-us/forecasting.htm" rel="noopener">forecasting</a> based on exponential smoothing, and <a href="https://help.tableau.com/current/pro/desktop/en-us/clustering.htm" rel="noopener">clustering</a> using the k-means algorithm.</li>
+<li>Power BI&rsquo;s <a href="https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-analytics-pane" rel="noopener">Analytics pane</a> adds trend lines, forecasts, anomaly detection and reference lines to supported visuals, and the <a href="https://learn.microsoft.com/en-us/power-bi/visuals/power-bi-visualization-influencers" rel="noopener">key influencers visual</a> ranks the factors associated with a chosen metric.</li>
+</ul>
+<p>Both can also call out to Python or R for anything more specialised. For serious modelling I would do the work in code or a dedicated stats tool and bring the results into the BI layer, rather than depend on a dashboard feature. The built-in forecasts are fine for a quick look at direction, and weaker as the basis for a number in a formal report.</p>
+
+<h2>Visuals and authoring</h2>
+<p>Tableau has a reputation for fluid exploration: you drag fields onto a canvas and the chart follows, which makes it quick to try ideas. Power BI feels closer to building a report from a catalogue of visuals, with a strong formatting pane and a large library of custom visuals. Both can produce clean, accurate charts and both can produce bad ones. How a chart is designed matters far more than which tool drew it.</p>
+
+<h2>Sharing, governance and ecosystem</h2>
+<p>This is where organisations often decide. Power BI sits naturally alongside Excel, Teams and the rest of Microsoft 365, which suits teams already on that stack. Tableau shares content through Tableau Server or Tableau Cloud and is not tied to one vendor&rsquo;s ecosystem. Both support row-level security, scheduled refresh and permission controls, and both need a clear owner for definitions of key numbers. Check current licensing terms with each vendor, because pricing and bundling change.</p>
+
+<h2>Quick comparison</h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table 1">
+<table>
+<thead>
+<tr><th>Topic</th><th>Power BI</th><th>Tableau</th></tr>
+</thead>
+<tbody>
+<tr><td>Stored data</td><td>Import mode, VertiPaq engine</td><td>Extracts (<code>.hyper</code>), Hyper engine</td></tr>
+<tr><td>Live querying</td><td>DirectQuery</td><td>Live connections</td></tr>
+<tr><td>Calculation language</td><td>DAX measures in a semantic model</td><td>Calculated fields, LOD expressions, table calculations</td></tr>
+<tr><td>Built-in analytics</td><td>Trend lines, forecast, anomaly detection, key influencers</td><td>Trend lines, forecasting, clustering</td></tr>
+<tr><td>Strongest fit</td><td>Microsoft-centred organisations, reusable models</td><td>Exploratory analysis, mixed environments</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>How to choose</h2>
+<ul>
+<li>Match the tool to the stack and skills you already have. Training time usually outweighs feature differences.</li>
+<li>Prototype one real report in each, using your own data and your slowest query.</li>
+<li>Decide who owns the definitions of the key measures, and put them in one place.</li>
+<li>Think about distribution: who needs to view reports, who edits them, and how access is controlled.</li>
+</ul>
+<p>Either tool will do the job. The harder work is the same in both: clean data, consistent definitions and charts that answer a question.</p>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://learn.microsoft.com/en-us/power-bi/transform-model/desktop-storage-mode" rel="noopener">Power BI Desktop: Storage mode in Power BI<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Microsoft</span></li>
+            <li><a href="https://help.tableau.com/current/pro/desktop/en-us/forecasting.htm" rel="noopener">Tableau Help: Forecasting<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Tableau</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--prev" href="web-scraping-techniques.html"><span class="pn-dir">Older</span><span class="pn-title">Web Scraping Techniques: From HTML Parsing to Headless Browsers</span></a><a class="pn pn--next" href="psychology-of-data-visualization.html"><span class="pn-dir">Newer</span><span class="pn-title">How Readers See Charts: Perception Principles for Reporting Visuals</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BERT in Practice: Tokens, Embeddings and Fine-Tuning a Text Classifier · Catalin Bondari</title>
+  <meta name="description" content="What happens to a sentence inside BERT, how to try it in a few lines of Python, and the choices that decide whether fine-tuning works.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/mastering-bert-guide.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="BERT in Practice: Tokens, Embeddings and Fine-Tuning a Text Classifier · Catalin Bondari">
+  <meta property="og:description" content="What happens to a sentence inside BERT, how to try it in a few lines of Python, and the choices that decide whether fine-tuning works.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/mastering-bert-guide.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2026-09-23">
+  <meta name="author" content="Catalin Bondari">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BERT in Practice: Tokens, Embeddings and Fine-Tuning a Text Classifier · Catalin Bondari">
+  <meta name="twitter:description" content="What happens to a sentence inside BERT, how to try it in a few lines of Python, and the choices that decide whether fine-tuning works.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; nlp / bert / python</p>
+        <h1 id="post-title" class="post-title">BERT in Practice: Tokens, Embeddings and Fine-Tuning a Text Classifier</h1>
+        <p class="lede">What happens to a sentence inside BERT, how to try it in a few lines of Python, and the choices that decide whether fine-tuning works.</p>
+        <dl class="facts">
+          <div><dt>Author</dt><dd>Catalin Bondari</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2026-09-23" class="post-date">23 Sep 2026</time></dd></div>
+          <div><dt>Reading time</dt><dd>4 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>My <a href="bert-revolutionizing-nlp.html">other BERT post</a> covers why the model mattered. This one is the practical companion: what happens to a sentence on its way through BERT, how to try it in a few lines of Python, and the decisions that make or break a fine-tuned classifier. The running example is a common one in finance: sorting short pieces of text, such as news headlines, into a handful of categories.</p>
+
+<h2>Step 1: text becomes WordPiece tokens</h2>
+<p>BERT does not see words. It sees tokens from a fixed vocabulary of about 30,000 WordPiece units (<a href="https://arxiv.org/abs/1810.04805" rel="noopener">Devlin et al., 2018</a>). Common words are single tokens. Rarer words are split into pieces, with <code>##</code> marking a piece that continues the previous one. The official repository&rsquo;s own example splits the name &ldquo;Philammon&rdquo; into <code>phil ##am ##mon</code> (<a href="https://github.com/google-research/bert" rel="noopener">google-research/bert</a>).</p>
+<p>This matters more in finance than in general text. Tickers, fund names and product jargon are often rare, so they get chopped into fragments that carry little meaning on their own. Before fine-tuning, it is worth tokenising a sample of your real text and looking at what comes out.</p>
+<p>The tokenizer also adds two special tokens: <code>[CLS]</code> at the start, whose final vector is used for classification, and <code>[SEP]</code> at the end of each sentence. Inputs are capped at 512 tokens.</p>
+
+<h2>Step 2: tokens become contextual vectors</h2>
+<p>Each token is mapped to an embedding and passed through a stack of Transformer layers in which every token attends to every other. BERT-Base has 12 layers, a hidden size of 768 and about 110 million parameters; BERT-Large has 24 layers, a hidden size of 1,024 and about 340 million (figures from the paper and repository). The output is one 768-number vector per token for BERT-Base, and each vector reflects the whole sentence around it.</p>
+<figure class="fig fig-flow">
+<div class="ff" aria-hidden="true"><span class="ff-in">&ldquo;ECB cuts rates&rdquo;</span><span class="ff-arrow">&rarr;</span><span class="ff-in">[CLS] t<sub>1</sub> t<sub>2</sub> &hellip; t<sub>n</sub> [SEP]</span><span class="ff-arrow">&rarr;</span><span class="ff-box">12 &times; Transformer</span><span class="ff-arrow">&rarr;</span><span class="ff-out">h<sub>[CLS]</sub> &rarr; label</span></div>
+<figcaption>Sentence classification with BERT: the text is tokenised, wrapped in special tokens, encoded, and the final [CLS] vector feeds a small classification layer.</figcaption>
+</figure>
+
+<h2>Step 3: try it before you train anything</h2>
+<p>The Hugging Face <code>transformers</code> library wraps the original weights (<a href="https://huggingface.co/docs/transformers/model_doc/bert" rel="noopener">BERT model docs</a>). The quickest way to build intuition is the fill-mask pipeline, which asks BERT to do exactly what it was pre-trained to do:</p>
+<pre tabindex="0"><code>from transformers import pipeline
+
+fill = pipeline("fill-mask", model="google-bert/bert-base-uncased")
+for guess in fill("The central bank decided to [MASK] interest rates."):
+    print(f"{guess['token_str']:&gt;10}  {guess['score']:.3f}")</code></pre>
+<p>Change the context and watch the guesses change. Swap &ldquo;central bank&rdquo; for &ldquo;the landlord&rdquo; and see what happens to the verbs. Ten minutes of this teaches more about what &ldquo;contextual&rdquo; means than any diagram.</p>
+
+<h2>Step 4: fine-tune for your labels</h2>
+<p>For classification you load the same weights with a fresh output layer and train the whole network on labelled examples. A compact version with the <code>Trainer</code> API:</p>
+<pre tabindex="0"><code>from datasets import load_dataset
+from transformers import (AutoTokenizer, AutoModelForSequenceClassification,
+                          DataCollatorWithPadding, Trainer, TrainingArguments)
+
+name = "google-bert/bert-base-uncased"
+tok = AutoTokenizer.from_pretrained(name)
+model = AutoModelForSequenceClassification.from_pretrained(name, num_labels=3)
+
+# CSVs with a "text" column and an integer "label" column (0, 1, 2)
+data = load_dataset("csv", data_files={"train": "train.csv", "test": "test.csv"})
+data = data.map(lambda b: tok(b["text"], truncation=True, max_length=64), batched=True)
+
+args = TrainingArguments(output_dir="headline-model", learning_rate=2e-5,
+                         per_device_train_batch_size=16, num_train_epochs=3,
+                         eval_strategy="epoch")
+trainer = Trainer(model=model, args=args,
+                  train_dataset=data["train"], eval_dataset=data["test"],
+                  data_collator=DataCollatorWithPadding(tok))
+trainer.train()</code></pre>
+<p>The learning rate, batch size and epoch count sit inside the small grid the BERT authors recommended for fine-tuning, which is a sensible place to start before any tuning of your own.</p>
+
+<h2>The decisions that actually matter</h2>
+<p><strong>Cased or uncased.</strong> The uncased model lowercases everything. That is usually fine for sentiment, but if capitalisation carries meaning in your text, as with tickers or the difference between &ldquo;US&rdquo; and &ldquo;us&rdquo;, try a cased model.</p>
+<p><strong>Sequence length.</strong> Attention cost grows quickly with length, so do not pad headlines to 512 tokens. Measure the token lengths of your data and pick a cap that covers nearly all of it; 64 is plenty for headlines. For long documents, split into chunks or use a model built for long inputs.</p>
+<p><strong>Label quality over model size.</strong> Two people labelling the same 200 examples and disagreeing on 20% of them tells you the ceiling for any model. Fix the labelling guide before reaching for BERT-Large.</p>
+<p><strong>Honest evaluation.</strong> Hold out a later time period, not a random sample. Headlines from the same week share stories and wording, so random splits overstate accuracy. Then read the per-class precision and recall, not just accuracy, especially if one category is rare.</p>
+<p><strong>Similarity is a different job.</strong> If you want to find similar sentences rather than classify them, raw BERT outputs are a poor fit. The Sentence-BERT authors describe BERT&rsquo;s construction as unsuitable for semantic similarity search and train a modified network for that purpose (<a href="https://arxiv.org/abs/1908.10084" rel="noopener">Reimers &amp; Gurevych, 2019</a>).</p>
+<p><strong>Domain models.</strong> Before fine-tuning a general model on financial text, check whether a domain-adapted one already exists. FinBERT is one example, pre-trained further on financial text for sentiment analysis (<a href="https://arxiv.org/abs/1908.10063" rel="noopener">Araci, 2019</a>).</p>
+
+<h2>When not to use BERT</h2>
+<p>If a keyword rule gets you 95% of the way, ship the rule. If you have a few hundred labelled examples and need explanations, a TF-IDF and logistic regression baseline is quick to build and easy to inspect, and it tells you how much BERT is really adding. BERT earns its place when wording is varied, context changes meaning, and you have enough labelled data to measure the difference.</p>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://medium.com/@shaikhrayyan123/a-comprehensive-guide-to-understanding-bert-from-beginners-to-advanced-2379699e2b51" rel="noopener">Original article on Medium<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Rayyan Shaikh</span></li>
+            <li><a href="https://arxiv.org/abs/1810.04805" rel="noopener">BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Jacob Devlin, Ming-Wei Chang, Kenton Lee and Kristina Toutanova</span></li>
+            <li><a href="https://github.com/google-research/bert" rel="noopener">google-research/bert<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Google Research</span></li>
+            <li><a href="https://huggingface.co/docs/transformers/model_doc/bert" rel="noopener">Transformers documentation: BERT<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Hugging Face</span></li>
+            <li><a href="https://arxiv.org/abs/1908.10084" rel="noopener">Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Nils Reimers and Iryna Gurevych</span></li>
+            <li><a href="https://arxiv.org/abs/1908.10063" rel="noopener">FinBERT: Financial Sentiment Analysis with Pre-trained Language Models<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Dogu Araci</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--prev" href="big-data-management-strategies.html"><span class="pn-dir">Older</span><span class="pn-title">Managing Large Datasets Well: Six Habits from Raw Files to Reports</span></a><a class="pn pn--next" href="quantum-computing-data-science.html"><span class="pn-dir">Newer</span><span class="pn-title">Quantum Computing and Data Science: What May Change, and What Already Needs Attention</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

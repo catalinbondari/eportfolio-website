@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Machine Learning Without the Mystique: Supervised, Unsupervised and Overfitting · Catalin Bondari</title>
+  <meta name="description" content="What machine learning is, how supervised and unsupervised learning differ, and why train/test splits matter, with a small scikit-learn example.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/demystifying-machine-learning.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="Machine Learning Without the Mystique: Supervised, Unsupervised and Overfitting · Catalin Bondari">
+  <meta property="og:description" content="What machine learning is, how supervised and unsupervised learning differ, and why train/test splits matter, with a small scikit-learn example.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/demystifying-machine-learning.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2026-09-08">
+  <meta name="author" content="Catalin Bondari">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Machine Learning Without the Mystique: Supervised, Unsupervised and Overfitting · Catalin Bondari">
+  <meta name="twitter:description" content="What machine learning is, how supervised and unsupervised learning differ, and why train/test splits matter, with a small scikit-learn example.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; machine learning / python / scikit-learn / data science</p>
+        <h1 id="post-title" class="post-title">Machine Learning Without the Mystique: Supervised, Unsupervised and Overfitting</h1>
+        <p class="lede">What machine learning is, how supervised and unsupervised learning differ, and why train/test splits matter, with a small scikit-learn example.</p>
+        <dl class="facts">
+          <div><dt>Author</dt><dd>Catalin Bondari</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2026-09-08" class="post-date">8 Sep 2026</time></dd></div>
+          <div><dt>Reading time</dt><dd>5 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>Machine learning has a reputation for being either magic or maths too heavy to bother with. In practice, for most finance and reporting work, it is neither. It is a way of fitting a rule to historical data, then checking whether that rule still holds on data it has not seen. Everything else is detail.</p>
+<p>This post covers the three ideas I think are worth having straight before touching a library: the difference between supervised and unsupervised learning, why we split data into training and test sets, and what overfitting looks like when you measure it. There is a short scikit-learn example with made-up data to make it concrete.</p>
+
+<h2>What machine learning actually is</h2>
+<p>A conventional program is a set of rules a person wrote down. A model is a set of rules that was estimated from examples. If you have ever fitted a trendline in Excel, you have done a small version of this: you gave the software points and it produced a formula you can apply to new inputs. Machine learning generalises that to many inputs and flexible shapes, such as decision trees, ensembles or neural networks.</p>
+<p>The useful mental model is that a model is a compressed summary of past data, shaped by the question you asked. It does not understand your business. It finds patterns that were present in the sample, whether or not they are causal and whether or not they will continue.</p>
+
+<h2>Supervised learning: you have the answer column</h2>
+<p>In supervised learning, every training row comes with a known outcome, called the label or target. The model learns the mapping from the inputs to that outcome. If the outcome is a category (fraud or not fraud, default or no default), it is classification. If it is a number (next month&rsquo;s claims, a bond&rsquo;s spread), it is regression.</p>
+<p>The key requirement is a trustworthy label column. In investment data work, that is often the hard part. Labels such as &ldquo;this trade was an error&rdquo; may be recorded late, inconsistently, or only for cases someone happened to investigate. A model trained on that inherits the same gaps.</p>
+
+<h2>Unsupervised learning: no answer column</h2>
+<p>Unsupervised learning has inputs only. The task is to find structure: group similar rows together (clustering), or flag rows that look unlike the rest (anomaly detection). Typical uses are segmenting accounts by behaviour or surfacing odd records for a data quality review. scikit-learn&rsquo;s <a href="https://scikit-learn.org/stable/modules/clustering.html" rel="noopener">clustering guide</a> compares the main methods.</p>
+<p>The catch is that nothing tells you whether the groups are right. A clustering is useful if a human looks at it and finds it meaningful, which makes review part of the method rather than an afterthought.</p>
+
+<h2>Train/test splits: marking your own homework is not allowed</h2>
+<p>If you measure a model on the same rows it learned from, the score tells you how well it memorised, not how well it will perform on tomorrow&rsquo;s data. The scikit-learn documentation describes this as a methodological mistake: a model that simply repeated the labels it had seen would score perfectly and be useless on new rows (<a href="https://scikit-learn.org/stable/modules/cross_validation.html" rel="noopener">cross-validation guide</a>).</p>
+<p>The standard fix is to hold some data back. You fit on the training portion, then score once on the held-out test portion, using <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html" rel="noopener"><code>train_test_split</code></a>. The same guide covers cross-validation, which repeats the split several times for a steadier estimate.</p>
+<p>One caveat matters a lot in finance. A random split mixes past and future rows, so the model can effectively see tomorrow while training on yesterday. For anything time-ordered, split by date instead. scikit-learn provides <code>TimeSeriesSplit</code> for this, described in the same guide.</p>
+
+<h2>Overfitting, measured</h2>
+<p>Overfitting means the model has learned the noise in the training sample as if it were signal. The tell is a large gap between training and test performance. The example below uses synthetic data with deliberate label noise, so the numbers are illustrative and say nothing about real markets.</p>
+<pre tabindex="0"><code class="language-python">from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.cluster import KMeans
+
+# Synthetic, noisy data: 1,000 rows, 10 features
+X, y = make_classification(
+    n_samples=1000, n_features=10, n_informative=3, flip_y=0.15, random_state=1
+)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=1
+)
+
+for depth in (None, 3):
+    model = DecisionTreeClassifier(max_depth=depth, random_state=1)
+    model.fit(X_train, y_train)
+    print(depth, round(model.score(X_train, y_train), 2), round(model.score(X_test, y_test), 2))
+
+# Unsupervised: no labels passed in
+clusters = KMeans(n_clusters=3, n_init=10, random_state=1).fit_predict(X)
+</code></pre>
+<p>When I ran this on scikit-learn 1.9.1, the output was as follows. Exact figures can shift between library versions.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table 1">
+<table>
+<thead>
+<tr><th>max_depth</th><th>Training accuracy</th><th>Test accuracy</th></tr>
+</thead>
+<tbody>
+<tr><td>None (grow until pure)</td><td>1.00</td><td>0.75</td></tr>
+<tr><td>3 (restricted)</td><td>0.86</td><td>0.83</td></tr>
+</tbody>
+</table>
+</div>
+<p>The unrestricted tree gets every training row right and drops to 0.75 on the test set. The restricted tree looks worse on training data and better where it counts. That is the whole lesson: a perfect training score is a warning, not a result. The <a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html" rel="noopener">underfitting and overfitting example</a> in the scikit-learn gallery shows the same trade-off with polynomial curves.</p>
+<p>The last two lines of the code show the unsupervised side. <code>KMeans</code> receives only <code>X</code>, never <code>y</code>, and assigns each row to one of three groups. Whether those groups mean anything is a judgement for a person to make.</p>
+
+<h2>Where this fits in reporting and data quality work</h2>
+<ul>
+<li><strong>Rare events need the right metric.</strong> If only a few per cent of transactions are fraudulent, accuracy can look excellent for a model that flags nothing. Use precision, recall and the confusion matrix instead.</li>
+<li><strong>Start with a baseline.</strong> A SQL rule or a simple threshold is often the benchmark a model has to beat, and sometimes it is the better answer.</li>
+<li><strong>Validate the inputs.</strong> A model fed misaligned dates or duplicated rows will fit that damage faithfully. Automated checks in Python or SQL before training are cheaper than explaining a bad model afterwards.</li>
+<li><strong>Keep the test set untouched.</strong> If you tune against it repeatedly, it stops being independent.</li>
+</ul>
+
+<h2>Further study</h2>
+<p>For a rigorous but readable next step, <em>An Introduction to Statistical Learning</em> is freely available from its authors (<a href="https://www.statlearning.com/" rel="noopener">statlearning.com</a>), with a Python edition. Its sections on resampling and model selection cover the ground in this post in more depth.</p>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://www.kdnuggets.com/demystifying-machine-learning" rel="noopener">Original article on KDnuggets<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Kanwal Mehreen</span></li>
+            <li><a href="https://www.statlearning.com/" rel="noopener">An Introduction to Statistical Learning<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Gareth James, Daniela Witten, Trevor Hastie, Robert Tibshirani</span></li>
+            <li><a href="https://scikit-learn.org/stable/modules/cross_validation.html" rel="noopener">scikit-learn: Cross-validation, evaluating estimator performance<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; scikit-learn developers</span></li>
+            <li><a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_underfitting_overfitting.html" rel="noopener">scikit-learn: Underfitting vs. Overfitting<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; scikit-learn developers</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--prev" href="psychology-of-data-visualization.html"><span class="pn-dir">Older</span><span class="pn-title">How Readers See Charts: Perception Principles for Reporting Visuals</span></a><a class="pn pn--next" href="confusion-matrices-classification-reports.html"><span class="pn-dir">Newer</span><span class="pn-title">Reading a Confusion Matrix When the Positive Class Is Rare</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

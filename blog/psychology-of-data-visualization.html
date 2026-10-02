@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How Readers See Charts: Perception Principles for Reporting Visuals · Catalin Bondari</title>
+  <meta name="description" content="Why position beats angle and area, when bars need a zero baseline, and how to use colour and titles so report charts are read correctly.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/psychology-of-data-visualization.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="How Readers See Charts: Perception Principles for Reporting Visuals · Catalin Bondari">
+  <meta property="og:description" content="Why position beats angle and area, when bars need a zero baseline, and how to use colour and titles so report charts are read correctly.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/psychology-of-data-visualization.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2026-09-05">
+  <meta name="author" content="Catalin Bondari">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Readers See Charts: Perception Principles for Reporting Visuals · Catalin Bondari">
+  <meta name="twitter:description" content="Why position beats angle and area, when bars need a zero baseline, and how to use colour and titles so report charts are read correctly.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; data visualisation / reporting / accessibility</p>
+        <h1 id="post-title" class="post-title">How Readers See Charts: Perception Principles for Reporting Visuals</h1>
+        <p class="lede">Why position beats angle and area, when bars need a zero baseline, and how to use colour and titles so report charts are read correctly.</p>
+        <dl class="facts">
+          <div><dt>Author</dt><dd>Catalin Bondari</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2026-09-05" class="post-date">5 Sep 2026</time></dd></div>
+          <div><dt>Reading time</dt><dd>4 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>A chart in a monthly report gets a few seconds of attention. The reader is usually busy, often senior, and looking for one answer: is this fine, or do I need to do something? Whether they get the right answer in those few seconds depends less on the data than on how human perception handles shapes, lengths and colours.</p>
+<p>None of what follows is new. It is a handful of findings from perception research and a few habits I apply when building reporting visuals, framed around the kind of charts portfolio managers and risk committees see every month.</p>
+
+<h2>Position beats angle and area</h2>
+<p>In 1984 William Cleveland and Robert McGill ran experiments asking people to compare quantities encoded in different ways: positions on a shared axis, lengths, angles, areas and shading (<a href="https://doi.org/10.1080/01621459.1984.10478080" rel="noopener">Cleveland &amp; McGill, 1984</a>). People were most accurate when comparing positions along a common scale, and noticeably worse with angles and areas. Jeffrey Heer and Michael Bostock repeated several of these experiments with crowdsourced participants in 2010 and reached broadly the same conclusions (<a href="https://idl.cs.washington.edu/papers/crowdsourcing-graphical-perception" rel="noopener">Heer &amp; Bostock, 2010</a>).</p>
+<p>The practical consequence is simple. If the reader needs to compare values, put them on a common axis. A pie chart of sector weights asks the eye to compare angles; the same weights as a sorted bar chart, or as dots on one line, can be compared at a glance. Pies are fine for &ldquo;roughly how much of the whole is this one slice&rdquo;. They are poor for &ldquo;which of these eight sectors are we overweight in&rdquo;.</p>
+
+<h2>Bars need a zero baseline</h2>
+<p>A bar encodes its value as length, so the eye compares bar lengths. Cut the axis and the lengths stop matching the numbers. The example below uses made-up figures: a fund return of 4.1% against a benchmark of 3.8%.</p>
+<figure class="fig fig-svg">
+<svg viewBox="0 0 640 230" role="img" aria-labelledby="dv-t dv-d" class="dv-svg">
+<title id="dv-t">Truncated axis versus zero baseline</title>
+<desc id="dv-d">Two bar charts of the same illustrative data, fund 4.1 per cent and benchmark 3.8 per cent. On the left the axis starts at 3.6 per cent and the fund bar looks about two and a half times longer. On the right the axis starts at zero and the bars look almost equal.</desc>
+<g class="dv-panel">
+<text x="16" y="24" class="dv-h">Axis starts at 3.6%</text>
+<line x1="40" y1="190" x2="290" y2="190" class="dv-axis"/>
+<rect x="80" y="65" width="60" height="125" class="dv-bar dv-hi"/>
+<rect x="190" y="140" width="60" height="50" class="dv-bar"/>
+<text x="110" y="56" class="dv-v" text-anchor="middle">4.1%</text>
+<text x="220" y="131" class="dv-v" text-anchor="middle">3.8%</text>
+<text x="110" y="212" class="dv-l" text-anchor="middle">Fund</text>
+<text x="220" y="212" class="dv-l" text-anchor="middle">Benchmark</text>
+<text x="34" y="194" class="dv-l" text-anchor="end">3.6</text>
+</g>
+<g class="dv-panel" transform="translate(320 0)">
+<text x="16" y="24" class="dv-h">Axis starts at 0%</text>
+<line x1="40" y1="190" x2="290" y2="190" class="dv-axis"/>
+<rect x="80" y="54" width="60" height="136" class="dv-bar dv-hi"/>
+<rect x="190" y="64" width="60" height="126" class="dv-bar"/>
+<text x="110" y="45" class="dv-v" text-anchor="middle">4.1%</text>
+<text x="220" y="55" class="dv-v" text-anchor="middle">3.8%</text>
+<text x="110" y="212" class="dv-l" text-anchor="middle">Fund</text>
+<text x="220" y="212" class="dv-l" text-anchor="middle">Benchmark</text>
+<text x="34" y="194" class="dv-l" text-anchor="end">0</text>
+</g>
+</svg>
+<figcaption>Illustrative data. Same two numbers, two very different impressions. The left chart makes a 0.3-point gap look like a rout.</figcaption>
+</figure>
+<p>If the 0.3-point difference is the story, show the difference itself: a single bar or dot for active return, on an axis centred on zero. Line charts are different, because the eye reads slope and position rather than length, so a non-zero axis on a price or yield series is usually fine. The rule is about bars, not about all charts.</p>
+
+<h2>Spend colour on one thing</h2>
+<p>Colour is the fastest signal on the page. A single coloured mark among grey ones is found almost immediately, without scanning. That is also why a chart with eight saturated colours feels noisy: everything is shouting, so nothing is.</p>
+<p>My default is grey for context and one accent colour for the thing the reader should look at, such as the fund against a grey peer group or the one sector that breached a limit. If a series has a colour in one chart, it keeps that colour in every chart of the pack. Readers learn the mapping quickly, and breaking it causes real misreads.</p>
+
+<h2>Do not make colour carry the meaning alone</h2>
+<p>A meaningful share of readers will not see your red and green the way you do. The US National Eye Institute notes that men have a much higher risk of colour vision deficiency than women (<a href="https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/color-blindness" rel="noopener">NEI</a>). WCAG makes the same point as a rule: colour should not be the only way information is conveyed (<a href="https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html" rel="noopener">WCAG 2.2, Use of Color</a>).</p>
+<p>In practice that means pairing colour with something else: a +/&minus; sign on the label, an arrow, a direct label at the end of the line instead of a legend, or a pattern. Power BI has built-in accessibility support, including themes and alt text for visuals, which Microsoft documents in its <a href="https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-accessibility-overview" rel="noopener">report accessibility overview</a>.</p>
+
+<h2>Write the title as the finding</h2>
+<p>A title like &ldquo;Active return by quarter&rdquo; describes the axes. A title like &ldquo;Active return turned positive in Q3 after two negative quarters&rdquo; tells the reader what to see, and then the chart becomes the evidence. This is the single cheapest improvement I know. It also forces the author to decide what the chart is for. If you cannot write the sentence, the chart probably should not be in the pack.</p>
+<p>The same goes for annotation. One short label pointing at the inflection point (&ldquo;rate cut&rdquo;, &ldquo;rebalance&rdquo;, &ldquo;new benchmark from March&rdquo;) saves the reader from guessing, and saves you the follow-up email.</p>
+
+<h2>Persuasive is not the same as flattering</h2>
+<p>A chart persuades when the reader trusts it. Trust comes from consistency: the same scales from month to month, the same colours, the same definitions, and visible footnotes when something changes. A chart that makes a result look better than it is might win one meeting, but the first time someone spots a truncated axis, every chart in the pack loses credibility.</p>
+
+<h2>Checklist before a chart goes in a report</h2>
+<ul>
+<li>Can the main comparison be read as positions on a common axis?</li>
+<li>Do all bar charts start at zero?</li>
+<li>Is there one accent colour, used for the thing that matters?</li>
+<li>Is every colour backed up by a label, sign or shape?</li>
+<li>Does the title state the finding in one sentence?</li>
+<li>Are scales, colours and definitions the same as last month, and is any change footnoted?</li>
+</ul>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://www.kdnuggets.com/the-psychology-of-data-visualization-how-to-present-data-that-persuades" rel="noopener">Original article on KDnuggets<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Nahla Davies</span></li>
+            <li><a href="https://doi.org/10.1080/01621459.1984.10478080" rel="noopener">Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; William S. Cleveland and Robert McGill</span></li>
+            <li><a href="https://idl.cs.washington.edu/papers/crowdsourcing-graphical-perception" rel="noopener">Crowdsourcing Graphical Perception: Using Mechanical Turk to Assess Visualization Design<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Jeffrey Heer and Michael Bostock</span></li>
+            <li><a href="https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/color-blindness" rel="noopener">Color Blindness<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; National Eye Institute</span></li>
+            <li><a href="https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html" rel="noopener">Understanding WCAG 2.2: Use of Color<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; W3C</span></li>
+            <li><a href="https://learn.microsoft.com/en-us/power-bi/create-reports/desktop-accessibility-overview" rel="noopener">Overview of accessibility in Power BI<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Microsoft</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--prev" href="power-bi-vs-tableau.html"><span class="pn-dir">Older</span><span class="pn-title">Power BI vs Tableau: A Practical Comparison of Data Engines, Calculations and Analytics</span></a><a class="pn pn--next" href="demystifying-machine-learning.html"><span class="pn-dir">Newer</span><span class="pn-title">Machine Learning Without the Mystique: Supervised, Unsupervised and Overfitting</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

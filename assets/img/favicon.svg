@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <style>
-    .bg { fill: #FAFAF9; } .fg { fill: #0F172A; } .edge { fill: none; stroke: #0F172A; }
-    @media (prefers-color-scheme: dark) { .bg { fill: #0B0F14; } .fg { fill: #E6EAF0; } .edge { stroke: #E6EAF0; } }
-  </style>
-  <rect class="bg" width="64" height="64" rx="6"/>
-  <rect class="edge" x="3" y="3" width="58" height="58" rx="4" stroke-width="2"/>
-  <text class="fg" x="32" y="43" text-anchor="middle" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="30" font-weight="500" letter-spacing="0.5">CB</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#05070A"/><path d="M6 18V6h12M46 6h12v12M58 46v12H46M18 58H6V46" fill="none" stroke="#22D3EE" stroke-width="3"/><text x="32" y="41" text-anchor="middle" font-family="Menlo,Consolas,monospace" font-weight="700" font-size="24" fill="#22D3EE">CB</text><rect x="44" y="40" width="5" height="3" fill="#A3E635"/></svg>

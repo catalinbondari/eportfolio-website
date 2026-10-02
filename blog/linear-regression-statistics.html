@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How Linear Regression Works: Least Squares, Normal Equations and Gradient Descent · Catalin Bondari</title>
+  <meta name="description" content="A walk-through of ordinary least squares: residuals, the cost function, normal equations, gradient descent and the assumptions behind the fit.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/linear-regression-statistics.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="How Linear Regression Works: Least Squares, Normal Equations and Gradient Descent · Catalin Bondari">
+  <meta property="og:description" content="A walk-through of ordinary least squares: residuals, the cost function, normal equations, gradient descent and the assumptions behind the fit.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/linear-regression-statistics.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2024-03-28">
+  <meta name="author" content="Catalin Bondari &amp; Bohdan Boiprav">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Linear Regression Works: Least Squares, Normal Equations and Gradient Descent · Catalin Bondari">
+  <meta name="twitter:description" content="A walk-through of ordinary least squares: residuals, the cost function, normal equations, gradient descent and the assumptions behind the fit.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; statistics / linear regression / machine learning / python</p>
+        <h1 id="post-title" class="post-title">How Linear Regression Works: Least Squares, Normal Equations and Gradient Descent</h1>
+        <p class="lede">A walk-through of ordinary least squares: residuals, the cost function, normal equations, gradient descent and the assumptions behind the fit.</p>
+        <dl class="facts">
+          <div><dt>Authors</dt><dd>Catalin Bondari &amp; Bohdan Boiprav</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2024-03-28" class="post-date">28 Mar 2024</time></dd></div>
+          <div><dt>Reading time</dt><dd>4 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>Linear regression is usually the first model people learn and the one they keep using. It is also easy to use without understanding, so this post walks through what the fitting procedure actually does: the cost function, the normal equations and gradient descent. It was written with Bohdan Boiprav.</p>
+<p>A note on the old title: the original version of this post referred to the &ldquo;statistical mechanics&rdquo; of linear regression. That is a different field, a branch of physics. What we mean here is the statistics and linear algebra of least squares.</p>
+
+<h2>The model</h2>
+<p>Linear regression models a numeric target <code>y</code> as a weighted sum of inputs plus an intercept:</p>
+<pre tabindex="0"><code>y_hat = b0 + b1*x1 + b2*x2 + ... + bp*xp</code></pre>
+<p>With one input, this is a line. With two it is a plane, and with more it is a hyperplane. Fitting the model means choosing the coefficients <code>b0 ... bp</code>. In investment data work, a familiar example is regressing a stock&rsquo;s returns on market returns: the slope is the stock&rsquo;s beta and the intercept is its alpha over the sample.</p>
+
+<h2>Residuals and the cost function</h2>
+<p>A residual is the vertical gap between an observed value and the fitted line: <code>e_i = y_i - y_hat_i</code>. Ordinary least squares (OLS) picks the coefficients that make the sum of squared residuals as small as possible:</p>
+<pre tabindex="0"><code>J(b) = sum_i (y_i - y_hat_i)^2</code></pre>
+<p>In machine-learning terms, <code>J</code> is the cost (or loss) function. Squaring does two things. It stops positive and negative errors cancelling out, and it makes the function smooth and convex, so there is a single minimum and no local traps. The price is that large errors count disproportionately, which makes OLS sensitive to outliers.</p>
+
+<h2>The normal equations</h2>
+<p>Write the data as a matrix <code>X</code> with one row per observation and a leading column of ones for the intercept. Setting the partial derivative of <code>J</code> with respect to every coefficient to zero gives a set of linear equations, known as the normal equations:</p>
+<pre tabindex="0"><code>(X'X) b = X'y        so        b = (X'X)^-1 X'y</code></pre>
+<p>The earlier draft called these the &ldquo;equations of normalisation&rdquo;, which is not a standard term. The closed-form solution exists as long as <code>X'X</code> is invertible, which fails when one input is a perfect linear combination of others (perfect multicollinearity). In practice you rarely invert <code>X'X</code> directly. Solvers use a QR or SVD factorisation, which is more numerically stable when inputs are nearly collinear. That is what <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html" rel="noopener"><code>numpy.linalg.lstsq</code></a> does, and <a href="https://scikit-learn.org/stable/modules/linear_model.html#ordinary-least-squares" rel="noopener">scikit-learn&rsquo;s <code>LinearRegression</code></a> relies on the same least-squares machinery.</p>
+
+<h2>Gradient descent</h2>
+<p>With a very large number of rows or columns, solving the normal equations can be expensive, and many other models have no closed form at all. Gradient descent is the general alternative. It starts from some coefficients and repeatedly steps in the direction in which the cost falls fastest, which is the negative gradient:</p>
+<pre tabindex="0"><code>b := b - eta * grad J(b)       where   grad J(b) = (2/n) * X'(Xb - y)  for the mean squared error</code></pre>
+<p>Here <code>eta</code> is the learning rate. If it is too large the updates overshoot and diverge. If it is too small, convergence is slow. Gradient descent is also sensitive to the scale of the inputs, so standardise them first. The earlier draft described the update as moving &ldquo;in the direction of maximum descent on the vector&rdquo;, which is a garbled version of this idea.</p>
+
+<h2>All three routes give the same answer</h2>
+<p>The snippet below fits the same synthetic data (true coefficients 1.5, 2.0 and -0.5, plus noise) three ways.</p>
+<pre tabindex="0"><code class="language-python">import numpy as np
+
+rng = np.random.default_rng(0)
+n = 200
+x1, x2 = rng.normal(size=n), rng.normal(size=n)
+y = 1.5 + 2.0 * x1 - 0.5 * x2 + rng.normal(scale=0.3, size=n)
+X = np.column_stack([np.ones(n), x1, x2])        # first column = intercept
+
+# 1. Normal equations: solve (X'X) beta = X'y
+beta_ne = np.linalg.solve(X.T @ X, X.T @ y)
+
+# 2. Library least squares (SVD-based, numerically safer)
+beta_ls, *_ = np.linalg.lstsq(X, y, rcond=None)
+
+# 3. Gradient descent on the mean squared error
+beta = np.zeros(3)
+lr = 0.1
+for _ in range(500):
+    grad = (2 / n) * X.T @ (X @ beta - y)
+    beta -= lr * grad
+
+print(beta_ne.round(3), beta_ls.round(3), beta.round(3))</code></pre>
+<p>All three print <code>[ 1.503  2.02  -0.482]</code>, close to the true values. The small differences from 1.5, 2.0 and -0.5 come from the noise in the sample, not from the method.</p>
+
+<h2>What the fit does not guarantee</h2>
+<p>Getting coefficients is the easy part. For them to carry meaning, and for standard errors and confidence intervals to be trustworthy, the usual assumptions need to hold reasonably well:</p>
+<ul>
+<li>The relationship is linear in the coefficients (you can still include transformed inputs such as <code>x^2</code> or <code>log(x)</code>).</li>
+<li>Residuals have roughly constant variance. Financial returns often violate this, and robust standard errors are a common fix.</li>
+<li>Residuals are not correlated with each other, which is a frequent issue in time series.</li>
+<li>Inputs are not almost perfectly correlated. Otherwise the coefficients become unstable even though predictions may stay fine.</li>
+</ul>
+<p>A plot of residuals against fitted values is the quickest check. A random cloud around zero is what you want. A curve, a funnel or a run of same-signed residuals each point to a specific problem. For inference rather than prediction, a library such as <a href="https://www.statsmodels.org/stable/regression.html" rel="noopener">statsmodels</a> reports standard errors, t-statistics and diagnostic tests directly.</p>
+
+<h2>Summary</h2>
+<p>Least squares minimises the sum of squared residuals. The normal equations give the exact answer in one step, and gradient descent reaches it iteratively, which is useful at scale or when no closed form exists. The fitting is just linear algebra. The harder work is checking that the assumptions behind the numbers are reasonable.</p>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://scikit-learn.org/stable/modules/linear_model.html" rel="noopener">scikit-learn user guide: Linear models (Ordinary Least Squares)<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; scikit-learn developers</span></li>
+            <li><a href="https://www.statsmodels.org/stable/regression.html" rel="noopener">statsmodels: Linear Regression<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; statsmodels developers</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--prev" href="boosting-algorithms-phishing.html"><span class="pn-dir">Older</span><span class="pn-title">Boosting Algorithms for Phishing Detection: Features, Tuning and Evaluation</span></a><a class="pn pn--next" href="principal-component-analysis.html"><span class="pn-dir">Newer</span><span class="pn-title">Principal Component Analysis Explained, with a Python Example</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

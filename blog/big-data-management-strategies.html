@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Managing Large Datasets Well: Six Habits from Raw Files to Reports · Catalin Bondari</title>
+  <meta name="description" content="Six practical habits for large, messy datasets: land raw data, validate early, load incrementally, model for queries and keep history.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/big-data-management-strategies.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="Managing Large Datasets Well: Six Habits from Raw Files to Reports · Catalin Bondari">
+  <meta property="og:description" content="Six practical habits for large, messy datasets: land raw data, validate early, load incrementally, model for queries and keep history.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/big-data-management-strategies.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2026-09-20">
+  <meta name="author" content="Catalin Bondari">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Managing Large Datasets Well: Six Habits from Raw Files to Reports · Catalin Bondari">
+  <meta name="twitter:description" content="Six practical habits for large, messy datasets: land raw data, validate early, load incrementally, model for queries and keep history.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; data engineering / data quality / sql / snowflake</p>
+        <h1 id="post-title" class="post-title">Managing Large Datasets Well: Six Habits from Raw Files to Reports</h1>
+        <p class="lede">Six practical habits for large, messy datasets: land raw data, validate early, load incrementally, model for queries and keep history.</p>
+        <dl class="facts">
+          <div><dt>Author</dt><dd>Catalin Bondari</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2026-09-20" class="post-date">20 Sep 2026</time></dd></div>
+          <div><dt>Reading time</dt><dd>4 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>&ldquo;Big data&rdquo; is a slippery term. For most analysts the practical definition is: too large for Excel, too messy to fix by hand, and important enough that someone will ask where a number came from. A few million rows of daily positions, prices and transactions across several years meets that bar easily, and it does not need a cluster or a data lake to manage well. It needs a handful of habits applied consistently.</p>
+<p>These are the strategies I find matter most, roughly in the order the data flows.</p>
+<figure class="fig fig-steps">
+<ol>
+<li><span class="fs-n">01</span>Land raw, unchanged</li>
+<li><span class="fs-n">02</span>Validate at the boundary</li>
+<li><span class="fs-n">03</span>Load incrementally</li>
+<li><span class="fs-n">04</span>Model for the query</li>
+<li><span class="fs-n">05</span>Keep history</li>
+<li><span class="fs-n">06</span>Serve aggregates</li>
+</ol>
+<figcaption>A simple flow for large analytical datasets. Each step is covered below.</figcaption>
+</figure>
+
+<h2>1. Land the raw data unchanged</h2>
+<p>Whatever arrives from a vendor, an internal system or an API, store a copy exactly as received, with the file name and load timestamp, before any transformation. When a number looks wrong three weeks later, the first question is always &ldquo;was it wrong in the source or did we break it?&rdquo; An untouched raw layer answers that in minutes. Storage is cheap; reconstructing a vendor file that was overwritten is not.</p>
+
+<h2>2. Validate at the boundary, not in the report</h2>
+<p>The cheapest place to catch a bad file is the moment it lands. A few checks cover most real failures:</p>
+<ul>
+<li><strong>Volume:</strong> is today&rsquo;s row count within a sensible range of yesterday&rsquo;s? A file with 40% fewer rows is usually truncated, not a quiet day.</li>
+<li><strong>Completeness:</strong> are key columns such as identifiers, dates and prices populated?</li>
+<li><strong>Uniqueness:</strong> is there exactly one row per security per date?</li>
+<li><strong>Reconciliation:</strong> do totals match a control figure from the source?</li>
+</ul>
+<p>Write them as code so they run every time. In SQL, a uniqueness check is a few lines:</p>
+<pre tabindex="0"><code>-- Any security with more than one price for the same date?
+SELECT price_date, security_id, COUNT(*) AS n
+FROM   raw.daily_prices
+WHERE  load_id = :latest_load
+GROUP  BY price_date, security_id
+HAVING COUNT(*) &gt; 1;</code></pre>
+<p>If the query returns rows, the load stops and someone gets told, before anything downstream picks up the duplicates. Snowflake now has built-in support for this pattern through data metric functions, described in its <a href="https://docs.snowflake.com/en/user-guide/data-quality-intro" rel="noopener">data quality documentation</a>, but plain SQL or a short Python script works anywhere.</p>
+
+<h2>3. Load incrementally</h2>
+<p>Reloading five years of history every night because one day changed wastes time and money, and makes failures more likely. Load only what is new or changed. The SQL <code>MERGE</code> statement handles this in one step: update rows that already exist, insert the ones that do not (<a href="https://docs.snowflake.com/en/sql-reference/sql/merge" rel="noopener">Snowflake MERGE reference</a>).</p>
+<pre tabindex="0"><code>MERGE INTO core.daily_prices AS t
+USING (SELECT * FROM raw.daily_prices WHERE load_id = :latest_load) AS s
+  ON  t.security_id = s.security_id
+  AND t.price_date  = s.price_date
+WHEN MATCHED AND t.close_price &lt;&gt; s.close_price THEN
+  UPDATE SET close_price = s.close_price, updated_at = CURRENT_TIMESTAMP()
+WHEN NOT MATCHED THEN
+  INSERT (security_id, price_date, close_price, updated_at)
+  VALUES (s.security_id, s.price_date, s.close_price, CURRENT_TIMESTAMP());</code></pre>
+<p>The <code>AND t.close_price &lt;&gt; s.close_price</code> condition matters: it means a restated price is captured with a new timestamp, while unchanged rows are left alone. That gives you an audit trail of corrections for free.</p>
+
+<h2>4. Model the data for how it is queried</h2>
+<p>Large analytical tables are read far more often than they are written, and most queries touch a few columns across many rows. Column-oriented storage suits that pattern. Apache Parquet, the common open file format, is <a href="https://parquet.apache.org/docs/overview/" rel="noopener">column-oriented by design</a>, and Snowflake stores table data in compressed micro-partitions organised by column, each holding 50 to 500 MB of uncompressed data, with metadata that lets the engine skip partitions a query does not need (<a href="https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions" rel="noopener">Snowflake micro-partitions</a>).</p>
+<p>The practical lesson is to filter early on the columns the data is naturally ordered by, which in finance is nearly always a date. A query restricted to one month of a ten-year table can skip most of the data; the same query with the date filter buried inside a function may have to scan all of it.</p>
+
+<h2>5. Keep history on purpose</h2>
+<p>&ldquo;What did this report show on the third of the month?&rdquo; is a reasonable question from an auditor or a portfolio manager, and &ldquo;we overwrote it&rdquo; is a bad answer. There are two layers of protection. Platform features such as Snowflake&rsquo;s Time Travel let you query a table as it was at an earlier point, though the standard retention is only one day unless configured longer (<a href="https://docs.snowflake.com/en/user-guide/data-time-travel" rel="noopener">Snowflake Time Travel</a>). For anything that must be reproducible months later, such as month-end figures, store an explicit snapshot with an as-of date.</p>
+
+<h2>6. Push work to the database, serve aggregates</h2>
+<p>A common anti-pattern is pulling millions of raw rows into pandas or Excel to compute a handful of totals. Do the grouping and joining in SQL, where the engine is built for it, and bring back only the summary the report needs. Python is still the right place for logic SQL handles badly, such as complex validation rules, calling an API or producing a chart, but it should receive thousands of rows, not millions.</p>
+<p>The same thinking applies to dashboards. Point Power BI at a curated, aggregated table rather than the raw fact table, and it becomes faster, cheaper and harder to misread.</p>
+
+<h2>Ownership beats tooling</h2>
+<p>Every one of these steps depends on someone knowing what each table means and who to call when it breaks. A short data dictionary, a named owner per source, and a log of known issues do more for data quality than any new platform. The tools above make good habits cheaper; they do not replace them.</p>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://datafloq.com/innovative-strategies-for-big-data-management-and-analytics/" rel="noopener">Original article on Datafloq<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Favour Efeoghene</span></li>
+            <li><a href="https://docs.snowflake.com/en/user-guide/data-quality-intro" rel="noopener">Introduction to data quality<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Snowflake</span></li>
+            <li><a href="https://docs.snowflake.com/en/sql-reference/sql/merge" rel="noopener">MERGE<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Snowflake</span></li>
+            <li><a href="https://parquet.apache.org/docs/overview/" rel="noopener">Apache Parquet: Overview<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Apache Software Foundation</span></li>
+            <li><a href="https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions" rel="noopener">Micro-partitions and data clustering<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Snowflake</span></li>
+            <li><a href="https://docs.snowflake.com/en/user-guide/data-time-travel" rel="noopener">Understanding and using Time Travel<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Snowflake</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--prev" href="free-courses-python-data-science.html"><span class="pn-dir">Older</span><span class="pn-title">Free Python and Data Science Courses Worth Your Time</span></a><a class="pn pn--next" href="mastering-bert-guide.html"><span class="pn-dir">Newer</span><span class="pn-title">BERT in Practice: Tokens, Embeddings and Fine-Tuning a Text Classifier</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

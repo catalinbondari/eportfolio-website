@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reading a Confusion Matrix When the Positive Class Is Rare · Catalin Bondari</title>
+  <meta name="description" content="A worked example of the confusion matrix and scikit-learn&#x27;s classification_report on imbalanced data, and how to pick a decision threshold.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/blog/confusion-matrices-classification-reports.html">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="Reading a Confusion Matrix When the Positive Class Is Rare · Catalin Bondari">
+  <meta property="og:description" content="A worked example of the confusion matrix and scikit-learn&#x27;s classification_report on imbalanced data, and how to pick a decision threshold.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/blog/confusion-matrices-classification-reports.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta property="article:published_time" content="2026-09-11">
+  <meta name="author" content="Catalin Bondari">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reading a Confusion Matrix When the Positive Class Is Rare · Catalin Bondari">
+  <meta name="twitter:description" content="A worked example of the confusion matrix and scikit-learn&#x27;s classification_report on imbalanced data, and how to pick a decision threshold.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="../assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="../assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="../assets/js/app.js?v=5"></script>
+</head><body data-root="../" data-page="post">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="../#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="../#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="../#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="../#writing" aria-current="true"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="../#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="../#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="../#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="../#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
+        </ul>
+      </nav>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <article class="post" aria-labelledby="post-title">
+      <header class="wrap case-head post-head">
+        <a class="back" href="./"><span class="arrow" aria-hidden="true">&larr;</span> All posts</a>
+        <p class="eyebrow">Writing &middot; machine learning / classification / python / scikit-learn</p>
+        <h1 id="post-title" class="post-title">Reading a Confusion Matrix When the Positive Class Is Rare</h1>
+        <p class="lede">A worked example of the confusion matrix and scikit-learn&#x27;s classification_report on imbalanced data, and how to pick a decision threshold.</p>
+        <dl class="facts">
+          <div><dt>Author</dt><dd>Catalin Bondari</dd></div>
+          <div><dt>Published</dt><dd><time datetime="2026-09-11" class="post-date">11 Sep 2026</time></dd></div>
+          <div><dt>Reading time</dt><dd>5 min</dd></div>
+        </dl>
+      </header>
+      <div class="wrap post-body">
+        <div class="panel prose post-prose">
+<p>Most of the classification problems I care about have one thing in common: the interesting class is rare. Fraudulent transactions, phishing emails, a price that has been keyed in wrong, a holding that does not reconcile. When the positives are a few per cent of the data or less, the headline accuracy figure stops telling you anything useful, and the confusion matrix becomes the first thing worth looking at.</p>
+<p>This post walks through one worked example from start to finish: the four cells of the matrix, the numbers <code>classification_report</code> prints, and how to turn them into a decision about where to set the threshold.</p>
+
+<h2>The four cells</h2>
+<p>A binary classifier makes two kinds of correct call and two kinds of mistake. Laid out as a two-by-two grid, with what really happened down the side and what the model said across the top, you get the confusion matrix. scikit-learn uses exactly this orientation: rows are the true labels and columns are the predicted labels, so for labels 0 and 1 the result reads <code>[[TN, FP], [FN, TP]]</code> (see the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html" rel="noopener">confusion_matrix reference</a>).</p>
+<p>It helps to give the cells business names before looking at any numbers:</p>
+<ul>
+<li><strong>True positive:</strong> a fraudulent transaction the model flagged. This is the work you wanted done.</li>
+<li><strong>False positive:</strong> a genuine transaction the model flagged. Someone spends time reviewing it and finds nothing.</li>
+<li><strong>False negative:</strong> fraud the model let through. Usually the expensive one.</li>
+<li><strong>True negative:</strong> a genuine transaction left alone. The bulk of the data.</li>
+</ul>
+
+<h2>A worked example</h2>
+<p>The numbers below are made up for illustration. Imagine a month of 10,000 card transactions, of which 100 (1%) are fraudulent. A model scores every transaction and flags the 150 with the highest scores. Of those 150, 80 turn out to be fraud.</p>
+<figure class="fig">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Example confusion matrix">
+<table class="cm-table">
+<caption class="visually-hidden">Example confusion matrix for 10,000 transactions</caption>
+<thead><tr><th scope="col"><span class="visually-hidden">Actual class</span></th><th scope="col">Predicted genuine</th><th scope="col">Predicted fraud</th><th scope="col">Total</th></tr></thead>
+<tbody>
+<tr><th scope="row">Actual genuine</th><td>9,830 <span class="cm-tag">TN</span></td><td class="cm-bad">70 <span class="cm-tag">FP</span></td><td>9,900</td></tr>
+<tr><th scope="row">Actual fraud</th><td class="cm-bad">20 <span class="cm-tag">FN</span></td><td class="cm-good">80 <span class="cm-tag">TP</span></td><td>100</td></tr>
+<tr><th scope="row">Total</th><td>9,850</td><td>150</td><td>10,000</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption>Illustrative numbers only. Rows are the actual class, columns the model&rsquo;s prediction, matching scikit-learn&rsquo;s layout.</figcaption>
+</figure>
+<p>Accuracy is (9,830 + 80) / 10,000 = <strong>99.1%</strong>. That sounds excellent until you notice that a &ldquo;model&rdquo; which never flags anything scores 99.0%, because 9,900 of the 10,000 transactions are genuine. The extra 0.1 percentage points are the entire value of the model, and accuracy hides it.</p>
+<p>The two numbers that do carry information are:</p>
+<ul>
+<li><strong>Precision</strong> = TP / (TP + FP) = 80 / 150 = <strong>53%</strong>. Of everything flagged, how much was real? This is the hit rate the review team experiences.</li>
+<li><strong>Recall</strong> = TP / (TP + FN) = 80 / 100 = <strong>80%</strong>. Of all the fraud that happened, how much did we catch?</li>
+</ul>
+<p>F1 is the harmonic mean of the two: 2 &times; 0.533 &times; 0.80 / (0.533 + 0.80) = <strong>0.64</strong>. It is a convenient single number for comparing models, but it weights precision and recall equally, which is rarely how the business sees it.</p>
+
+<h2>What classification_report adds</h2>
+<p>In Python you rarely compute these by hand. The snippet below rebuilds the example and prints the matrix and the report:</p>
+<pre tabindex="0"><code>import numpy as np
+from sklearn.metrics import confusion_matrix, classification_report
+
+# Rebuild the illustrative example: 1 = fraud, 0 = genuine
+y_true = np.array([0] * 9_900 + [1] * 100)
+y_pred = np.array([0] * 9_830 + [1] * 70 +   # genuine: 9,830 TN, 70 FP
+                  [0] * 20 + [1] * 80)       # fraud:   20 FN, 80 TP
+
+print(confusion_matrix(y_true, y_pred))
+print(classification_report(y_true, y_pred,
+                            target_names=["genuine", "fraud"], digits=3))</code></pre>
+<p>The output looks like this:</p>
+<pre tabindex="0"><code>[[9830   70]
+ [  20   80]]
+              precision    recall  f1-score   support
+
+     genuine      0.998     0.993     0.995      9900
+       fraud      0.533     0.800     0.640       100
+
+    accuracy                          0.991     10000
+   macro avg      0.766     0.896     0.818     10000
+weighted avg      0.993     0.991     0.992     10000</code></pre>
+<p>Three things in that report are worth reading carefully.</p>
+<p><strong>The fraud row is the one that matters.</strong> The genuine row will look near perfect on almost any imbalanced problem, because getting the majority class right is easy.</p>
+<p><strong>Support is the class count.</strong> Here it reminds you that the fraud metrics rest on only 100 examples. Catch two more or two fewer and recall moves by two points. On small positive classes I treat the third decimal place as noise.</p>
+<p><strong>Macro and weighted averages answer different questions.</strong> The macro average treats both classes equally, so it is dragged down by the weak fraud row. The weighted average weights each class by its support, so on imbalanced data it mostly repeats the majority class and looks flattering. If someone quotes a single &ldquo;weighted F1&rdquo; for a fraud model, ask for the fraud row instead. The scikit-learn <a href="https://scikit-learn.org/stable/modules/model_evaluation.html" rel="noopener">model evaluation guide</a> documents how each average is calculated.</p>
+
+<h2>From metrics to a threshold</h2>
+<p>A confusion matrix describes one threshold. Most classifiers produce a score, and &ldquo;flag the top 150&rdquo; was a choice. The useful question is which threshold gives the best trade-off for the people who act on the output.</p>
+<p>One practical way to frame it is to put a rough cost on each type of mistake. Again with made-up numbers: say reviewing a false alarm costs 1 unit of analyst time and a missed fraud costs 25 units. At the threshold above, the cost is 70 &times; 1 + 20 &times; 25 = <strong>570</strong>.</p>
+<p>Now loosen the threshold so the model flags 300 transactions and catches 92 of the 100 frauds. Precision falls to 31%, which looks worse on paper. But the cost is 208 &times; 1 + 8 &times; 25 = <strong>408</strong>, a clear improvement. The metric that looked worse produced the better outcome, because misses were much more expensive than false alarms.</p>
+<p>scikit-learn&rsquo;s <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html" rel="noopener">precision_recall_curve</a> gives you precision and recall at every threshold, so you can run this calculation across the whole range rather than for two hand-picked points. The cost ratio is a business input, not a modelling one, and agreeing it up front with whoever owns the review queue saves a lot of argument later.</p>
+
+<h2>A short checklist</h2>
+<ul>
+<li>Always compare against the do-nothing baseline. On 1% positives, 99% accuracy is the floor, not an achievement.</li>
+<li>Read the minority-class row of the report first, and check its support.</li>
+<li>Evaluate on data the model has not seen, ideally a later time period than the training data, since fraud patterns drift.</li>
+<li>Choose the threshold from the cost of each error, then report precision and recall at that threshold.</li>
+<li>Re-check the matrix after deployment. Base rates change, and precision moves with them even when the model does not.</li>
+</ul>
+<p>None of this needs new tools. It needs the habit of opening the confusion matrix before quoting a single number, and of asking what each cell costs.</p>
+        </div>
+        <section class="panel post-refs" aria-labelledby="refs-title">
+          <h2 id="refs-title">Further reading</h2>
+          <ol>
+            <li><a href="https://smuhabdullah.medium.com/confusion-matrices-and-classification-reports-a-guide-to-evaluating-machine-learning-models-385496cf7cee" rel="noopener">Original article on Medium<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; Muhammad Abdullah Arif</span></li>
+            <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html" rel="noopener">sklearn.metrics.confusion_matrix<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; scikit-learn developers</span></li>
+            <li><a href="https://scikit-learn.org/stable/modules/model_evaluation.html" rel="noopener">Metrics and scoring: quantifying the quality of predictions<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; scikit-learn developers</span></li>
+            <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html" rel="noopener">sklearn.metrics.precision_recall_curve<span class="visually-hidden"> (external site)</span></a> <span class="ref-by">&middot; scikit-learn developers</span></li>
+          </ol>
+        </section>
+        <p class="post-ai-note">Drafted with AI assistance and edited by the author.</p>
+      </div>
+    </article>
+    <nav class="wrap post-nav" aria-label="More posts">
+      <a class="pn pn--prev" href="demystifying-machine-learning.html"><span class="pn-dir">Older</span><span class="pn-title">Machine Learning Without the Mystique: Supervised, Unsupervised and Overfitting</span></a><a class="pn pn--next" href="bert-revolutionizing-nlp.html"><span class="pn-dir">Newer</span><span class="pn-title">Why BERT Mattered: From Static Word Vectors to Contextual Language Models</span></a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="bar">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p class="footer-links">
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
+    </div>
+  </footer>
+</body>
+</html>

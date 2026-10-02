@@ -1,5 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
 <title>Weekly Market Update</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23100E0A'/%3E%3Cpath d='M10 44l12-14 10 8 14-20 8 8' fill='none' stroke='%23D2A63C' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -795,7 +796,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-a
 }
 
 </style>
-
+</head><body>
 <button class="skip" id="skip" type="button">Next beat</button>
 <p class="sr" id="say" role="status" aria-live="polite"></p>
 <div class="stage" id="stage">
@@ -2389,7 +2390,7 @@ const CHART_CSS = `
 .gfc-bar.is-hot{ filter:brightness(1.2); }
 .gfc-hit{ fill:transparent; }
 
-/* ---------- crosshair ---------- */
+/* ---------- hover guide line ---------- */
 .gfc-cross{ stroke:var(--gfc-bone2); stroke-opacity:.55; stroke-width:1; pointer-events:none; }
 .gfc-fdot{ stroke:var(--gfc-panel); stroke-width:2; pointer-events:none; }
 
@@ -6739,19 +6740,15 @@ boot();
 
 /* QA: open index.html#scan (served over http) and the deck walks every slide
    at the current window size, then reports anything cut off, overlapping,
-   empty or broken - in the console and in the tab title. */
+   empty or broken - in the tab title and in window.__scanResult. */
 if(location.hash === '#scan'){
   const qa = document.createElement('script');
   qa.src = 'tools/glitch-scan.js';
   qa.onload = () => window.__scan().then(r => {
-    const NL = String.fromCharCode(10);
-    console.log('[scan] ' + (r.ok ? 'OK' : 'PROBLEMS') + ' at ' + r.vw + 'x' + r.vh + NL +
-      (r.problems.join(NL) || 'none') + NL + r.slides.join(NL));
     document.title = (r.ok ? 'SCAN OK' : 'SCAN: ' + r.problems.length + ' problem(s)') + ' - ' + document.title;
     window.__scanResult = r;
   });
   document.head.appendChild(qa);
 }
 </script>
-
 </body></html>

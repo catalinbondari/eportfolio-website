@@ -6,9 +6,8 @@
   <title>Catalin Bondari QFA · Investment data &amp; reporting · Dublin</title>
   <meta name="description" content="Catalin Bondari QFA, Dublin. Investment data and reporting: holdings, performance, exposure and risk data, with tools built in SQL, Python and Snowflake.">
   <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/">
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#FAFAF9" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0B0F14" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#05070A">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Catalin Bondari">
@@ -28,11 +27,13 @@
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-  <link rel="preload" href="assets/fonts/newsreader-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css">
-  <script>(function(d){d.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")d.setAttribute("data-theme",t)}catch(e){}})(document.documentElement);</script>
-  <script src="assets/js/site.js" defer></script>
+  <link rel="preload" href="assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css?v=5">
+  <script>document.documentElement.classList.add("js");</script>
+  <script src="assets/vendor/gsap-3.15.0.min.js" defer></script>
+  <script src="assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
+  <script type="module" src="assets/js/app.js?v=5"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -55,207 +56,690 @@
     ]
   }
   </script>
-</head><body>
+</head>
+<body data-root="./" data-page="home">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
-    <div class="wrap">
+    <div class="bar">
       <a class="brand" href="./">
         <span class="brand-mark" aria-hidden="true">CB</span>
-        <span>Catalin Bondari</span>
+        <span class="brand-name">Catalin Bondari <span class="brand-sub">QFA</span></span>
       </a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Menu</span>
-      </button>
       <nav class="site-nav" id="site-nav" aria-label="Main">
         <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#work">Work</a></li>
-          <li><a href="#credentials">Credentials</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#about"><span class="nav-idx" aria-hidden="true">01</span>About</a></li>
+          <li><a href="#experience"><span class="nav-idx" aria-hidden="true">02</span>Experience</a></li>
+          <li><a href="#work"><span class="nav-idx" aria-hidden="true">03</span>Work</a></li>
+          <li><a href="#projects"><span class="nav-idx" aria-hidden="true">04</span>Projects</a></li>
+          <li><a href="#writing"><span class="nav-idx" aria-hidden="true">05</span>Writing</a></li>
+          <li><a href="#media"><span class="nav-idx" aria-hidden="true">06</span>Media</a></li>
+          <li><a href="#reading"><span class="nav-idx" aria-hidden="true">07</span>Reading</a></li>
+          <li><a href="#more-about-me"><span class="nav-idx" aria-hidden="true">09</span>About me</a></li>
+          <li><a href="#contact"><span class="nav-idx" aria-hidden="true">10</span>Contact</a></li>
         </ul>
       </nav>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Colour theme: System. Switch to Light">
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 3.75a8.25 8.25 0 0 1 0 16.5z" fill="currentColor"/></svg><span data-theme-label aria-hidden="true">System</span>
-      </button>
+      <div class="bar-tools">
+        <span class="clock" aria-hidden="true" data-clock>DUB --:--:--</span>
+        <button class="cmd-btn" type="button" data-palette-open aria-haspopup="dialog" aria-keyshortcuts="Meta+K Control+K" hidden>
+          <span class="cmd-label">Jump to</span><kbd data-kbd>Ctrl K</kbd>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span>Menu</span>
+        </button>
+      </div>
     </div>
+    <div class="progress" aria-hidden="true"><span data-progress></span></div>
   </header>
 
   <main id="main" tabindex="-1">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="wrap">
-        <p class="eyebrow" data-reveal>Catalin Bondari QFA &middot; Dublin, Ireland</p>
-        <h1 id="hero-title" data-reveal>Investment data &amp; reporting</h1>
-        <p class="lede" data-reveal>I work on the data portfolio managers rely on, and build tools in SQL, Python and Snowflake to make it faster and more reliable.</p>
-        <div class="hero-actions" data-reveal>
-          <a class="button" href="#work">View work</a>
-          <a class="button button--ghost" href="#contact">Get in touch <span class="arrow" aria-hidden="true">&rarr;</span></a>
-          <a class="button button--ghost" href="assets/Catalin_Bondari_CV.pdf" download>Download CV <span class="visually-hidden">(PDF, 1 page)</span></a>
+    <section class="hero" id="top" aria-labelledby="hero-title" data-section="00 / Index">
+      <div class="hero-viz" aria-hidden="true" data-surface>
+        <img class="hero-poster" src="assets/img/surface.svg" alt="" width="1250" height="1000" fetchpriority="high">
+        <div class="viz-hud">
+          <span class="viz-tag">Vol surface &middot; synthetic &middot; illustrative</span>
+          <span class="viz-probe" data-probe>Hover the surface to probe</span>
         </div>
-
-        <dl class="ledger" data-reveal aria-label="At a glance">
-          <div><dt>Saved by a regulatory attestations systems integration</dt><dd>&euro;55k</dd></div>
-          <div><dt>Risk &amp; Compliance Graduate Programme</dt><dd>2 yrs</dd></div>
-          <div><dt>Qualified Financial Adviser, Institute of Banking</dt><dd>QFA 2025</dd></div>
-          <div><dt>BSc Business Studies with Data Analytics, DCU</dt><dd>2.1 Hons</dd></div>
+        <div class="probe-label" data-probe-label></div>
+        <dl class="telemetry" data-telemetry>
+          <div class="tm-head"><dt>TELEMETRY</dt><dd>Synthetic, illustrative</dd></div>
+          <div><dt>&sigma; ATM 1Y</dt><dd data-tm="atm">18.40%</dd></div>
+          <div><dt>25&Delta; SKEW</dt><dd data-tm="skew">-2.10</dd></div>
+          <div><dt>TERM SLOPE</dt><dd data-tm="term">+0.62</dd></div>
+          <div><dt>REGIME</dt><dd data-tm="regime">Calm</dd></div>
+          <div class="tm-real"><dt>RENDER</dt><dd data-tm="fps">-- fps</dd></div>
+        </dl>
+        <p class="viz-hint">Drag to orbit / <kbd data-zoom-key>Ctrl</kbd> + scroll to zoom / click to pin</p>
+      </div>
+      <div class="hero-hud" data-hero-hud hidden>
+        <div class="hud-controls" role="group" aria-label="Volatility surface view, synthetic data">
+          <div class="seg" role="group" aria-label="Camera view">
+            <button type="button" class="seg-btn" data-view="surface" aria-pressed="true">Surface</button>
+            <button type="button" class="seg-btn" data-view="term" aria-pressed="false">Term</button>
+            <button type="button" class="seg-btn" data-view="skew" aria-pressed="false">Skew</button>
+          </div>
+          <button type="button" class="hud-btn" data-regime aria-pressed="false">Stress regime</button>
+          <button type="button" class="hud-btn" data-pin-centre>Pin ATM probe</button>
+        </div>
+        <ol class="pins" data-pins aria-label="Pinned probes, synthetic values"></ol>
+      </div>
+      <div class="wrap hero-inner">
+        <p class="eyebrow"><span class="prompt" aria-hidden="true">&gt;</span> Catalin Bondari QFA &middot; Dublin, Ireland</p>
+        <h1 id="hero-title">Investment data &amp; reporting</h1>
+        <p class="lede">I work on the data portfolio managers rely on, and build tools in SQL, Python and Snowflake to make it faster and more reliable.</p>
+        <div class="hero-actions">
+          <a class="button" href="#work" data-magnetic>View work</a>
+          <a class="button button--ghost" href="#contact" data-magnetic>Get in touch <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          <a class="button button--ghost" href="assets/Catalin_Bondari_CV.pdf" download>Download CV <span class="visually-hidden">(PDF, 1 page)</span><span class="file-tag" aria-hidden="true">PDF</span></a>
+        </div>
+      </div>
+      <div class="wrap hero-ledger">
+        <dl class="ledger" aria-label="At a glance">
+          <div class="stat"><dt>Saved by a regulatory attestations systems integration</dt><dd>&euro;55k</dd></div>
+          <div class="stat"><dt>Risk &amp; Compliance Graduate Programme</dt><dd>2 yrs</dd></div>
+          <div class="stat"><dt>Qualified Financial Adviser, Institute of Banking</dt><dd>QFA 2025</dd></div>
+          <div class="stat"><dt>BSc Business Studies with Data Analytics, DCU</dt><dd>2.1 Hons</dd></div>
         </dl>
       </div>
     </section>
 
-    <section class="section" id="about" aria-labelledby="about-title">
-      <div class="wrap section-grid">
-        <div class="section-label"><span class="index">01</span><h2 id="about-title">About</h2></div>
-        <div class="prose">
-          <p>I work on the investment data that portfolio managers rely on every day. As part of Davy&rsquo;s Portfolio Insights team, I help maintain the quality of holdings, performance, exposure and risk data across our UCITS fund range and segregated portfolios. That data feeds client reporting, board and ManCo packs, and SAA reviews. Day to day I work in Jacobi, Snowflake, FactSet and Excel alongside our portfolio managers and quants.</p>
-          <p>I also build. I use Claude to design AI-assisted workflows that take manual validation and reporting work off the team. Pair that with SQL and Python, and checks that took hours become repeatable, auditable processes.</p>
-          <p>Before this, I spent two years on Davy&rsquo;s Risk &amp; Compliance Graduate Programme. In Financial Risk I produced daily VaR reporting and ran backtesting and stress tests for the Financial Risk Committee. In Capital Markets Compliance I covered MAR trade surveillance and CBI and ESMA regulatory submissions. One notable contribution, a systems integration for regulatory attestations, saved the firm &euro;55k.</p>
+    <section class="ticker" aria-labelledby="ticker-title" data-ticker>
+      <h2 class="visually-hidden" id="ticker-title">Skills and keywords</h2>
+      <button class="ticker-toggle" type="button" data-ticker-toggle aria-pressed="false" hidden>Pause ticker</button>
+      <div class="ticker-viewport">
+        <div class="ticker-track">
+          <ul class="ticker-list">
+            <li>UCITS</li><li>VaR</li><li>Snowflake</li><li>SQL</li><li>Python</li><li>Claude</li><li>Jacobi</li><li>FactSet</li><li>Bloomberg</li><li>Power BI</li><li>Power Automate</li><li>Excel (Power Query)</li><li>Investment data quality</li><li>Performance &amp; risk reporting</li><li>Regulatory reporting</li><li>AI-assisted workflows</li>
+          </ul>
+          <ul class="ticker-list" aria-hidden="true">
+            <li>UCITS</li><li>VaR</li><li>Snowflake</li><li>SQL</li><li>Python</li><li>Claude</li><li>Jacobi</li><li>FactSet</li><li>Bloomberg</li><li>Power BI</li><li>Power Automate</li><li>Excel (Power Query)</li><li>Investment data quality</li><li>Performance &amp; risk reporting</li><li>Regulatory reporting</li><li>AI-assisted workflows</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <section class="section" id="experience" aria-labelledby="experience-title">
+    <section class="section" id="about" aria-labelledby="about-title" data-section="01 / About">
       <div class="wrap section-grid">
-        <div class="section-label"><span class="index">02</span><h2 id="experience-title">Experience</h2></div>
-        <ol class="timeline">
-          <li>
-            <p class="when">Aug 2026 – Present</p>
-            <div>
-              <h3>Investment Data &amp; Reporting Specialist</h3>
-              <p class="org">Portfolio Insights &middot; Davy</p>
-              <p class="desc">Quality of holdings, performance, exposure and risk data across UCITS funds and segregated portfolios.</p>
-            </div>
-          </li>
-          <li>
-            <p class="when">Sep 2024 – Aug 2026</p>
-            <div>
-              <h3>Risk &amp; Compliance Graduate Programme</h3>
-              <p class="org">Davy</p>
-              <ol class="rotations" aria-label="Rotations">
-                <li>
-                  <span class="when">Sep 2025 – Aug 2026</span>
-                  <h4>Rotation 2 &middot; Financial Risk</h4>
-                  <p>VaR reporting, backtesting and stress testing.</p>
+        <div class="section-label"><span class="index" aria-hidden="true">01</span><h2 id="about-title">About</h2><p class="section-path" aria-hidden="true">~/about</p></div>
+        <div class="about-grid">
+          <div class="panel prose" data-panel>
+            <p>I work on the investment data that portfolio managers rely on every day. As part of Davy&rsquo;s Portfolio Insights team, I help maintain the quality of holdings, performance, exposure and risk data across our UCITS fund range and segregated portfolios. That data feeds client reporting, board and ManCo packs, and SAA reviews. Day to day I work in Jacobi, Snowflake, FactSet and Excel alongside our portfolio managers and quants.</p>
+            <p>I also build. I use Claude to design AI-assisted workflows that take manual validation and reporting work off the team. Pair that with SQL and Python, and checks that took hours become repeatable, auditable processes.</p>
+            <p>Before this, I spent two years on Davy&rsquo;s Risk &amp; Compliance Graduate Programme. In Financial Risk I produced daily VaR reporting and ran backtesting and stress tests for the Financial Risk Committee. In Capital Markets Compliance I covered MAR trade surveillance and CBI and ESMA regulatory submissions. One notable contribution, a systems integration for regulatory attestations, saved the firm &euro;55k.</p>
+          </div>
+          <aside class="panel panel--side" data-panel aria-label="Profile summary">
+            <p class="panel-title"><span>Profile</span><span class="chip chip--lime">Current</span></p>
+            <dl class="kv">
+              <div><dt>Role</dt><dd>Investment Data &amp; Reporting Specialist</dd></div>
+              <div><dt>Team</dt><dd>Portfolio Insights &middot; Davy</dd></div>
+              <div><dt>Data</dt><dd>Holdings, performance, exposure, risk</dd></div>
+              <div><dt>Tools</dt><dd>Jacobi, Snowflake, FactSet, Excel</dd></div>
+              <div><dt>Base</dt><dd>Dublin, Ireland</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section chapter" id="experience" aria-labelledby="experience-title" data-section="02 / Experience" data-chapter>
+      <div class="chapter-pin" data-chapter-pin>
+        <div class="chapter-track" data-chapter-track>
+          <header class="chapter-intro">
+            <div class="section-label"><span class="index" aria-hidden="true">02</span><h2 id="experience-title">Experience</h2><p class="section-path" aria-hidden="true">~/experience</p></div>
+            <p class="chapter-lede">Four stations: the timeline, the data, the risk work and the toolkit. Each instrument responds to drag, hover or its own controls.</p>
+            <ol class="chapter-index" aria-label="Stations">
+              <li><a href="#stn-timeline" data-station-link="0"><span class="ci-code" aria-hidden="true">STN-01</span> Timeline</a></li>
+              <li><a href="#stn-data" data-station-link="1"><span class="ci-code" aria-hidden="true">STN-02</span> Portfolio data</a></li>
+              <li><a href="#stn-risk" data-station-link="2"><span class="ci-code" aria-hidden="true">STN-03</span> Risk &amp; compliance</a></li>
+              <li><a href="#stn-tools" data-station-link="3"><span class="ci-code" aria-hidden="true">STN-04</span> Toolkit</a></li>
+            </ol>
+          </header>
+
+          <article class="station station--rail" id="stn-timeline" aria-labelledby="stn-timeline-title" data-station="0">
+            <header class="stn-head">
+              <span class="stn-code" aria-hidden="true">STN-01</span>
+              <h3 id="stn-timeline-title">Timeline</h3>
+              <span class="stn-meta" aria-hidden="true">Newest first</span>
+            </header>
+            <div class="rail" data-rail>
+              <div class="rail-line" aria-hidden="true"><span class="rail-signal" data-rail-signal></span></div>
+              <ol class="timeline rail-list">
+                <li class="panel rail-node" data-panel data-rail-node>
+                  <div class="tl-meta"><p class="when">Aug 2026 – Present</p><span class="chip chip--lime">Current</span></div>
+                  <div>
+                    <h4 class="tl-title">Investment Data &amp; Reporting Specialist</h4>
+                    <p class="org">Portfolio Insights &middot; Davy</p>
+                    <p class="desc">Quality of holdings, performance, exposure and risk data across UCITS funds and segregated portfolios.</p>
+                  </div>
                 </li>
-                <li>
-                  <span class="when">Sep 2024 &ndash; Sep 2025</span>
-                  <h4>Rotation 1 &middot; Capital Markets Compliance</h4>
-                  <p>MAR surveillance, regulatory submissions, Power BI and Power Automate MI.</p>
+                <li class="panel rail-node" data-panel data-rail-node>
+                  <div class="tl-meta"><p class="when">Sep 2024 – Aug 2026</p><span class="chip">Complete</span></div>
+                  <div>
+                    <h4 class="tl-title">Risk &amp; Compliance Graduate Programme</h4>
+                    <p class="org">Davy</p>
+                    <ol class="rotations" aria-label="Rotations">
+                      <li>
+                        <span class="when">Sep 2025 – Aug 2026</span>
+                        <h5>Rotation 2 &middot; Financial Risk</h5>
+                        <p>VaR reporting, backtesting and stress testing.</p>
+                      </li>
+                      <li>
+                        <span class="when">Sep 2024 &ndash; Sep 2025</span>
+                        <h5>Rotation 1 &middot; Capital Markets Compliance</h5>
+                        <p>MAR surveillance, regulatory submissions, Power BI and Power Automate MI.</p>
+                      </li>
+                    </ol>
+                  </div>
+                </li>
+                <li class="panel rail-node" data-panel data-rail-node>
+                  <div class="tl-meta"><p class="when">Jun &ndash; Aug 2024</p></div>
+                  <div>
+                    <h4 class="tl-title">Office Manager</h4>
+                    <p class="org">Apollo Language Centre</p>
+                  </div>
+                </li>
+                <li class="panel rail-node" data-panel data-rail-node>
+                  <div class="tl-meta"><p class="when">Jul 2021 &ndash; Jun 2023</p></div>
+                  <div>
+                    <h4 class="tl-title">Romanian&ndash;English Interpreter</h4>
+                    <p class="org">Accord Language Translation Service</p>
+                  </div>
                 </li>
               </ol>
             </div>
-          </li>
-          <li>
-            <p class="when">Jun &ndash; Aug 2024</p>
-            <div>
-              <h3>Office Manager</h3>
-              <p class="org">Apollo Language Centre</p>
+          </article>
+
+          <article class="station station--chart" id="stn-data" aria-labelledby="stn-data-title" data-station="1">
+            <header class="stn-head">
+              <span class="stn-code" aria-hidden="true">STN-02</span>
+              <h3 id="stn-data-title">Portfolio data</h3>
+              <span class="chip chip--amber">Synthetic &middot; illustrative</span>
+            </header>
+            <div class="stn-body">
+              <div class="stn-copy">
+                <dl class="stn-kv">
+                  <div><dt>Data</dt><dd>Holdings, performance, exposure, risk</dd></div>
+                  <div><dt>Tools</dt><dd>Jacobi, Snowflake, FactSet, Excel</dd></div>
+                </dl>
+                <p class="stn-note">The chart is a synthetic fund price over 16 weeks, generated for this page. It is not real data.</p>
+                <div class="scrub">
+                  <label for="chart-pick">Select week</label>
+                  <input id="chart-pick" type="range" min="1" max="16" step="1" value="16" data-chart-pick aria-describedby="chart-readout">
+                </div>
+                <output class="readout" id="chart-readout" for="chart-pick" data-chart-readout aria-live="polite">W16 &middot; O 101.53 &middot; H 102.49 &middot; L 99.91 &middot; C 100.90</output>
+              </div>
+              <div class="stn-viz" data-viz="chart" aria-hidden="true">
+                <span class="viz-corner">Synthetic fund &middot; weekly OHLC + range volume</span>
+                <svg class="stn-poster" viewBox="0 0 480 260" preserveAspectRatio="xMidYMid meet" focusable="false"><line class="g" x1="16" x2="464" y1="16.0" y2="16.0"/><line class="g" x1="16" x2="464" y1="73.0" y2="73.0"/><line class="g" x1="16" x2="464" y1="130.0" y2="130.0"/><line class="g" x1="16" x2="464" y1="187.0" y2="187.0"/><line class="g" x1="16" x2="464" y1="244.0" y2="244.0"/><line class="w u" x1="30.0" x2="30.0" y1="101.8" y2="209.9"/><rect class="u" x="21.6" y="144.5" width="16.8" height="37.7"/><line class="w" x1="58.0" x2="58.0" y1="113.3" y2="223.2"/><rect class="d" x="49.6" y="144.5" width="16.8" height="45.3"/><line class="w u" x1="86.0" x2="86.0" y1="119.4" y2="244.0"/><rect class="u" x="77.6" y="152.4" width="16.8" height="37.4"/><line class="w u" x1="114.0" x2="114.0" y1="116.5" y2="201.6"/><rect class="u" x="105.6" y="124.1" width="16.8" height="28.3"/><line class="w u" x1="142.0" x2="142.0" y1="26.4" y2="133.4"/><rect class="u" x="133.6" y="72.0" width="16.8" height="52.1"/><line class="w u" x1="170.0" x2="170.0" y1="19.6" y2="121.9"/><rect class="u" x="161.6" y="58.7" width="16.8" height="13.3"/><line class="w" x1="198.0" x2="198.0" y1="16.0" y2="144.9"/><rect class="d" x="189.6" y="58.7" width="16.8" height="35.9"/><line class="w u" x1="226.0" x2="226.0" y1="79.9" y2="118.0"/><rect class="u" x="217.6" y="88.2" width="16.8" height="6.4"/><line class="w" x1="254.0" x2="254.0" y1="35.7" y2="167.9"/><rect class="d" x="245.6" y="88.2" width="16.8" height="33.4"/><line class="w" x1="282.0" x2="282.0" y1="84.6" y2="190.5"/><rect class="d" x="273.6" y="121.6" width="16.8" height="25.1"/><line class="w" x1="310.0" x2="310.0" y1="101.5" y2="171.5"/><rect class="d" x="301.6" y="146.7" width="16.8" height="1.8"/><line class="w u" x1="338.0" x2="338.0" y1="64.5" y2="177.2"/><rect class="u" x="329.6" y="117.6" width="16.8" height="30.9"/><line class="w u" x1="366.0" x2="366.0" y1="35.4" y2="144.9"/><rect class="u" x="357.6" y="78.8" width="16.8" height="38.8"/><line class="w" x1="394.0" x2="394.0" y1="25.3" y2="137.4"/><rect class="d" x="385.6" y="78.8" width="16.8" height="9.4"/><line class="w" x1="422.0" x2="422.0" y1="55.5" y2="181.9"/><rect class="d" x="413.6" y="88.2" width="16.8" height="39.1"/><line class="w" x1="450.0" x2="450.0" y1="92.8" y2="185.5"/><rect class="d" x="441.6" y="127.3" width="16.8" height="22.6"/></svg>
+              </div>
             </div>
-          </li>
-          <li>
-            <p class="when">Jul 2021 &ndash; Jun 2023</p>
-            <div>
-              <h3>Romanian&ndash;English Interpreter</h3>
-              <p class="org">Accord Language Translation Service</p>
+          </article>
+
+          <article class="station station--radar" id="stn-risk" aria-labelledby="stn-risk-title" data-station="2">
+            <header class="stn-head">
+              <span class="stn-code" aria-hidden="true">STN-03</span>
+              <h3 id="stn-risk-title">Risk &amp; compliance</h3>
+              <span class="chip chip--amber">Synthetic &middot; illustrative</span>
+            </header>
+            <div class="stn-body">
+              <div class="stn-copy">
+                <p class="stn-note">A sonar sweep over the risk and compliance work. Signal positions and levels are synthetic.</p>
+                <ul class="signals" aria-label="Signals">
+                  <li><button type="button" class="signal" data-signal="0" aria-pressed="false">VaR reporting</button></li>
+                  <li><button type="button" class="signal" data-signal="1" aria-pressed="false">Backtesting</button></li>
+                  <li><button type="button" class="signal" data-signal="2" aria-pressed="false">Stress testing</button></li>
+                  <li><button type="button" class="signal" data-signal="3" aria-pressed="false">MAR surveillance</button></li>
+                  <li><button type="button" class="signal" data-signal="4" aria-pressed="false">Regulatory submissions</button></li>
+                </ul>
+                <output class="readout" data-radar-readout aria-live="polite">Select a signal to read it</output>
+              </div>
+              <div class="stn-viz" data-viz="radar" aria-hidden="true">
+                <span class="viz-corner">Risk radar &middot; sweep 6 s</span>
+                <div class="radar-poster">
+                  <i style="--a:40deg;--r:.55"></i><i style="--a:130deg;--r:.78"></i><i style="--a:205deg;--r:.42"></i><i style="--a:290deg;--r:.68"></i><i style="--a:335deg;--r:.3"></i>
+                </div>
+              </div>
             </div>
-          </li>
-        </ol>
+          </article>
+
+          <article class="station station--cube" id="stn-tools" aria-labelledby="stn-tools-title" data-station="3">
+            <header class="stn-head">
+              <span class="stn-code" aria-hidden="true">STN-04</span>
+              <h3 id="stn-tools-title">Toolkit</h3>
+              <span class="stn-meta" aria-hidden="true">5 groups / 18 skills</span>
+            </header>
+            <div class="stn-body">
+              <div class="stn-copy">
+                <dl class="skills skills--cube" aria-labelledby="stn-tools-title" data-skill-list>
+                  <div class="panel" data-panel data-face="0"><dt>Data &amp; engineering</dt><dd><ul><li>SQL</li><li>Python</li><li>Snowflake</li><li>Excel (Power Query)</li><li>Power BI</li><li>Power Automate</li></ul></dd></div>
+                  <div class="panel" data-panel data-face="1"><dt>Investment platforms</dt><dd><ul><li>Jacobi</li><li>FactSet</li><li>Bloomberg</li></ul></dd></div>
+                  <div class="panel" data-panel data-face="2"><dt>AI</dt><dd><ul><li>Claude</li><li>AI-assisted workflows</li></ul></dd></div>
+                  <div class="panel" data-panel data-face="3"><dt>Domain</dt><dd><ul><li>Investment data quality</li><li>Performance &amp; risk reporting</li><li>UCITS</li><li>VaR</li><li>Regulatory reporting</li></ul></dd></div>
+                  <div class="panel" data-panel data-face="4"><dt>Languages</dt><dd><ul><li>English</li><li>Romanian</li></ul></dd></div>
+                </dl>
+                <div class="cube-controls" role="group" aria-label="Skill cube" hidden data-cube-controls>
+                  <button type="button" class="hud-btn" data-cube-step="-1">Previous face</button>
+                  <button type="button" class="hud-btn" data-cube-step="1">Next face</button>
+                </div>
+              </div>
+              <div class="stn-viz stn-viz--cube" data-viz="cube" aria-hidden="true">
+                <span class="viz-corner" data-cube-hint>Skill cube</span>
+                <div class="cube-stage" data-cube-stage>
+                  <div class="cube-wire"></div>
+                  <div class="cube" data-cube>
+                    <div class="cube-face" data-f="0"></div><div class="cube-face" data-f="1"></div><div class="cube-face" data-f="2"></div>
+                    <div class="cube-face" data-f="3"></div><div class="cube-face" data-f="4"></div><div class="cube-face" data-f="5"></div>
+                  </div>
+                  <div class="cube-floor"></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
-    <section class="section" id="work" aria-labelledby="work-title">
+    <section class="section" id="work" aria-labelledby="work-title" data-section="03 / Work">
       <div class="wrap section-grid">
-        <div class="section-label"><span class="index">03</span><h2 id="work-title">Selected work</h2></div>
+        <div class="section-label"><span class="index" aria-hidden="true">03</span><h2 id="work-title">Selected work</h2><p class="section-path" aria-hidden="true">~/work</p></div>
         <div>
           <ul class="cards">
             <li>
-              <article class="card">
-                <p class="card-index">W&ndash;01 &middot; Personal project</p>
-                <h3><a href="work/bond-portfolio-centre.html">Bond Portfolio Centre</a></h3>
+              <article class="card panel" data-panel data-card3d>
+                <span class="card-plate" aria-hidden="true"></span>
+                <p class="panel-title card-layer card-layer--chip"><span class="card-index">W-01 &middot; Personal project</span><span class="chip chip--amber">Synthetic data</span></p>
+                <svg class="card-viz card-layer card-layer--viz" viewBox="0 0 320 96" aria-hidden="true" focusable="false" preserveAspectRatio="none">
+                  <path class="fan fan--outer" d="M0 60 C60 58 120 40 180 30 S280 6 320 2 L320 94 C280 92 220 88 180 84 S60 66 0 62Z"/>
+                  <path class="fan fan--inner" d="M0 61 C60 59 120 48 180 44 S280 30 320 26 L320 72 C280 70 220 68 180 66 S60 63 0 61Z"/>
+                  <path class="fan-line" d="M0 61 C60 59 120 54 180 52 S280 46 320 46"/>
+                </svg>
+                <h3 class="card-layer card-layer--title"><a href="work/bond-portfolio-centre.html">Bond Portfolio Centre</a></h3>
                 <p class="notice"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 1.5 15 14H1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6v3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11.75" r=".9" fill="currentColor"/></svg><span>Demo with synthetic data. Not investment advice.</span></p>
                 <p>A personal portfolio analytics app: 1-day VaR, a Monte Carlo fan chart, diversification and stress tests, optimiser mixes, a rebalance plan, goal glide paths, and a rule-based investment committee that reviews each book.</p>
                 <p class="stack">Python &middot; pandas &middot; vanilla JS &middot; Chart.js</p>
-                <p class="more" aria-hidden="true">Read the case study <span class="arrow">&rarr;</span></p>
+                <p class="more card-layer card-layer--more" aria-hidden="true">Read the case study <span class="arrow">&rarr;</span></p>
+                <span class="card-spec" aria-hidden="true"></span>
               </article>
             </li>
             <li>
-              <article class="card">
-                <p class="card-index">W&ndash;02 &middot; Personal project</p>
-                <h3><a href="work/weekly-market-update.html">Weekly Market Update</a></h3>
+              <article class="card panel" data-panel data-card3d>
+                <span class="card-plate" aria-hidden="true"></span>
+                <p class="panel-title card-layer card-layer--chip"><span class="card-index">W-02 &middot; Personal project</span><span class="chip chip--cyan">Public data</span></p>
+                <svg class="card-viz card-layer card-layer--viz" viewBox="0 0 320 96" aria-hidden="true" focusable="false" preserveAspectRatio="none">
+                  <g class="bars"><rect x="8" y="58" width="22" height="38"/><rect x="40" y="44" width="22" height="52"/><rect x="72" y="64" width="22" height="32"/><rect x="104" y="36" width="22" height="60"/><rect x="136" y="50" width="22" height="46"/><rect x="168" y="28" width="22" height="68"/><rect x="200" y="40" width="22" height="56"/><rect x="232" y="22" width="22" height="74"/><rect x="264" y="34" width="22" height="62"/><rect x="296" y="14" width="22" height="82"/></g>
+                  <path class="bars-line" d="M19 54 L51 42 L83 58 L115 34 L147 46 L179 26 L211 38 L243 20 L275 30 L307 12"/>
+                </svg>
+                <h3 class="card-layer card-layer--title"><a href="work/weekly-market-update.html">Weekly Market Update</a></h3>
                 <p>A click-through weekly markets presentation: pick a view, then step through the week&rsquo;s stories with charts built from public data, plus presenter notes.</p>
                 <p class="stack">HTML/JS &middot; custom chart engine &middot; Python build/validate</p>
-                <p class="more" aria-hidden="true">Read the case study <span class="arrow">&rarr;</span></p>
+                <p class="more card-layer card-layer--more" aria-hidden="true">Read the case study <span class="arrow">&rarr;</span></p>
+                <span class="card-spec" aria-hidden="true"></span>
               </article>
             </li>
           </ul>
 
+          <p class="section-cta section-cta--work">College work is under <a href="#projects">Projects</a>: six DCU projects with full write-ups.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section" id="projects" aria-labelledby="projects-title" data-section="04 / Projects">
+      <div class="wrap section-grid">
+        <div class="section-label"><span class="index" aria-hidden="true">04</span><h2 id="projects-title">Projects</h2><p class="section-path" aria-hidden="true">~/projects</p></div>
+        <div>
+          <p class="section-lede">Six projects from my BSc in Business Studies with Data Analytics at Dublin City University. Each opens a full write-up: what it is, the method, the tools and how it was evaluated.</p>
+          <ul class="cards cards--3">
+            <li>
+              <article class="card panel proj-card" data-panel data-card3d>
+                <span class="card-plate" aria-hidden="true"></span>
+                <p class="panel-title card-layer card-layer--chip"><span class="card-index">P-01</span><span class="chip chip--cyan">With Bohdan Boiprav</span></p>
+                <svg class="card-viz card-layer card-layer--viz proj-viz" viewBox="0 0 320 96" aria-hidden="true" focusable="false" preserveAspectRatio="none"><g class="pv-grid"><rect x="96" y="8" width="62" height="38"/><rect x="162" y="8" width="62" height="38"/><rect x="96" y="50" width="62" height="38"/><rect x="162" y="50" width="62" height="38"/></g><g class="pv-hot"><rect x="96" y="8" width="62" height="38"/><rect x="162" y="50" width="62" height="38"/></g><text x="127" y="32">TP</text><text x="193" y="32">FP</text><text x="127" y="74">FN</text><text x="193" y="74">TN</text></svg>
+                <h3 class="card-layer card-layer--title"><a href="work/phishing-email-classification.html">Phishing email classification</a></h3>
+                <p>Six classical models and a fine-tuned BERT transformer, compared on telling phishing emails from legitimate ones, with LIME explanations.</p>
+                <p class="stack">Python · PyTorch · Hugging Face Transformers · LIME</p>
+                <p class="more card-layer card-layer--more" aria-hidden="true">View project <span class="arrow">&rarr;</span></p>
+                <span class="card-spec" aria-hidden="true"></span>
+              </article>
+            </li>
+            <li>
+              <article class="card panel proj-card" data-panel data-card3d>
+                <span class="card-plate" aria-hidden="true"></span>
+                <p class="panel-title card-layer card-layer--chip"><span class="card-index">P-02</span><span class="chip ">With Bohdan Boiprav</span></p>
+                <svg class="card-viz card-layer card-layer--viz proj-viz" viewBox="0 0 320 96" aria-hidden="true" focusable="false" preserveAspectRatio="none"><path class="pv-line" d="M0 70 H320"/><g class="pv-ticks"><path d="M20 64v12M76 64v12M132 64v12M188 64v12M244 64v12M300 64v12"/></g><g class="pv-bubble"><rect x="28" y="20" width="96" height="22"/><rect x="140" y="32" width="120" height="22"/><rect x="196" y="8" width="84" height="18"/></g></svg>
+                <h3 class="card-layer card-layer--title"><a href="work/telegram-bi-bot.html">Telegram BI bot</a></h3>
+                <p>A scheduled Python bot that scrapes websites, pulls live business news from NewsAPI and stores it in PostgreSQL, then serves it in Telegram.</p>
+                <p class="stack">Python · BeautifulSoup · requests · PostgreSQL</p>
+                <p class="more card-layer card-layer--more" aria-hidden="true">View project <span class="arrow">&rarr;</span></p>
+                <span class="card-spec" aria-hidden="true"></span>
+              </article>
+            </li>
+            <li>
+              <article class="card panel proj-card" data-panel data-card3d>
+                <span class="card-plate" aria-hidden="true"></span>
+                <p class="panel-title card-layer card-layer--chip"><span class="card-index">P-03</span><span class="chip chip--cyan">Solo</span></p>
+                <svg class="card-viz card-layer card-layer--viz proj-viz" viewBox="0 0 320 96" aria-hidden="true" focusable="false" preserveAspectRatio="none"><path class="pv-wave" d="M0 48 C10 20 18 76 28 48 S46 18 56 50 S74 80 84 46 S102 22 112 48 S130 70 140 40 S158 26 168 52 S186 78 196 44 S214 20 224 50 S242 74 252 46 S270 24 280 48 S298 70 320 44"/><g class="pv-win"><rect x="0" y="6" width="78" height="84"/><rect x="80" y="6" width="78" height="84"/><rect x="160" y="6" width="78" height="84"/><rect x="240" y="6" width="80" height="84"/></g></svg>
+                <h3 class="card-layer card-layer--title"><a href="work/time-series-features.html">Time-series features</a></h3>
+                <p>Activity recognition from accelerometer data: segment the signal, extract statistical features, then classify with Random Forest and Linear SVC.</p>
+                <p class="stack">Python · pandas · NumPy · scikit-learn</p>
+                <p class="more card-layer card-layer--more" aria-hidden="true">View project <span class="arrow">&rarr;</span></p>
+                <span class="card-spec" aria-hidden="true"></span>
+              </article>
+            </li>
+            <li>
+              <article class="card panel proj-card" data-panel data-card3d>
+                <span class="card-plate" aria-hidden="true"></span>
+                <p class="panel-title card-layer card-layer--chip"><span class="card-index">P-04</span><span class="chip chip--cyan">Solo</span></p>
+                <svg class="card-viz card-layer card-layer--viz proj-viz" viewBox="0 0 320 96" aria-hidden="true" focusable="false" preserveAspectRatio="none"><g class="pv-dots"><circle cx="30" cy="70" r="3"/><circle cx="58" cy="62" r="3"/><circle cx="80" cy="66" r="3"/><circle cx="104" cy="52" r="3"/><circle cx="128" cy="58" r="3"/><circle cx="150" cy="44" r="3"/><circle cx="176" cy="48" r="3"/><circle cx="198" cy="34" r="3"/><circle cx="222" cy="40" r="3"/><circle cx="246" cy="28" r="3"/><circle cx="270" cy="30" r="3"/><circle cx="294" cy="18" r="3"/></g><path class="pv-line pv-line--lime" d="M20 72 L300 18"/></svg>
+                <h3 class="card-layer card-layer--title"><a href="work/daft-data-analysis-app.html">Daft.ie data analysis app</a></h3>
+                <p>Scrapes and cleans Daft.ie property listings, with login, search filters and an interactive dashboard of charts.</p>
+                <p class="stack">Python · BeautifulSoup · Requests · Tkinter</p>
+                <p class="more card-layer card-layer--more" aria-hidden="true">View project <span class="arrow">&rarr;</span></p>
+                <span class="card-spec" aria-hidden="true"></span>
+              </article>
+            </li>
+            <li>
+              <article class="card panel proj-card" data-panel data-card3d>
+                <span class="card-plate" aria-hidden="true"></span>
+                <p class="panel-title card-layer card-layer--chip"><span class="card-index">P-05</span><span class="chip chip--cyan">MT412 group project</span></p>
+                <svg class="card-viz card-layer card-layer--viz proj-viz" viewBox="0 0 320 96" aria-hidden="true" focusable="false" preserveAspectRatio="none"><g class="bars"><rect x="12" y="52" width="18" height="44"/><rect x="36" y="38" width="18" height="58"/><rect x="60" y="60" width="18" height="36"/><rect x="84" y="28" width="18" height="68"/><rect x="108" y="44" width="18" height="52"/></g><g class="pv-tiles"><rect x="150" y="10" width="72" height="36"/><rect x="226" y="10" width="84" height="36"/><rect x="150" y="50" width="160" height="40"/></g></svg>
+                <h3 class="card-layer card-layer--title"><a href="work/power-bi-sales-analysis.html">Power BI sales analysis</a></h3>
+                <p>A Power BI dashboard of Blackbird&rsquo;s sales: orders and profit, maps by state, shipping methods and the effect of discounts.</p>
+                <p class="stack">Power BI</p>
+                <p class="more card-layer card-layer--more" aria-hidden="true">View project <span class="arrow">&rarr;</span></p>
+                <span class="card-spec" aria-hidden="true"></span>
+              </article>
+            </li>
+            <li>
+              <article class="card panel proj-card" data-panel data-card3d>
+                <span class="card-plate" aria-hidden="true"></span>
+                <p class="panel-title card-layer card-layer--chip"><span class="card-index">P-06</span><span class="chip ">With Bohdan Boiprav</span></p>
+                <svg class="card-viz card-layer card-layer--viz proj-viz" viewBox="0 0 320 96" aria-hidden="true" focusable="false" preserveAspectRatio="none"><path class="pv-wave" d="M0 14 C40 16 70 22 110 34 S190 58 230 66 S290 76 320 78"/><path class="pv-line pv-line--dim" d="M0 14 C60 15 120 18 180 22 S280 28 320 30"/><g class="pv-dots"><circle cx="110" cy="34" r="3"/><circle cx="230" cy="66" r="3"/></g></svg>
+                <h3 class="card-layer card-layer--title"><a href="work/bank-churn-prediction.html">Bank customer churn prediction</a></h3>
+                <p>Predicts which bank customers are likely to leave, using the Kaggle BankChurners data: one-hot encoding, SMOTE, PCA, then Random Forest vs SVM.</p>
+                <p class="stack">Python · SMOTE · PCA · Random Forest · SVM</p>
+                <p class="more card-layer card-layer--more" aria-hidden="true">View project <span class="arrow">&rarr;</span></p>
+                <span class="card-spec" aria-hidden="true"></span>
+              </article>
+            </li>
+          </ul>
           <div class="subhead">
-            <h3 id="coursework-title">Coursework, Dublin City University</h3>
+            <h3 id="services-title">What I do</h3>
           </div>
-          <ul class="course-list" aria-labelledby="coursework-title">
+          <ul class="services" aria-labelledby="services-title">
+              <li class="panel service" data-panel>
+                <span class="svc-n" aria-hidden="true">S-01</span>
+                <h4>Data analysis &amp; reporting</h4>
+                <p>Power BI dashboards that turn large datasets into clear charts, using a wide range of chart types to communicate the key findings.</p>
+                <a class="svc-link" href="work/power-bi-sales-analysis.html">See: Power BI sales analysis</a>
+              </li>
+              <li class="panel service" data-panel>
+                <span class="svc-n" aria-hidden="true">S-02</span>
+                <h4>Automation</h4>
+                <p>Power Query workflows, and compliance reporting automated with Power BI and Power Automate, to find smarter ways to work with data.</p>
+              </li>
+              <li class="panel service" data-panel>
+                <span class="svc-n" aria-hidden="true">S-03</span>
+                <h4>Web scraping</h4>
+                <p>Beautiful Soup and requests to collect and clean data from the web, as in the Daft.ie data analysis app and the Telegram BI bot.</p>
+                <a class="svc-link" href="work/daft-data-analysis-app.html">See: Daft.ie data analysis app</a>
+              </li>
+              <li class="panel service" data-panel>
+                <span class="svc-n" aria-hidden="true">S-04</span>
+                <h4>Machine learning</h4>
+                <p>Logistic regression, decision trees, random forests, gradient boosting, naive Bayes and multi-layer perceptrons, plus a BERT transformer for email classification.</p>
+                <a class="svc-link" href="work/phishing-email-classification.html">See: Phishing email classification</a>
+              </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="writing" aria-labelledby="writing-title" data-section="05 / Writing">
+      <div class="wrap section-grid">
+        <div class="section-label"><span class="index" aria-hidden="true">05</span><h2 id="writing-title">Writing</h2><p class="section-path" aria-hidden="true">~/writing</p></div>
+        <div>
+          <p class="section-lede">Notes on machine learning, NLP, Python, BI and data work. The six most recent posts:</p>
+          <ul class="post-grid post-grid--home">
+<li class="post-item" data-tags="python|tkinter|automation">
+  <article class="post-card panel">
+    <p class="panel-title"><span></span><time datetime="2026-10-01" class="pc-date">1 Oct 2026</time></p>
+    <h3 class="pc-title"><a href="blog/python-tkinter-intermediate.html">Building a Desktop Tool Your Colleagues Can Use with Python&#x27;s tkinter</a></h3>
+    <p class="pc-excerpt">Turn a data script into a small tkinter app: ttk widgets and grid, variable-bound state, a responsive main loop and logic kept out of the GUI.</p>
+    <p class="pc-meta"><span class="visually-hidden">By </span>Catalin Bondari</p>
+    <ul class="pc-tags" aria-label="Tags"><li>python</li><li>tkinter</li><li>automation</li></ul>
+  </article>
+</li>
+<li class="post-item" data-tags="machine learning|scikit-learn|model selection">
+  <article class="post-card panel">
+    <p class="panel-title"><span></span><time datetime="2026-09-29" class="pc-date">29 Sep 2026</time></p>
+    <h3 class="pc-title"><a href="blog/choosing-machine-learning-algorithm.html">How to Choose a Machine Learning Algorithm for Tabular Data</a></h3>
+    <p class="pc-excerpt">A short sequence of questions for picking a model on tabular data: define the target, consider how it is used, start with a baseline, compare fairly.</p>
+    <p class="pc-meta"><span class="visually-hidden">By </span>Catalin Bondari</p>
+    <ul class="pc-tags" aria-label="Tags"><li>machine learning</li><li>scikit-learn</li><li>model selection</li></ul>
+  </article>
+</li>
+<li class="post-item" data-tags="quantum computing|cryptography|finance|data science">
+  <article class="post-card panel">
+    <p class="panel-title"><span></span><time datetime="2026-09-26" class="pc-date">26 Sep 2026</time></p>
+    <h3 class="pc-title"><a href="blog/quantum-computing-data-science.html">Quantum Computing and Data Science: What May Change, and What Already Needs Attention</a></h3>
+    <p class="pc-excerpt">A sourced look at quantum hardware limits, optimisation and Monte Carlo research, harvest-now-decrypt-later risk, and the NIST post-quantum standards.</p>
+    <p class="pc-meta"><span class="visually-hidden">By </span>Catalin Bondari</p>
+    <ul class="pc-tags" aria-label="Tags"><li>quantum computing</li><li>cryptography</li><li>finance</li><li>data science</li></ul>
+  </article>
+</li>
+<li class="post-item" data-tags="nlp|bert|python">
+  <article class="post-card panel">
+    <p class="panel-title"><span></span><time datetime="2026-09-23" class="pc-date">23 Sep 2026</time></p>
+    <h3 class="pc-title"><a href="blog/mastering-bert-guide.html">BERT in Practice: Tokens, Embeddings and Fine-Tuning a Text Classifier</a></h3>
+    <p class="pc-excerpt">What happens to a sentence inside BERT, how to try it in a few lines of Python, and the choices that decide whether fine-tuning works.</p>
+    <p class="pc-meta"><span class="visually-hidden">By </span>Catalin Bondari</p>
+    <ul class="pc-tags" aria-label="Tags"><li>nlp</li><li>bert</li><li>python</li></ul>
+  </article>
+</li>
+<li class="post-item" data-tags="data engineering|data quality|sql|snowflake">
+  <article class="post-card panel">
+    <p class="panel-title"><span></span><time datetime="2026-09-20" class="pc-date">20 Sep 2026</time></p>
+    <h3 class="pc-title"><a href="blog/big-data-management-strategies.html">Managing Large Datasets Well: Six Habits from Raw Files to Reports</a></h3>
+    <p class="pc-excerpt">Six practical habits for large, messy datasets: land raw data, validate early, load incrementally, model for queries and keep history.</p>
+    <p class="pc-meta"><span class="visually-hidden">By </span>Catalin Bondari</p>
+    <ul class="pc-tags" aria-label="Tags"><li>data engineering</li><li>data quality</li><li>sql</li><li>snowflake</li></ul>
+  </article>
+</li>
+<li class="post-item" data-tags="python|learning|data science|resources">
+  <article class="post-card panel">
+    <p class="panel-title"><span></span><time datetime="2026-09-17" class="pc-date">17 Sep 2026</time></p>
+    <h3 class="pc-title"><a href="blog/free-courses-python-data-science.html">Free Python and Data Science Courses Worth Your Time</a></h3>
+    <p class="pc-excerpt">A short, checked list of free Python, pandas, SQL and machine learning courses from Harvard, Kaggle, Google and others, and who each suits.</p>
+    <p class="pc-meta"><span class="visually-hidden">By </span>Catalin Bondari</p>
+    <ul class="pc-tags" aria-label="Tags"><li>python</li><li>learning</li><li>data science</li><li>resources</li></ul>
+  </article>
+</li>
+          </ul>
+          <p class="section-cta"><a class="button button--ghost" href="blog/">All 15 posts <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="media" aria-labelledby="media-title" data-section="06 / Media">
+      <div class="wrap section-grid">
+        <div class="section-label"><span class="index" aria-hidden="true">06</span><h2 id="media-title">Media</h2><p class="section-path" aria-hidden="true">~/media</p></div>
+        <div>
+          <p class="section-lede">Videos I recommend. The video player loads from YouTube (privacy-enhanced mode) only when you press play.</p>
+          <ul class="media-grid">
             <li>
-              <span><span class="title">Daft.ie data analysis app</span><span class="detail">Python, scraping, Tkinter</span></span>
-              <span class="credit">Solo</span>
-              <a class="repo" href="https://github.com/catalinbondari/daft-data-analysis-app">Repository<span class="visually-hidden">: Daft.ie data analysis app, on GitHub</span></a>
+              <article class="media-card panel" data-panel>
+                <p class="panel-title"><span>V-01</span><span class="chip">YouTube</span></p>
+                <div class="yt" data-yt="SwkjqGd8NC4" data-yt-title="How to Win the Loser’s Game: Full Version">
+                  <a class="yt-link" href="https://www.youtube.com/watch?v=SwkjqGd8NC4" rel="noopener">
+                    <img src="https://i.ytimg.com/vi/SwkjqGd8NC4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                    <span class="yt-play" aria-hidden="true"></span>
+                    <span class="visually-hidden">Play video: How to Win the Loser’s Game: Full Version, on YouTube</span>
+                  </a>
+                </div>
+                <h3 class="mc-title">How to Win the Loser’s Game: Full Version</h3>
+                <p class="mc-meta">Sensible Investing</p>
+              </article>
             </li>
             <li>
-              <span><span class="title">Phishing email classification</span><span class="detail">Machine learning, NLP</span></span>
-              <span class="credit">With Bohdan Boiprav</span>
-              <a class="repo" href="https://github.com/catalinbondari/phishing-email-classification">Repository<span class="visually-hidden">: Phishing email classification, on GitHub</span></a>
+              <article class="media-card panel" data-panel>
+                <p class="panel-title"><span>V-02</span><span class="chip">YouTube</span></p>
+                <div class="yt" data-yt="CjKhQoYeR4Q" data-yt-title="Getting Started With AWS Cloud | Step-by-Step Guide">
+                  <a class="yt-link" href="https://www.youtube.com/watch?v=CjKhQoYeR4Q" rel="noopener">
+                    <img src="https://i.ytimg.com/vi/CjKhQoYeR4Q/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                    <span class="yt-play" aria-hidden="true"></span>
+                    <span class="visually-hidden">Play video: Getting Started With AWS Cloud | Step-by-Step Guide, on YouTube</span>
+                  </a>
+                </div>
+                <h3 class="mc-title">Getting Started With AWS Cloud | Step-by-Step Guide</h3>
+                <p class="mc-meta">Travis Media</p>
+              </article>
             </li>
             <li>
-              <span><span class="title">Bank customer churn prediction</span><span class="detail">Kaggle BankChurners data</span></span>
-              <span class="credit">With Bohdan Boiprav</span>
-                  <span class="repo-na">Link to follow</span>
-            </li>
-            <li>
-              <span><span class="title">Time-series feature extraction</span><span class="detail">Accelerometer data</span></span>
-              <span class="credit">Solo</span>
-              <a class="repo" href="https://github.com/catalinbondari/time-series-features">Repository<span class="visually-hidden">: Time-series feature extraction, on GitHub</span></a>
-            </li>
-            <li>
-              <span><span class="title">Power BI sales analysis</span><span class="detail">MT412</span></span>
-              <span class="credit">Group project</span>
-              <a class="repo" href="https://github.com/catalinbondari/mt412-group3-powerbi">Repository<span class="visually-hidden">: Power BI sales analysis, on GitHub</span></a>
+              <article class="media-card panel" data-panel>
+                <p class="panel-title"><span>V-03</span><span class="chip">YouTube</span></p>
+                <div class="yt" data-yt="fklHBWow8vE" data-yt-title="Working with APIs in Python [For Your Data Science Project]">
+                  <a class="yt-link" href="https://www.youtube.com/watch?v=fklHBWow8vE" rel="noopener">
+                    <img src="https://i.ytimg.com/vi/fklHBWow8vE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                    <span class="yt-play" aria-hidden="true"></span>
+                    <span class="visually-hidden">Play video: Working with APIs in Python [For Your Data Science Project], on YouTube</span>
+                  </a>
+                </div>
+                <h3 class="mc-title">Working with APIs in Python [For Your Data Science Project]</h3>
+                <p class="mc-meta">StrataScratch</p>
+              </article>
             </li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section class="section" id="credentials" aria-labelledby="credentials-title">
+    <section class="section" id="reading" aria-labelledby="reading-title" data-section="07 / Reading">
       <div class="wrap section-grid">
-        <div class="section-label"><span class="index">04</span><h2 id="credentials-title">Education &amp; credentials</h2></div>
+        <div class="section-label"><span class="index" aria-hidden="true">07</span><h2 id="reading-title">Reading &amp; listening</h2><p class="section-path" aria-hidden="true">~/reading</p></div>
+        <div>
+          <div class="subhead subhead--first">
+            <h3 id="books-title">Books</h3>
+          </div>
+          <ul class="books" aria-labelledby="books-title">
+            <li class="book panel" data-panel>
+              <span class="book-n" aria-hidden="true">B-01</span>
+              <h4 class="book-title">Hands-On Machine Learning with Scikit-Learn, Keras &amp; TensorFlow</h4>
+              <p class="book-author">Aur&eacute;lien G&eacute;ron</p>
+            </li>
+            <li class="book panel" data-panel>
+              <span class="book-n" aria-hidden="true">B-02</span>
+              <h4 class="book-title">The Elements of Statistical Learning</h4>
+              <p class="book-author">Trevor Hastie, Robert Tibshirani and Jerome Friedman</p>
+            </li>
+            <li class="book panel" data-panel>
+              <span class="book-n" aria-hidden="true">B-03</span>
+              <h4 class="book-title">Pattern Recognition and Machine Learning</h4>
+              <p class="book-author">Christopher Bishop</p>
+            </li>
+          </ul>
+          <div class="subhead">
+            <h3 id="podcasts-title">Podcasts</h3>
+          </div>
+          <ul class="media-grid" aria-labelledby="podcasts-title">
+            <li>
+              <article class="media-card panel" data-panel>
+                <p class="panel-title"><span>A-01</span><span class="chip">YouTube</span></p>
+                <div class="yt" data-yt="M01NZc2QlDk" data-yt-title="Sir Chris Hohn | Podcast | In Good Company | Norges Bank Investment Management">
+                  <a class="yt-link" href="https://www.youtube.com/watch?v=M01NZc2QlDk" rel="noopener">
+                    <img src="https://i.ytimg.com/vi/M01NZc2QlDk/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                    <span class="yt-play" aria-hidden="true"></span>
+                    <span class="visually-hidden">Play video: Sir Chris Hohn | Podcast | In Good Company | Norges Bank Investment Management, on YouTube</span>
+                  </a>
+                </div>
+                <h3 class="mc-title">Sir Chris Hohn | Podcast | In Good Company | Norges Bank Investment Management</h3>
+                <p class="mc-meta">In Good Company, Norges Bank Investment Management</p>
+              </article>
+            </li>
+            <li>
+              <article class="media-card panel" data-panel>
+                <p class="panel-title"><span>A-02</span><span class="chip">YouTube</span></p>
+                <div class="yt" data-yt="ZO8XGmUA0bM" data-yt-title="Larry Fink - The Most Powerful Man in Finance | A Documentary">
+                  <a class="yt-link" href="https://www.youtube.com/watch?v=ZO8XGmUA0bM" rel="noopener">
+                    <img src="https://i.ytimg.com/vi/ZO8XGmUA0bM/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                    <span class="yt-play" aria-hidden="true"></span>
+                    <span class="visually-hidden">Play video: Larry Fink - The Most Powerful Man in Finance | A Documentary, on YouTube</span>
+                  </a>
+                </div>
+                <h3 class="mc-title">Larry Fink - The Most Powerful Man in Finance | A Documentary</h3>
+                <p class="mc-meta">FINAiUS</p>
+              </article>
+            </li>
+            <li>
+              <article class="media-card panel" data-panel>
+                <p class="panel-title"><span>A-03</span><span class="chip">YouTube</span></p>
+                <div class="yt" data-yt="L_Guz73e6fw" data-yt-title="Sam Altman: OpenAI CEO on GPT-4, ChatGPT, and the Future of AI | Lex Fridman Podcast #367">
+                  <a class="yt-link" href="https://www.youtube.com/watch?v=L_Guz73e6fw" rel="noopener">
+                    <img src="https://i.ytimg.com/vi/L_Guz73e6fw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                    <span class="yt-play" aria-hidden="true"></span>
+                    <span class="visually-hidden">Play video: Sam Altman: OpenAI CEO on GPT-4, ChatGPT, and the Future of AI | Lex Fridman Podcast #367, on YouTube</span>
+                  </a>
+                </div>
+                <h3 class="mc-title">Sam Altman: OpenAI CEO on GPT-4, ChatGPT, and the Future of AI | Lex Fridman Podcast #367</h3>
+                <p class="mc-meta">Lex Fridman Podcast</p>
+              </article>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="credentials" aria-labelledby="credentials-title" data-section="08 / Credentials">
+      <div class="wrap section-grid">
+        <div class="section-label"><span class="index" aria-hidden="true">08</span><h2 id="credentials-title">Education &amp; credentials</h2><p class="section-path" aria-hidden="true">~/credentials</p></div>
         <div>
           <ul class="cred-list">
-            <li>
+            <li class="panel" data-panel>
               <span><strong>QFA</strong> <span class="meta">&middot; Institute of Banking</span></span>
               <span class="num">2025</span>
             </li>
-            <li>
+            <li class="panel" data-panel>
               <span><strong>BSc Business Studies with Data Analytics</strong> <span class="meta">&middot; Dublin City University &middot; 2.1 Honours</span></span>
               <span class="num">2021&ndash;2024</span>
             </li>
           </ul>
-
-          <div class="subhead">
-            <h3 id="skills-title">Skills</h3>
-          </div>
-          <dl class="skills" aria-labelledby="skills-title">
-            <div><dt>Data &amp; engineering</dt><dd><ul><li>SQL</li><li>Python</li><li>Snowflake</li><li>Excel (Power Query)</li><li>Power BI</li><li>Power Automate</li></ul></dd></div>
-            <div><dt>Investment platforms</dt><dd><ul><li>Jacobi</li><li>FactSet</li><li>Bloomberg</li></ul></dd></div>
-            <div><dt>AI</dt><dd><ul><li>Claude</li><li>AI-assisted workflows</li></ul></dd></div>
-            <div><dt>Domain</dt><dd><ul><li>Investment data quality</li><li>Performance &amp; risk reporting</li><li>UCITS</li><li>VaR</li><li>Regulatory reporting</li></ul></dd></div>
-            <div><dt>Languages</dt><dd><ul><li>English</li><li>Romanian</li></ul></dd></div>
-          </dl>
+          <p class="cred-note">Skills are listed on the <a href="#stn-tools">Toolkit station</a> in Experience.</p>
         </div>
       </div>
     </section>
 
-    <section class="section" id="contact" aria-labelledby="contact-title">
+    <section class="section" id="more-about-me" aria-labelledby="more-about-me-title" data-section="09 / More about me">
       <div class="wrap section-grid">
-        <div class="section-label"><span class="index">05</span><h2 id="contact-title">Contact</h2></div>
+        <div class="section-label"><span class="index" aria-hidden="true">09</span><h2 id="more-about-me-title">More about me</h2><p class="section-path" aria-hidden="true">~/more-about-me</p></div>
+        <div class="me-grid">
+          <div class="panel prose me-main" data-panel>
+            <h3 class="me-h">Interests</h3>
+            <p>I am passionate about investments, financial markets, and the application of AI and process automation in finance. I am actively building my knowledge across equity analysis, fixed income, derivatives and portfolio management.</p>
+            <p>I am genuinely excited by the role AI and automation play in modern finance. Whether it is building Power Query workflows, automating compliance reporting with Power BI and Power Automate, or exploring how machine learning is reshaping investment decision making, I enjoy finding smarter ways to work with data.</p>
+          </div>
+          <div class="panel prose" data-panel>
+            <h3 class="me-h">Tennis</h3>
+            <p>I have been playing tennis for over three years, and it has quickly become my passion. Through dedicated practice and competition, I have developed a strong appreciation for the sport&rsquo;s strategy, agility and mental challenges.</p>
+            <p>Tennis has allowed me to connect with others, build discipline and foster teamwork. The thrill of a well-played match and the satisfaction of improving my skills are what drive my enthusiasm for the game.</p>
+            <p>Much like analysing data to uncover insights, I enjoy breaking down the complexities of tennis: anticipating shots, refining technique and adapting to each opponent. The court has become my arena for growth, learning and personal achievement.</p>
+            <p>Tennis is an integral part of my life, a dynamic outlet for my competitive spirit and a way to express my determination and perseverance.</p>
+          </div>
+          <div class="panel prose" data-panel>
+            <h3 class="me-h">Classical guitar</h3>
+            <p>I have been playing classical guitar for more than 8 years, specialising in classical Spanish songs. Some of my favourite pieces include Etude, Sagreras Zamba and the iconic Asturias by Isaac Alb&eacute;niz.</p>
+            <p>I have performed in numerous concerts, most notably at Emanuel within the Helix. Sharing my passion for the guitar with an audience has been truly rewarding, connecting with others through the universal language of music.</p>
+            <p>Much like turning data into valuable insights, I find joy in unravelling musical notation and translating it into emotive performances. Understanding the nuances of each piece, its harmony, rhythm and melody, is like solving an intricate puzzle.</p>
+            <p>Music is an integral part of my life: a creative outlet, and a way to express my thoughts and feelings.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-title" data-section="10 / Contact">
+      <div class="wrap section-grid">
+        <div class="section-label"><span class="index" aria-hidden="true">10</span><h2 id="contact-title">Contact</h2><p class="section-path" aria-hidden="true">~/contact</p></div>
         <div class="contact-grid">
-          <form class="form" action="https://formspree.io/f/mojyaddo" method="POST" data-contact-form>
+          <form class="form panel" action="https://formspree.io/f/mojyaddo" method="POST" data-contact-form data-panel>
+            <p class="panel-title"><span>New message</span><span class="chip chip--cyan">Formspree</span></p>
             <p class="lede">Send a message and I&rsquo;ll reply by email. All fields are required.</p>
             <div class="field">
               <label for="cf-name">Name</label>
@@ -278,13 +762,13 @@
             </div>
             <input type="hidden" name="_subject" value="Portfolio site enquiry">
             <div>
-              <button class="button" type="submit">Send message</button>
+              <button class="button" type="submit" data-magnetic>Send message</button>
             </div>
             <p class="form-status" role="status" aria-live="polite" data-form-status></p>
           </form>
 
-          <div>
-            <h3 class="visually-hidden">Elsewhere</h3>
+          <div class="panel panel--side" data-panel>
+            <h3 class="panel-title"><span>Elsewhere</span></h3>
             <ul class="link-list">
               <li><a href="https://www.linkedin.com/in/catalinbondari/" rel="me"><span class="label">LinkedIn</span> <span class="host">linkedin.com/in/catalinbondari</span></a></li>
               <li><a href="https://github.com/catalinbondari" rel="me"><span class="label">GitHub</span> <span class="host">github.com/catalinbondari</span></a></li>
@@ -296,13 +780,15 @@
   </main>
 
   <footer class="site-footer">
-    <div class="wrap">
+    <div class="bar">
       <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
-      <p>
+      <p class="footer-links">
         <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
         <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
         <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
       </p>
+      <button class="footer-btn" type="button" data-replay-intro hidden>Replay intro</button>
+      <p class="footer-hint" aria-hidden="true" data-footer-hint></p>
     </div>
   </footer>
 </body>
