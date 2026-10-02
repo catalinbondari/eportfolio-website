@@ -407,7 +407,7 @@ function initRail() {
     ["top", "Index"], ["about", "About"], ["experience", "Experience"],
     ["stn-timeline", "STN-01 Timeline", 0], ["stn-data", "STN-02 Data", 1], ["stn-risk", "STN-03 Risk", 2], ["stn-tools", "STN-04 Toolkit", 3],
     ["work", "Work"], ["projects", "Projects"], ["writing", "Writing"], ["media", "Media"], ["reading", "Reading"],
-    ["credentials", "Credentials"], ["more-about-me", "More about me"], ["contact", "Contact"],
+    ["credentials", "Credentials"], ["more-about-me", "More"], ["contact", "Contact"],
   ].filter(([id]) => document.getElementById(id));
   const nav = document.createElement("nav");
   nav.className = "hud-rail";

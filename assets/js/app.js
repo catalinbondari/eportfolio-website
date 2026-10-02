@@ -90,7 +90,7 @@ function paletteItems() {
     sec("media", "Media (videos)", "06"),
     sec("reading", "Reading: books & podcasts", "07"),
     sec("credentials", "Education & credentials", "08"),
-    sec("more-about-me", "More about me", "09"),
+    sec("more-about-me", "More", "09"),
     sec("contact", "Contact", "10"),
     { label: "All posts", key: "BL", hint: "Page", href: ROOT + "blog/" },
     { label: "Bond Portfolio Centre", key: "W1", hint: "Case study", href: ROOT + "work/bond-portfolio-centre.html" },
@@ -139,11 +139,11 @@ function initPalette() {
   dlg.className = "palette";
   dlg.setAttribute("aria-labelledby", "pal-title");
   dlg.innerHTML = `
-    <h2 id="pal-title" class="visually-hidden">Jump to</h2>
+    <h2 id="pal-title" class="visually-hidden">Search</h2>
     <div class="palette-head">
       <span class="p-prompt" aria-hidden="true">&gt;</span>
       <input id="pal-input" type="text" role="combobox" aria-expanded="true" aria-controls="pal-list" aria-autocomplete="list"
-        aria-label="Search sections and pages" placeholder="Jump to a section or page…" autocomplete="off" spellcheck="false">
+        aria-label="Search sections and pages" placeholder="Search sections, projects and posts…" autocomplete="off" spellcheck="false">
       <button type="button" class="palette-close">Esc<span class="visually-hidden"> (close)</span></button>
     </div>
     <ul id="pal-list" class="palette-list" role="listbox" aria-label="Results"></ul>
@@ -760,7 +760,7 @@ if (PAGE === "home") {
     // hero WebGL starts once the page has loaded and the main thread is idle
     idle: (fn, t) => { const go = () => idle(fn, t); document.readyState === "complete" ? go() : addEventListener("load", go, { once: true }); },
   };
-  const home = import("./home.js?v=5");
+  const home = import("./home.js?v=7");
   home.then((m) => m.initHome(ctx)).catch(() => {});
   if (!booted && !reduced() && !deepLink && scrollY < 40) bootSequence().then(() => heroIntro(true));
   else heroIntro(false);
