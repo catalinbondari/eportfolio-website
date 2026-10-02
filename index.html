@@ -29,11 +29,11 @@
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/jetbrains-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="assets/css/site.css?v=5">
+  <link rel="stylesheet" href="assets/css/site.css?v=6">
   <script>document.documentElement.classList.add("js");</script>
   <script src="assets/vendor/gsap-3.15.0.min.js" defer></script>
   <script src="assets/vendor/ScrollTrigger-3.15.0.min.js" defer></script>
-  <script type="module" src="assets/js/app.js?v=5"></script>
+  <script type="module" src="assets/js/app.js?v=6"></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -560,131 +560,223 @@
       </div>
     </section>
 
-    <section class="section" id="media" aria-labelledby="media-title" data-section="06 / Media">
-      <div class="wrap section-grid">
-        <div class="section-label"><span class="index" aria-hidden="true">06</span><h2 id="media-title">Media</h2><p class="section-path" aria-hidden="true">~/media</p></div>
-        <div>
-          <p class="section-lede">Videos I recommend. The video player loads from YouTube (privacy-enhanced mode) only when you press play.</p>
-          <ul class="media-grid">
-            <li>
-              <article class="media-card panel" data-panel>
-                <p class="panel-title"><span>V-01</span><span class="chip">YouTube</span></p>
-                <div class="yt" data-yt="SwkjqGd8NC4" data-yt-title="How to Win the Loser’s Game: Full Version">
-                  <a class="yt-link" href="https://www.youtube.com/watch?v=SwkjqGd8NC4" rel="noopener">
-                    <img src="https://i.ytimg.com/vi/SwkjqGd8NC4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
-                    <span class="yt-play" aria-hidden="true"></span>
-                    <span class="visually-hidden">Play video: How to Win the Loser’s Game: Full Version, on YouTube</span>
-                  </a>
-                </div>
-                <h3 class="mc-title">How to Win the Loser’s Game: Full Version</h3>
-                <p class="mc-meta">Sensible Investing</p>
-              </article>
-            </li>
-            <li>
-              <article class="media-card panel" data-panel>
-                <p class="panel-title"><span>V-02</span><span class="chip">YouTube</span></p>
-                <div class="yt" data-yt="CjKhQoYeR4Q" data-yt-title="Getting Started With AWS Cloud | Step-by-Step Guide">
-                  <a class="yt-link" href="https://www.youtube.com/watch?v=CjKhQoYeR4Q" rel="noopener">
-                    <img src="https://i.ytimg.com/vi/CjKhQoYeR4Q/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
-                    <span class="yt-play" aria-hidden="true"></span>
-                    <span class="visually-hidden">Play video: Getting Started With AWS Cloud | Step-by-Step Guide, on YouTube</span>
-                  </a>
-                </div>
-                <h3 class="mc-title">Getting Started With AWS Cloud | Step-by-Step Guide</h3>
-                <p class="mc-meta">Travis Media</p>
-              </article>
-            </li>
-            <li>
-              <article class="media-card panel" data-panel>
-                <p class="panel-title"><span>V-03</span><span class="chip">YouTube</span></p>
-                <div class="yt" data-yt="fklHBWow8vE" data-yt-title="Working with APIs in Python [For Your Data Science Project]">
-                  <a class="yt-link" href="https://www.youtube.com/watch?v=fklHBWow8vE" rel="noopener">
-                    <img src="https://i.ytimg.com/vi/fklHBWow8vE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
-                    <span class="yt-play" aria-hidden="true"></span>
-                    <span class="visually-hidden">Play video: Working with APIs in Python [For Your Data Science Project], on YouTube</span>
-                  </a>
-                </div>
-                <h3 class="mc-title">Working with APIs in Python [For Your Data Science Project]</h3>
-                <p class="mc-meta">StrataScratch</p>
-              </article>
-            </li>
-          </ul>
+    <section class="section section--rows" id="media" aria-labelledby="media-title" data-section="06 / Media">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-label"><span class="index" aria-hidden="true">06</span><h2 id="media-title">Media</h2><p class="section-path" aria-hidden="true">~/media</p></div>
+          <p class="section-lede">Videos I recommend: investing first, then data and AI. The video player loads from YouTube (privacy-enhanced mode) only when you press play.</p>
         </div>
+          <div class="carousel carousel--media" role="region" aria-roledescription="carousel" aria-label="Videos" data-carousel>
+            <div class="carousel-bar"></div>
+            <ul class="carousel-track" tabindex="0" aria-label="Videos">
+              <li class="carousel-item">
+                <article class="media-card panel" data-panel>
+                  <p class="panel-title"><span>V-01</span><span class="chip">YouTube</span></p>
+                  <div class="yt" data-yt="SwkjqGd8NC4" data-yt-title="How to Win the Loser’s Game: Full Version">
+                    <a class="yt-link" href="https://www.youtube.com/watch?v=SwkjqGd8NC4" rel="noopener">
+                      <img src="https://i.ytimg.com/vi/SwkjqGd8NC4/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                      <span class="yt-play" aria-hidden="true"></span>
+                      <span class="visually-hidden">Play video: How to Win the Loser’s Game: Full Version, on YouTube</span>
+                    </a>
+                  </div>
+                  <h3 class="mc-title">How to Win the Loser’s Game: Full Version</h3>
+                  <p class="mc-meta">Sensible Investing</p>
+                  <p class="mc-why">A documentary on why most active funds lag the market after costs, and the case for low-cost index investing.</p>
+                </article>
+              </li>
+              <li class="carousel-item">
+                <article class="media-card panel" data-panel>
+                  <p class="panel-title"><span>V-02</span><span class="chip">YouTube</span></p>
+                  <div class="yt" data-yt="PHe0bXAIuk0" data-yt-title="How The Economic Machine Works by Ray Dalio">
+                    <a class="yt-link" href="https://www.youtube.com/watch?v=PHe0bXAIuk0" rel="noopener">
+                      <img src="https://i.ytimg.com/vi/PHe0bXAIuk0/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                      <span class="yt-play" aria-hidden="true"></span>
+                      <span class="visually-hidden">Play video: How The Economic Machine Works by Ray Dalio, on YouTube</span>
+                    </a>
+                  </div>
+                  <h3 class="mc-title">How The Economic Machine Works by Ray Dalio</h3>
+                  <p class="mc-meta">Principles by Ray Dalio</p>
+                  <p class="mc-why">A 30-minute animated model of the economy: transactions, credit, the short- and long-term debt cycles and productivity.</p>
+                </article>
+              </li>
+              <li class="carousel-item">
+                <article class="media-card panel" data-panel>
+                  <p class="panel-title"><span>V-03</span><span class="chip">YouTube</span></p>
+                  <div class="yt" data-yt="hMNxBHuzl4k" data-yt-title="Howard Marks: ‘Mastering the Market Cycle’">
+                    <a class="yt-link" href="https://www.youtube.com/watch?v=hMNxBHuzl4k" rel="noopener">
+                      <img src="https://i.ytimg.com/vi/hMNxBHuzl4k/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                      <span class="yt-play" aria-hidden="true"></span>
+                      <span class="visually-hidden">Play video: Howard Marks: ‘Mastering the Market Cycle’, on YouTube</span>
+                    </a>
+                  </div>
+                  <h3 class="mc-title">Howard Marks: ‘Mastering the Market Cycle’</h3>
+                  <p class="mc-meta">Goldman Sachs</p>
+                  <p class="mc-why">The Oaktree co-founder on his book about market cycles: judging where we are in the cycle and positioning for it.</p>
+                </article>
+              </li>
+              <li class="carousel-item">
+                <article class="media-card panel" data-panel>
+                  <p class="panel-title"><span>V-04</span><span class="chip">YouTube</span></p>
+                  <div class="yt" data-yt="aircAruvnKk" data-yt-title="But what is a neural network? | Deep learning chapter 1">
+                    <a class="yt-link" href="https://www.youtube.com/watch?v=aircAruvnKk" rel="noopener">
+                      <img src="https://i.ytimg.com/vi/aircAruvnKk/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                      <span class="yt-play" aria-hidden="true"></span>
+                      <span class="visually-hidden">Play video: But what is a neural network? | Deep learning chapter 1, on YouTube</span>
+                    </a>
+                  </div>
+                  <h3 class="mc-title">But what is a neural network? | Deep learning chapter 1</h3>
+                  <p class="mc-meta">3Blue1Brown</p>
+                  <p class="mc-why">A visual walk through a network that reads handwritten digits: neurons, layers, weights and biases.</p>
+                </article>
+              </li>
+              <li class="carousel-item">
+                <article class="media-card panel" data-panel>
+                  <p class="panel-title"><span>V-05</span><span class="chip">YouTube</span></p>
+                  <div class="yt" data-yt="zjkBMFhNj_g" data-yt-title="[1hr Talk] Intro to Large Language Models">
+                    <a class="yt-link" href="https://www.youtube.com/watch?v=zjkBMFhNj_g" rel="noopener">
+                      <img src="https://i.ytimg.com/vi/zjkBMFhNj_g/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                      <span class="yt-play" aria-hidden="true"></span>
+                      <span class="visually-hidden">Play video: [1hr Talk] Intro to Large Language Models, on YouTube</span>
+                    </a>
+                  </div>
+                  <h3 class="mc-title">[1hr Talk] Intro to Large Language Models</h3>
+                  <p class="mc-meta">Andrej Karpathy</p>
+                  <p class="mc-why">A general-audience hour on how LLMs are trained and fine-tuned, where they are heading and their security risks.</p>
+                </article>
+              </li>
+              <li class="carousel-item">
+                <article class="media-card panel" data-panel>
+                  <p class="panel-title"><span>V-06</span><span class="chip">YouTube</span></p>
+                  <div class="yt" data-yt="fklHBWow8vE" data-yt-title="Working with APIs in Python [For Your Data Science Project]">
+                    <a class="yt-link" href="https://www.youtube.com/watch?v=fklHBWow8vE" rel="noopener">
+                      <img src="https://i.ytimg.com/vi/fklHBWow8vE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                      <span class="yt-play" aria-hidden="true"></span>
+                      <span class="visually-hidden">Play video: Working with APIs in Python [For Your Data Science Project], on YouTube</span>
+                    </a>
+                  </div>
+                  <h3 class="mc-title">Working with APIs in Python [For Your Data Science Project]</h3>
+                  <p class="mc-meta">StrataScratch</p>
+                  <p class="mc-why">Pulling data from a web API with Python and turning the JSON response into a pandas DataFrame for analysis.</p>
+                </article>
+              </li>
+            </ul>
+          </div>
       </div>
     </section>
 
-    <section class="section" id="reading" aria-labelledby="reading-title" data-section="07 / Reading">
-      <div class="wrap section-grid">
-        <div class="section-label"><span class="index" aria-hidden="true">07</span><h2 id="reading-title">Reading &amp; listening</h2><p class="section-path" aria-hidden="true">~/reading</p></div>
-        <div>
-          <div class="subhead subhead--first">
-            <h3 id="books-title">Books</h3>
-          </div>
-          <ul class="books" aria-labelledby="books-title">
-            <li class="book panel" data-panel>
-              <span class="book-n" aria-hidden="true">B-01</span>
-              <h4 class="book-title">Hands-On Machine Learning with Scikit-Learn, Keras &amp; TensorFlow</h4>
-              <p class="book-author">Aur&eacute;lien G&eacute;ron</p>
-            </li>
-            <li class="book panel" data-panel>
-              <span class="book-n" aria-hidden="true">B-02</span>
-              <h4 class="book-title">The Elements of Statistical Learning</h4>
-              <p class="book-author">Trevor Hastie, Robert Tibshirani and Jerome Friedman</p>
-            </li>
-            <li class="book panel" data-panel>
-              <span class="book-n" aria-hidden="true">B-03</span>
-              <h4 class="book-title">Pattern Recognition and Machine Learning</h4>
-              <p class="book-author">Christopher Bishop</p>
-            </li>
-          </ul>
-          <div class="subhead">
-            <h3 id="podcasts-title">Podcasts</h3>
-          </div>
-          <ul class="media-grid" aria-labelledby="podcasts-title">
-            <li>
-              <article class="media-card panel" data-panel>
-                <p class="panel-title"><span>A-01</span><span class="chip">YouTube</span></p>
-                <div class="yt" data-yt="M01NZc2QlDk" data-yt-title="Sir Chris Hohn | Podcast | In Good Company | Norges Bank Investment Management">
-                  <a class="yt-link" href="https://www.youtube.com/watch?v=M01NZc2QlDk" rel="noopener">
-                    <img src="https://i.ytimg.com/vi/M01NZc2QlDk/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
-                    <span class="yt-play" aria-hidden="true"></span>
-                    <span class="visually-hidden">Play video: Sir Chris Hohn | Podcast | In Good Company | Norges Bank Investment Management, on YouTube</span>
-                  </a>
-                </div>
-                <h3 class="mc-title">Sir Chris Hohn | Podcast | In Good Company | Norges Bank Investment Management</h3>
-                <p class="mc-meta">In Good Company, Norges Bank Investment Management</p>
-              </article>
-            </li>
-            <li>
-              <article class="media-card panel" data-panel>
-                <p class="panel-title"><span>A-02</span><span class="chip">YouTube</span></p>
-                <div class="yt" data-yt="ZO8XGmUA0bM" data-yt-title="Larry Fink - The Most Powerful Man in Finance | A Documentary">
-                  <a class="yt-link" href="https://www.youtube.com/watch?v=ZO8XGmUA0bM" rel="noopener">
-                    <img src="https://i.ytimg.com/vi/ZO8XGmUA0bM/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
-                    <span class="yt-play" aria-hidden="true"></span>
-                    <span class="visually-hidden">Play video: Larry Fink - The Most Powerful Man in Finance | A Documentary, on YouTube</span>
-                  </a>
-                </div>
-                <h3 class="mc-title">Larry Fink - The Most Powerful Man in Finance | A Documentary</h3>
-                <p class="mc-meta">FINAiUS</p>
-              </article>
-            </li>
-            <li>
-              <article class="media-card panel" data-panel>
-                <p class="panel-title"><span>A-03</span><span class="chip">YouTube</span></p>
-                <div class="yt" data-yt="L_Guz73e6fw" data-yt-title="Sam Altman: OpenAI CEO on GPT-4, ChatGPT, and the Future of AI | Lex Fridman Podcast #367">
-                  <a class="yt-link" href="https://www.youtube.com/watch?v=L_Guz73e6fw" rel="noopener">
-                    <img src="https://i.ytimg.com/vi/L_Guz73e6fw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
-                    <span class="yt-play" aria-hidden="true"></span>
-                    <span class="visually-hidden">Play video: Sam Altman: OpenAI CEO on GPT-4, ChatGPT, and the Future of AI | Lex Fridman Podcast #367, on YouTube</span>
-                  </a>
-                </div>
-                <h3 class="mc-title">Sam Altman: OpenAI CEO on GPT-4, ChatGPT, and the Future of AI | Lex Fridman Podcast #367</h3>
-                <p class="mc-meta">Lex Fridman Podcast</p>
-              </article>
-            </li>
-          </ul>
+    <section class="section section--rows" id="reading" aria-labelledby="reading-title" data-section="07 / Reading">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="section-label"><span class="index" aria-hidden="true">07</span><h2 id="reading-title">Reading &amp; listening</h2><p class="section-path" aria-hidden="true">~/reading</p></div>
         </div>
+          <div class="carousel carousel--books" role="region" aria-roledescription="carousel" aria-label="Books" data-carousel>
+            <div class="carousel-bar"><div class="subhead subhead--first"><h3 id="books-title">Books</h3></div></div>
+            <ul class="carousel-track" tabindex="0" aria-labelledby="books-title">
+              <li class="carousel-item book panel" data-panel>
+                <span class="book-spine" aria-hidden="true"><span class="book-n">B-01</span></span>
+                <span class="book-art" aria-hidden="true" data-n="01"></span>
+                <h4 class="book-title">The Hour Between Dog and Wolf</h4>
+                <p class="book-desc">A neuroscientist and former trader on how hormones and stress biology drive risk-taking on trading floors.</p>
+                <p class="book-author">John Coates <span aria-hidden="true">&middot;</span> <time datetime="2012">2012</time></p>
+              </li>
+              <li class="carousel-item book panel" data-panel>
+                <span class="book-spine" aria-hidden="true"><span class="book-n">B-02</span></span>
+                <span class="book-art" aria-hidden="true" data-n="02"></span>
+                <h4 class="book-title">Advances in Financial Machine Learning</h4>
+                <p class="book-desc">Practical machine learning for finance: labelling, backtest overfitting and feature importance.</p>
+                <p class="book-author">Marcos L&oacute;pez de Prado <span aria-hidden="true">&middot;</span> <time datetime="2018">2018</time></p>
+              </li>
+              <li class="carousel-item book panel" data-panel>
+                <span class="book-spine" aria-hidden="true"><span class="book-n">B-03</span></span>
+                <span class="book-art" aria-hidden="true" data-n="03"></span>
+                <h4 class="book-title">Machine Learning for Asset Managers</h4>
+                <p class="book-desc">A short Cambridge Element on machine learning for portfolio construction, clustering and denoising covariance matrices.</p>
+                <p class="book-author">Marcos L&oacute;pez de Prado <span aria-hidden="true">&middot;</span> <time datetime="2020">2020</time></p>
+              </li>
+              <li class="carousel-item book panel" data-panel>
+                <span class="book-spine" aria-hidden="true"><span class="book-n">B-04</span></span>
+                <span class="book-art" aria-hidden="true" data-n="04"></span>
+                <h4 class="book-title">The Man Who Solved the Market</h4>
+                <p class="book-desc">The story of Jim Simons and the quantitative approach behind Renaissance Technologies.</p>
+                <p class="book-author">Gregory Zuckerman <span aria-hidden="true">&middot;</span> <time datetime="2019">2019</time></p>
+              </li>
+              <li class="carousel-item book panel" data-panel>
+                <span class="book-spine" aria-hidden="true"><span class="book-n">B-05</span></span>
+                <span class="book-art" aria-hidden="true" data-n="05"></span>
+                <h4 class="book-title">Expected Returns</h4>
+                <p class="book-desc">A deep, evidence-based survey of what drives returns across asset classes and strategies.</p>
+                <p class="book-author">Antti Ilmanen <span aria-hidden="true">&middot;</span> <time datetime="2011">2011</time></p>
+              </li>
+              <li class="carousel-item book panel" data-panel>
+                <span class="book-spine" aria-hidden="true"><span class="book-n">B-06</span></span>
+                <span class="book-art" aria-hidden="true" data-n="06"></span>
+                <h4 class="book-title">Hands-On Machine Learning with Scikit-Learn, Keras &amp; TensorFlow</h4>
+                <p class="book-desc">A practical guide to building machine learning models in Python, from scikit-learn basics to deep learning with Keras and TensorFlow.</p>
+                <p class="book-author">Aur&eacute;lien G&eacute;ron <span aria-hidden="true">&middot;</span> <time datetime="2019">2019</time></p>
+              </li>
+              <li class="carousel-item book panel" data-panel>
+                <span class="book-spine" aria-hidden="true"><span class="book-n">B-07</span></span>
+                <span class="book-art" aria-hidden="true" data-n="07"></span>
+                <h4 class="book-title">The Elements of Statistical Learning</h4>
+                <p class="book-desc">The standard statistical treatment of supervised learning: linear methods, regularisation, trees, boosting, SVMs and model assessment.</p>
+                <p class="book-author">Trevor Hastie, Robert Tibshirani and Jerome Friedman <span aria-hidden="true">&middot;</span> <time datetime="2001">2001</time></p>
+              </li>
+              <li class="carousel-item book panel" data-panel>
+                <span class="book-spine" aria-hidden="true"><span class="book-n">B-08</span></span>
+                <span class="book-art" aria-hidden="true" data-n="08"></span>
+                <h4 class="book-title">Pattern Recognition and Machine Learning</h4>
+                <p class="book-desc">A probabilistic, Bayesian treatment of pattern recognition: graphical models, kernel methods, mixture models and approximate inference.</p>
+                <p class="book-author">Christopher Bishop <span aria-hidden="true">&middot;</span> <time datetime="2006">2006</time></p>
+              </li>
+            </ul>
+          </div>
+          <div class="carousel carousel--media" role="region" aria-roledescription="carousel" aria-label="Podcasts" data-carousel>
+            <div class="carousel-bar"><div class="subhead"><h3 id="podcasts-title">Podcasts</h3></div></div>
+            <ul class="carousel-track" tabindex="0" aria-labelledby="podcasts-title">
+              <li class="carousel-item">
+                <article class="media-card panel" data-panel>
+                  <p class="panel-title"><span>A-01</span><span class="chip">YouTube</span></p>
+                  <div class="yt" data-yt="M01NZc2QlDk" data-yt-title="Sir Chris Hohn | Podcast | In Good Company | Norges Bank Investment Management">
+                    <a class="yt-link" href="https://www.youtube.com/watch?v=M01NZc2QlDk" rel="noopener">
+                      <img src="https://i.ytimg.com/vi/M01NZc2QlDk/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                      <span class="yt-play" aria-hidden="true"></span>
+                      <span class="visually-hidden">Play video: Sir Chris Hohn | Podcast | In Good Company | Norges Bank Investment Management, on YouTube</span>
+                    </a>
+                  </div>
+                  <h3 class="mc-title">Sir Chris Hohn | Podcast | In Good Company | Norges Bank Investment Management</h3>
+                  <p class="mc-meta">In Good Company, Norges Bank Investment Management</p>
+                </article>
+              </li>
+              <li class="carousel-item">
+                <article class="media-card panel" data-panel>
+                  <p class="panel-title"><span>A-02</span><span class="chip">YouTube</span></p>
+                  <div class="yt" data-yt="ZO8XGmUA0bM" data-yt-title="Larry Fink - The Most Powerful Man in Finance | A Documentary">
+                    <a class="yt-link" href="https://www.youtube.com/watch?v=ZO8XGmUA0bM" rel="noopener">
+                      <img src="https://i.ytimg.com/vi/ZO8XGmUA0bM/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                      <span class="yt-play" aria-hidden="true"></span>
+                      <span class="visually-hidden">Play video: Larry Fink - The Most Powerful Man in Finance | A Documentary, on YouTube</span>
+                    </a>
+                  </div>
+                  <h3 class="mc-title">Larry Fink - The Most Powerful Man in Finance | A Documentary</h3>
+                  <p class="mc-meta">FINAiUS</p>
+                </article>
+              </li>
+              <li class="carousel-item">
+                <article class="media-card panel" data-panel>
+                  <p class="panel-title"><span>A-03</span><span class="chip">YouTube</span></p>
+                  <div class="yt" data-yt="L_Guz73e6fw" data-yt-title="Sam Altman: OpenAI CEO on GPT-4, ChatGPT, and the Future of AI | Lex Fridman Podcast #367">
+                    <a class="yt-link" href="https://www.youtube.com/watch?v=L_Guz73e6fw" rel="noopener">
+                      <img src="https://i.ytimg.com/vi/L_Guz73e6fw/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" decoding="async">
+                      <span class="yt-play" aria-hidden="true"></span>
+                      <span class="visually-hidden">Play video: Sam Altman: OpenAI CEO on GPT-4, ChatGPT, and the Future of AI | Lex Fridman Podcast #367, on YouTube</span>
+                    </a>
+                  </div>
+                  <h3 class="mc-title">Sam Altman: OpenAI CEO on GPT-4, ChatGPT, and the Future of AI | Lex Fridman Podcast #367</h3>
+                  <p class="mc-meta">Lex Fridman Podcast</p>
+                </article>
+              </li>
+            </ul>
+          </div>
       </div>
     </section>
 

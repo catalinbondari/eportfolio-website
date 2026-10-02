@@ -88,7 +88,7 @@ function paletteItems() {
     sec("projects", "Projects (DCU coursework)", "04"),
     sec("writing", "Writing", "05"),
     sec("media", "Media (videos)", "06"),
-    sec("reading", "Reading & podcasts", "07"),
+    sec("reading", "Reading: books & podcasts", "07"),
     sec("credentials", "Education & credentials", "08"),
     sec("more-about-me", "More about me", "09"),
     sec("contact", "Contact", "10"),
@@ -532,6 +532,126 @@ function initLiteYT() {
   });
 }
 
+/* ---------------------------------------------------- horizontal tracks */
+/* Media / books / podcasts rows. The track is a native scroll-snap list (works with JS off);
+   this adds HUD prev/next buttons, a live "1 / 6" readout, arrow keys on the focused track,
+   mouse drag-to-scroll and edge fades. Reduced motion: every programmatic scroll is instant. */
+const CHEVRON = (d) => `<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="${d}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>`;
+function initCarousels() {
+  for (const root of $$("[data-carousel]")) {
+    const track = $(".carousel-track", root);
+    const bar = $(".carousel-bar", root);
+    if (!track || !bar) continue;
+    const items = $$(":scope > .carousel-item", track);
+    const name = root.getAttribute("aria-label") || "items";
+    const total = items.length;
+
+    const controls = document.createElement("div");
+    controls.className = "car-controls";
+    controls.innerHTML =
+      `<p class="car-pos" aria-live="polite" aria-atomic="true"></p>` +
+      `<button class="car-btn" type="button" data-dir="-1" aria-label="Previous ${name.toLowerCase()}">${CHEVRON("M10 3 5 8l5 5")}</button>` +
+      `<button class="car-btn" type="button" data-dir="1" aria-label="Next ${name.toLowerCase()}">${CHEVRON("M6 3l5 5-5 5")}</button>`;
+    bar.append(controls);
+    const pos = $(".car-pos", controls);
+    const [prev, next] = $$(".car-btn", controls);
+    if (track.id === "") track.id = "car-" + Math.random().toString(36).slice(2, 8);
+    prev.setAttribute("aria-controls", track.id);
+    next.setAttribute("aria-controls", track.id);
+
+    const padL = () => parseFloat(getComputedStyle(track).paddingLeft) || 0;
+    const maxScroll = () => Math.max(0, track.scrollWidth - track.clientWidth);
+    const targets = () => { const p = padL(), m = maxScroll(); return items.map((li) => Math.min(m, Math.max(0, li.offsetLeft - p))); };
+    const go = (left) => track.scrollTo({ left, behavior: reduced() ? "auto" : "smooth" });
+    const step = (dir) => {
+      const x = track.scrollLeft, t = targets();
+      if (dir > 0) go(t.find((v) => v > x + 4) ?? maxScroll());
+      else go([...t].reverse().find((v) => v < x - 4) ?? 0);
+    };
+
+    let lastText = "";
+    const update = () => {
+      const x = track.scrollLeft, m = maxScroll();
+      const atStart = x <= 2, atEnd = x >= m - 2;
+      track.dataset.atStart = String(atStart);
+      track.dataset.atEnd = String(atEnd);
+      // keep focus on a live control when the focused one hits an end
+      const focused = document.activeElement;
+      if (atStart && focused === prev && !atEnd) next.focus();
+      if (atEnd && focused === next && !atStart) prev.focus();
+      prev.disabled = atStart;
+      next.disabled = atEnd;
+      // readout: the cards fully in view ("1 / 6" on phones, "1–2 / 6" on desktop)
+      const r = track.getBoundingClientRect(), p = padL();
+      const lo = r.left + p - 2, hi = r.right - p + 2;
+      let first = 0, last = 0;
+      items.forEach((li, i) => { const b = li.getBoundingClientRect(); if (b.left >= lo && b.right <= hi) { if (!first) first = i + 1; last = i + 1; } });
+      if (!first) { // nothing fully visible (very narrow): nearest card
+        const t = targets(); let best = 0;
+        t.forEach((v, i) => { if (Math.abs(v - x) < Math.abs(t[best] - x)) best = i; });
+        first = last = best + 1;
+      }
+      const shown = first === last ? `${first}` : `${first}–${last}`;
+      const text = `${shown} / ${total}`;
+      if (text === lastText) return;
+      lastText = text;
+      pos.innerHTML = `<span aria-hidden="true"><span class="cur">${shown}</span> / ${total}</span>` +
+        `<span class="visually-hidden">${name}: ${first === last ? `item ${first}` : `items ${first} to ${last}`} of ${total}</span>`;
+    };
+    let ticking = false;
+    const queue = () => { if (!ticking) { ticking = true; raf(() => { ticking = false; update(); }); } };
+    track.addEventListener("scroll", queue, { passive: true });
+    if ("ResizeObserver" in window) new ResizeObserver(queue).observe(track);
+    else addEventListener("resize", queue, { passive: true });
+
+    prev.addEventListener("click", () => step(-1));
+    next.addEventListener("click", () => step(1));
+    track.addEventListener("keydown", (e) => {
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+      const k = e.key;
+      if (k === "ArrowRight") step(1);
+      else if (k === "ArrowLeft") step(-1);
+      else if (k === "Home" && e.target === track) go(0);
+      else if (k === "End" && e.target === track) go(maxScroll());
+      else return;
+      e.preventDefault();
+    });
+
+    // mouse drag-to-scroll (touch and trackpads already scroll natively)
+    if (mqFine.matches) {
+      track.classList.add("is-draggable");
+      let startX = 0, startLeft = 0, down = false, moved = false;
+      track.addEventListener("pointerdown", (e) => {
+        if (e.pointerType !== "mouse" || e.button !== 0 || e.target.closest("iframe")) return;
+        down = true; moved = false; startX = e.clientX; startLeft = track.scrollLeft;
+      });
+      track.addEventListener("pointermove", (e) => {
+        if (!down) return;
+        const dx = e.clientX - startX;
+        if (!moved && Math.abs(dx) < 6) return;
+        if (!moved) { moved = true; track.classList.add("is-dragging"); track.setPointerCapture?.(e.pointerId); }
+        track.scrollLeft = startLeft - dx;
+      });
+      const end = () => {
+        if (!down) return;
+        down = false;
+        if (!moved) return;
+        setTimeout(() => { moved = false; }, 0); // after the click that ends this drag
+        const x = track.scrollLeft, t = [...targets(), maxScroll()];
+        const near = t.reduce((a, v) => (Math.abs(v - x) < Math.abs(a - x) ? v : a), t[0]);
+        track.classList.remove("is-dragging");
+        go(near);
+      };
+      track.addEventListener("pointerup", end);
+      track.addEventListener("pointercancel", end);
+      // a drag is not a click: stop it before the lite-YouTube handler or a link sees it
+      track.addEventListener("click", (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+      track.addEventListener("dragstart", (e) => e.preventDefault());
+    }
+    update();
+  }
+}
+
 /* ---------------------------------------------------------- blog filter */
 function initBlogFilter() {
   const ui = $("[data-blog-filter]");
@@ -622,6 +742,7 @@ initTicker();
 initForm();
 initReplay();
 initLiteYT();
+initCarousels();
 initBlogFilter();
 // non-essential layers wait for an idle slot so they stay out of the load window
 idle(() => { initReveals(); initGridGlow(); initMagnetic(); initRipples(); }, 1000);
