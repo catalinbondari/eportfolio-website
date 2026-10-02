@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weekly Market Update · Catalin Bondari</title>
+  <meta name="description" content="Weekly Market Update: a click-through weekly markets presentation with charts built from public sources (U.S. Treasury, FRED, wire reports) and presenter notes.">
+  <link rel="canonical" href="https://catalinbondari.github.io/eportfolio-website/work/weekly-market-update.html">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#FAFAF9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0B0F14" media="(prefers-color-scheme: dark)">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Catalin Bondari">
+  <meta property="og:title" content="Weekly Market Update · Catalin Bondari">
+  <meta property="og:description" content="Weekly Market Update: a click-through weekly markets presentation with charts built from public sources (U.S. Treasury, FRED, wire reports) and presenter notes.">
+  <meta property="og:url" content="https://catalinbondari.github.io/eportfolio-website/work/weekly-market-update.html">
+  <meta property="og:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Catalin Bondari QFA. Investment data and reporting. Dublin, Ireland.">
+  <meta property="og:locale" content="en_IE">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Weekly Market Update · Catalin Bondari">
+  <meta name="twitter:description" content="Weekly Market Update: a click-through weekly markets presentation with charts built from public sources (U.S. Treasury, FRED, wire reports) and presenter notes.">
+  <meta name="twitter:image" content="https://catalinbondari.github.io/eportfolio-website/assets/img/og-image.png">
+
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/newsreader-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>(function(d){d.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")d.setAttribute("data-theme",t)}catch(e){}})(document.documentElement);</script>
+  <script src="../assets/js/site.js" defer></script>
+</head><body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">CB</span>
+        <span>Catalin Bondari</span>
+      </a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Menu</span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="../#about">About</a></li>
+          <li><a href="../#experience">Experience</a></li>
+          <li><a href="../#work" aria-current="true">Work</a></li>
+          <li><a href="../#credentials">Credentials</a></li>
+          <li><a href="../#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Colour theme: System. Switch to Light">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 3.75a8.25 8.25 0 0 1 0 16.5z" fill="currentColor"/></svg><span data-theme-label aria-hidden="true">System</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="wrap case-head">
+      <a class="back" href="../#work"><span class="arrow" aria-hidden="true">&larr;</span> All work</a>
+      <p class="eyebrow" data-reveal>Case study &middot; Personal project</p>
+      <h1 data-reveal>Weekly Market Update</h1>
+      <p class="lede" data-reveal>A click-through weekly markets presentation: pick a view, then step through the week&rsquo;s stories with charts built from public sources (U.S. Treasury, FRED, wire reports), plus presenter notes.</p>
+      
+      <dl class="facts" data-reveal>
+          <div><dt>Demo</dt><dd><a href="../demo/weekly/">Open the live demo</a></dd></div>
+          <div><dt>Stack</dt><dd>HTML/JS, custom chart engine; built with a Python build and validate step</dd></div>
+          <div><dt>Code</dt><dd>Code available on request</dd></div>
+      </dl>
+    </div>
+
+    <div class="wrap case-body">
+      <section class="case-section" aria-labelledby="context">
+        <h2 id="context"><span class="index">01</span> Context</h2>
+        <div class="body">
+          <p>Weekly Market Update is a personal project: a weekly markets briefing that runs in the browser as a click-through presentation.</p>
+          <!-- TODO(owner): add a sentence on who the briefing is for and how it is used. -->
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="problem">
+        <h2 id="problem"><span class="index">02</span> Problem</h2>
+        <div class="body">
+          <p>A weekly briefing has to bring together the week&rsquo;s stories, the charts that support them and something to say about each, in a form that can be presented.</p>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="approach">
+        <h2 id="approach"><span class="index">03</span> Approach</h2>
+        <div class="body">
+          <ul class="points">
+            <li><strong>Public sources only.</strong> Charts are built from public sources (U.S. Treasury, FRED, wire reports).</li>
+            <li><strong>A custom chart engine</strong> in plain HTML and JavaScript renders the charts.</li>
+          </ul>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="what-it-does">
+        <h2 id="what-it-does"><span class="index">04</span> What it does</h2>
+        <div class="body">
+          <ul class="points">
+            <li><strong>Pick a view</strong>, then step through the week&rsquo;s stories one at a time.</li>
+            <li><strong>Charts</strong> for each story, built from the public sources above.</li>
+            <li><strong>Presenter notes</strong> to accompany the slides.</li>
+          </ul>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="stack">
+        <h2 id="stack"><span class="index">05</span> Stack</h2>
+        <div class="body">
+          <ul class="tags" aria-label="Technologies">
+            <li>HTML</li>
+            <li>JavaScript</li>
+            <li>Custom chart engine</li>
+            <li>Python (build and validate step)</li>
+          </ul>
+        </div>
+      </section>
+      <section class="case-section" aria-labelledby="notes">
+        <h2 id="notes"><span class="index">06</span> Notes</h2>
+        <div class="body">
+          <p>The repository is private. Code available on request.</p>
+        </div>
+      </section>
+    </div>
+    <div class="wrap case-next">
+      <p class="eyebrow">Next</p>
+      <a href="bond-portfolio-centre.html">Bond Portfolio Centre <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>&copy; 2026 Catalin Bondari QFA &middot; Dublin, Ireland</p>
+      <p>
+        <a href="https://www.linkedin.com/in/catalinbondari/" rel="me">LinkedIn</a>
+        <span aria-hidden="true">&nbsp;&middot;&nbsp;</span>
+        <a href="https://github.com/catalinbondari" rel="me">GitHub</a>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

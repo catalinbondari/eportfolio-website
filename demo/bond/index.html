@@ -1,0 +1,1224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bond Portfolio Centre — Demo · synthetic data · not investment advice · not live performance</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230B1030'/%3E%3Ctext x='32' y='42' font-family='Arial,Helvetica,sans-serif' font-size='28' font-weight='700' text-anchor='middle' fill='%23ffffff'%3ECB%3C/text%3E%3C/svg%3E">
+<script src="vendor/chart.umd.min.js"></script>
+<script src="vendor/chartjs-plugin-datalabels.min.js"></script>
+<script src="vendor/topojson.min.js"></script>
+<script src="demo.js"></script>
+<script src="cube.js"></script>
+<script src="celebrate.js"></script>
+<script src="escape.js"></script>
+<script src="shortcuts.js"></script>
+<script src="protection.js"></script>
+<script src="context.js"></script>
+<script src="safe.js"></script>
+<script src="cio.js"></script>
+<script src="desk.js"></script>
+<script src="textbook.js"></script>
+<script src="factfind.js"></script>
+<script src="committee.js"></script>
+<script src="layout.js"></script>
+<script src="leaks.js"></script>
+<script src="views.js"></script>
+<style>
+:root{
+  --ink:#1C1C1E; --slate:#5B5B62; --paper:#FFFFFF; --mist:#F6F5F3;
+  --line:#E6E3DE; --line-soft:#EFEDE9;
+  --accent:#0F7E82; --accent-dark:#0A5C5F; --navy:#0B1030;
+  --green:#1E7A46; --loss:#B9002F;
+  --c1:#14527A; --c2:#4A7FA5; --c3:#0F7E82; --c4:#2A9D9F; --c5:#7FB8B6;
+  --c6:#0B1030; --c7:#3A3F66; --c8:#7C7FA0; --c9:#00B2A9; --c10:#6FD5CE;
+  --shade:#EAF4F4;
+  --line-strong:#6B6F7B;
+  --amber:#8A5A00;
+  --fs-1:13px; --fs-2:15px; --fs-3:17px; --fs-4:22px; --fs-5:30px;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+  color-scheme:light;
+  font-size:var(--fs-3);
+}
+:root[data-theme="dark"]{
+  --ink:#E6EDF3; --slate:#9AA4B2; --paper:#161B22; --mist:#0D1117;
+  --line:#2A313C; --line-soft:#222933;
+  --accent:#2DD4BF; --accent-dark:#14B8A6; --navy:#0B1030;
+  --green:#3FB950; --loss:#F85149;
+  --c1:#5B9BD5; --c2:#7FB3D5; --c3:#2DD4BF; --c4:#5EEAD4; --c5:#99F6E4;
+  --c6:#8B93C7; --c7:#A5ABD6; --c8:#C7CBE4; --c9:#22D3EE; --c10:#67E8F9;
+  --shade:#12312E;
+  --line-strong:#8B95A3;
+  --amber:#E3A83A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  color:var(--ink);background:var(--paper);font-size:var(--fs-2);line-height:1.5}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.masthead{background:var(--paper);border-bottom:1px solid var(--line)}
+.masthead-inner{max-width:1240px;margin:0 auto;padding:10px 24px;display:flex;
+  align-items:center;gap:14px;min-height:64px}
+.logo-box{background:var(--ink);color:var(--paper);width:42px;height:42px;display:inline-flex;
+  align-items:center;justify-content:center;font-size:var(--fs-2);font-weight:700;
+  letter-spacing:.02em;flex:0 0 auto}
+.centre-title{font-size:var(--fs-4);font-weight:300;letter-spacing:-.01em;line-height:1.15}
+.strap{font-size:var(--fs-1);color:var(--slate);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:62ch}
+.strap .disclaimer b{color:inherit;font-weight:600}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.healthchip{font:inherit;font-size:var(--fs-1);font-weight:600;padding:5px 11px;border-radius:14px;cursor:pointer;
+  border:1px solid color-mix(in srgb,#8A5A00 45%,var(--paper));color:#8A5A00;
+  background:color-mix(in srgb,#8A5A00 10%,var(--paper));white-space:nowrap}
+.healthchip.bad{color:var(--loss);border-color:color-mix(in srgb,var(--loss) 45%,var(--paper));
+  background:color-mix(in srgb,var(--loss) 8%,var(--paper))}
+.healthpop{position:absolute;right:24px;top:62px;z-index:60;max-width:440px;background:var(--paper);
+  border:1px solid var(--line);box-shadow:0 8px 24px rgba(0,0,0,.14);padding:12px 14px;font-size:var(--fs-1);line-height:1.5}
+.healthpop p{margin:0 0 6px}
+.centre-title strong{font-weight:700}
+.masthead .spacer{flex:1}
+.bookpick{display:flex;flex-direction:column;gap:5px;margin-right:6px}
+.themeToggle{background:none;border:1px solid var(--line);color:var(--slate);
+  width:38px;height:38px;font-size:var(--fs-3);line-height:1;margin-right:14px}
+.themeToggle:hover{color:var(--ink);border-color:var(--ink)}
+.bookpick label{font-size:var(--fs-1);text-transform:uppercase;letter-spacing:.07em;color:var(--slate)}
+.bookpick select{font-size:var(--fs-2);padding:8px 11px;border:1px solid var(--ink);min-width:150px;background:var(--paper);color:var(--ink)}
+.asat{font-size:var(--fs-1);color:var(--slate);text-align:right;line-height:1.7}
+.asat-dot{display:none}
+.asat .stale{color:var(--amber);font-weight:600}
+.asat .fresh{color:var(--green);font-weight:600}
+.navbar{background:var(--mist);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.navbar-inner{max-width:1240px;margin:0 auto;padding:0 24px}
+.tabrow{display:flex;gap:2px;flex-wrap:nowrap;overflow-x:auto}
+.tabrow button{background:none;border:0;padding:13px 16px;font-size:var(--fs-2);
+  color:var(--slate);border-bottom:3px solid transparent;white-space:nowrap}
+.tabrow button:hover{color:var(--ink)}
+.tabrow button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink);font-weight:600}
+.subrow{display:flex;gap:6px;flex-wrap:wrap;padding:8px 0 10px;border-top:1px solid var(--line)}
+.subtab{font:inherit;font-size:var(--fs-1);padding:4px 12px;border-radius:14px;border:1px solid var(--line);
+  background:var(--paper);color:var(--ink);cursor:pointer;white-space:nowrap}
+.subtab[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.wrap{max-width:1240px;margin:0 auto;padding:26px 24px 72px}
+.view{display:none}
+.view.on{display:block}
+.section-head{border-top:3px solid var(--ink);background:var(--mist);padding:8px 16px;margin-bottom:18px;
+  display:flex;align-items:baseline;gap:14px;min-width:0}
+.section-head h2{font-size:var(--fs-3);font-weight:600;letter-spacing:-.01em;flex:none}
+.section-head p{font-size:var(--fs-1);color:var(--slate);margin:0;min-width:0;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;cursor:pointer}
+.section-head p.open{white-space:normal}
+details.working>summary{cursor:pointer;list-style:none;padding:14px 18px;margin-bottom:20px;border:1px solid var(--line);font-weight:600;font-size:var(--fs-2)}
+details.working>summary::-webkit-details-marker{display:none}
+details.working>summary::before{content:"\25B8  "}
+details.working[open]>summary::before{content:"\25BE  "}
+.section-divider{display:flex;align-items:center;gap:12px;margin:34px 0 20px;color:var(--slate);
+  font-size:var(--fs-1);text-transform:uppercase;letter-spacing:.06em}
+.section-divider::before,.section-divider::after{content:"";flex:1;border-top:1px solid var(--line)}
+.conv-select{font:inherit;font-size:var(--fs-1);padding:4px 6px;background:var(--paper);color:inherit;border:1px solid var(--line)}
+.today{border:1px solid var(--line);background:var(--paper);padding:16px 18px;margin-bottom:20px;
+  display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:20px}
+.today .lbl{font-size:var(--fs-1);color:var(--slate);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.today .big{font-size:var(--fs-5);font-weight:600;font-variant-numeric:tabular-nums;line-height:1.15}
+.today .sub{font-size:var(--fs-1);margin-top:6px}
+.today ul{list-style:none;margin:0;padding:0;font-size:var(--fs-1)}
+.today li{display:flex;justify-content:space-between;gap:10px;padding:3px 0;font-variant-numeric:tabular-nums}
+@media (max-width:760px){.today{grid-template-columns:1fr}}
+.desk{border:1px solid var(--line);background:var(--paper);padding:16px 18px;margin-bottom:20px;display:grid;gap:16px;min-width:0;max-width:100%}
+.desk>*{min-width:0;max-width:100%}
+.desk .tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.desk .desk-line{overflow-wrap:anywhere}
+.goals{display:grid;gap:18px}
+.goal-head{display:flex;justify-content:space-between;gap:12px;font-size:var(--fs-2);margin-bottom:6px;flex-wrap:wrap}
+.goalbar{height:8px;background:var(--mist);border:1px solid var(--line);overflow:hidden}
+.goalfill{height:100%;background:var(--accent)}
+.goalfill.done{background:var(--green)} .goalfill.behind{background:var(--loss)}
+.goalbar{display:flex}
+.goalfill.secured{background:var(--green)}
+.goalfill.atmarket{background:repeating-linear-gradient(45deg,color-mix(in srgb,#8A5A00 45%,var(--paper)) 0 5px,color-mix(in srgb,#8A5A00 25%,var(--paper)) 5px 10px)}
+.goal-split .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.goal-split .sw.secured{background:var(--green)}
+.goal-split .sw.atmarket{background:color-mix(in srgb,#8A5A00 40%,var(--paper))}
+.goal-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;padding-top:10px;font-size:var(--fs-1)}
+.goal-form label{display:flex;flex-direction:column;gap:3px;color:var(--slate)}
+.goal-form input,.goal-form select{font:inherit;font-size:var(--fs-1);padding:5px 6px;border:1px solid var(--line);background:var(--paper);color:inherit}
+.panel.key{border-color:var(--accent);box-shadow:inset 0 3px 0 var(--accent)}
+.panel.key>h3{color:var(--accent-dark);letter-spacing:.01em}
+:root[data-theme="dark"] .panel.key>h3{color:var(--accent)}
+.panel.key>.body{padding-top:var(--s4)}
+details.working .panel{border-color:var(--line-soft)}
+details.working .panel>h3{color:var(--slate);font-weight:600}
+.grid tbody tr{transition:background-color .12s ease}
+.grid tbody tr:hover{background:var(--mist)}
+.grid tbody tr[style*="cursor"]:hover{background:var(--shade)}
+.grid td:first-child{font-weight:500}
+.grid td,.grid th{font-variant-numeric:tabular-nums}
+.grid th{background:var(--mist);box-shadow:inset 0 -1px 0 var(--line);z-index:2}
+.grid tr.grp td{background:var(--mist);font-size:var(--fs-1);letter-spacing:.04em;text-transform:uppercase;color:var(--slate)}
+input,select,textarea{border-color:var(--line-strong)}
+input:hover,select:hover,textarea:hover{border-color:var(--accent)}
+.desk-go{border-color:var(--line-strong)}
+.desk-go:hover{border-color:var(--accent);color:var(--accent-dark)}
+:root[data-theme="dark"] .desk-go:hover{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;scroll-margin-top:96px}
+#thisMonth .grid td:nth-child(4){white-space:nowrap}
+.panels{gap:var(--s5)}
+.section-head{margin-bottom:var(--s5)}
+.section-head h2{letter-spacing:-.01em}
+.panel>h3{font-size:var(--fs-2);letter-spacing:.005em}
+#liveStamp{display:none}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+.desk .tablewrap table.grid{min-width:0}
+.desk .grid td:first-child{min-width:0}
+@media (max-width:760px){
+  .desk{padding:12px 10px}
+  .desk .tablewrap table.grid{font-size:var(--fs-1)}
+  .desk .tablewrap .grid th,.desk .tablewrap .grid td{padding:6px 6px}
+  .desk .tablewrap .grid th{white-space:nowrap;letter-spacing:.02em;font-size:var(--fs-1);line-height:1.2}
+  .desk .tablewrap .grid td{white-space:nowrap}
+  .desk .tablewrap table.grid{min-width:520px}
+  .desk .tablewrap .grid th:first-child,.desk .tablewrap .grid td:first-child{position:sticky;left:0;
+    background:var(--paper);z-index:1}
+  .desk .desk-go{display:block;margin:4px 0 0}
+}
+.desk .lbl{font-size:var(--fs-1);color:var(--slate);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.desk .desk-line{font-size:var(--fs-2);margin:4px 0;line-height:1.45}
+.desk .desk-go{font:inherit;font-size:var(--fs-1);padding:3px 9px;border:1px solid var(--line);background:transparent;color:inherit;border-radius:4px;cursor:pointer;margin-left:4px}
+.desk .desk-go:hover{border-color:var(--ink)}
+.desk .desk-book.on{text-decoration:underline;text-underline-offset:3px}
+.desk .tablewrap{margin-top:4px}
+.alt-tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:16px}
+.alt-tabs button{border:1px solid var(--line);background:transparent;color:inherit;padding:9px 12px;
+  cursor:pointer;font:inherit;font-size:var(--fs-1);text-align:left}
+.alt-tabs button b{display:block;font-size:var(--fs-1)}
+.alt-tabs button span{color:var(--slate);font-size:var(--fs-1)}
+.alt-tabs button.on{border-color:var(--accent);box-shadow:inset 0 -3px 0 var(--accent)}
+.watch{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px;margin-top:10px}
+.watch-card{border:1px solid var(--line);padding:12px 14px}
+.watch-card .hd{display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-size:var(--fs-1)}
+.watch-card .nums{display:flex;gap:14px;flex-wrap:wrap;font-size:var(--fs-1);margin:10px 0;font-variant-numeric:tabular-nums}
+.watch-card .sides{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.watch-card .lbl{font-size:var(--fs-1);color:var(--slate);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.flags{margin:0;padding-left:16px;font-size:var(--fs-1)}
+.flags li{margin-bottom:2px}
+.tag{display:inline-block;font-size:var(--fs-1);padding:1px 6px;border:1px solid currentColor;margin:2px 4px 0 0}
+.verdict-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:4px 0 18px}
+.verdict-kpis>div{border:1px solid var(--line);padding:10px 12px}
+.verdict-kpis .k{font-size:var(--fs-1);color:var(--slate);text-transform:uppercase;letter-spacing:.04em}
+.verdict-kpis .v{font-size:var(--fs-3);font-weight:600;margin-top:4px}
+@media (max-width:700px){.verdict-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .verdict-kpis>div{padding:8px 10px}.verdict-kpis .v{font-size:var(--fs-2);white-space:nowrap}
+  .verdict-kpis .k{font-size:var(--fs-1)}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);margin-bottom:24px}
+.kpi{background:var(--paper);padding:15px 17px}
+.kpi .k{font-size:var(--fs-1);text-transform:uppercase;letter-spacing:.07em;color:var(--slate);margin-bottom:7px}
+.kpi .v{font-size:var(--fs-4);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi .s{font-size:var(--fs-1);color:var(--slate);margin-top:3px}
+.kpis.eight{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpis.eight .kpi{cursor:help}
+.kpis.eight .kpi .s{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:760px){.kpis.eight{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.panels{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));margin-bottom:20px}
+.panel{border:1px solid var(--line);background:var(--paper);
+  min-width:0}
+.panel h3{font-size:var(--fs-2);font-weight:600;padding:13px 16px;border-bottom:1px solid var(--line-soft);
+  background:var(--mist)}
+.panel .body{padding:16px}
+.panel .note{font-size:var(--fs-1);color:var(--slate);padding:0 16px 14px;margin-top:-6px}
+.chartbox{position:relative;height:280px}
+.chartbox.tall{height:360px}
+.wide{grid-column:1/-1}
+table.grid{width:100%;border-collapse:collapse;font-size:var(--fs-1)}
+.grid th,.grid td{padding:8px 10px;border-bottom:1px solid var(--line-soft);text-align:left}
+.grid th{font-size:var(--fs-1);text-transform:uppercase;letter-spacing:.06em;color:var(--slate);
+  font-weight:600;white-space:nowrap;background:var(--mist);position:sticky;top:0}
+.grid td.num,.grid th.num{text-align:right;font-variant-numeric:tabular-nums}
+.grid tr.me{background:var(--shade)}
+.grid tr.me td{font-weight:600}
+.tablewrap{overflow:auto;max-height:520px}
+.tablewrap table.grid{min-width:700px}
+#theoryTable td:last-child,#hedgeTable td:first-child{min-width:230px}
+#theoryTable td:first-child{min-width:180px}
+.grid td:first-child{min-width:190px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--fs-1)}
+select,input,textarea{max-width:100%}
+.muted{color:var(--slate)}
+.tickerbtn{background:none;border:none;padding:0;font:inherit;color:var(--accent);
+  cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+a.tkr{color:inherit;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+a.tkr:hover{color:var(--accent);text-decoration-color:var(--accent)}
+.grid tr.grp td{background:var(--mist);padding-top:10px}
+.pos{color:var(--green)} .neg{color:var(--loss)}
+.swatch{display:inline-block;width:10px;height:10px;margin-right:7px;vertical-align:middle}
+input,select,textarea{padding:6px 9px;border:1px solid var(--line);
+  background:var(--paper);color:var(--ink);font:inherit;font-size:var(--fs-1)}
+input.val{width:112px;text-align:right;font-variant-numeric:tabular-nums}
+.btn{padding:7px 14px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);font-size:var(--fs-1)}
+.btn.ghost{background:transparent;color:var(--ink)}
+button.link{background:none;border:0;color:var(--slate);text-decoration:underline;font-size:var(--fs-1);padding:0}
+.controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+  padding:13px 16px;background:var(--mist);border:1px solid var(--line);margin-bottom:20px}
+.controls label{font-size:var(--fs-1);text-transform:uppercase;letter-spacing:.06em;color:var(--slate)}
+input[type=range]{accent-color:var(--accent);width:180px;vertical-align:middle}
+.banner{background:var(--shade);border-left:3px solid var(--accent);padding:10px 14px;
+  font-size:var(--fs-1);margin-bottom:18px}
+.warnbox{background:color-mix(in srgb, var(--amber) 12%, var(--paper));
+  border-left:3px solid var(--amber);padding:10px 14px;
+  font-size:var(--fs-1);color:var(--ink);margin-top:12px}
+#mapwrap{position:relative;background:var(--mist);border:1px solid var(--line)}
+#worldmap path{stroke:var(--paper)}
+#worldmap{display:block;width:100%;height:auto}
+#worldmap path{stroke:var(--paper);stroke-width:.4;transition:opacity .12s}
+#worldmap path.hit:hover{opacity:.75;cursor:default}
+.maptip{position:absolute;pointer-events:none;background:#000;color:#fff;font-size:var(--fs-1);
+  padding:5px 9px;border-radius:2px;opacity:0;transition:opacity .1s;white-space:nowrap;z-index:5}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:var(--fs-1);color:var(--slate);padding:12px 16px}
+.legend i{display:inline-block;width:22px;height:10px;margin-right:5px;vertical-align:middle}
+#heatmap{border-collapse:collapse;font-size:var(--fs-1)}
+#heatmap td,#heatmap th{padding:0;text-align:center}
+#heatmap th{font-size:var(--fs-1);color:var(--slate);font-weight:600;padding:3px}
+.urg{display:inline-block;padding:2px 8px;font-size:var(--fs-1);font-weight:600;
+  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.urg-now{background:#B9002F;color:#fff}
+.urg-week{background:var(--amber);color:#fff}
+.urg-month{background:var(--accent);color:#fff}
+.urg-opp{background:var(--line);color:var(--slate)}
+.pielegend{display:flex;gap:16px;align-items:center;font-size:var(--fs-1);color:var(--slate);padding:12px 0 0}
+.pielegend i{display:inline-block;width:11px;height:11px;margin-right:6px;vertical-align:-1px}
+#heatmap td.cell{width:30px;height:26px;color:#fff;font-variant-numeric:tabular-nums}
+footer{border-top:1px solid var(--line);background:var(--mist)}
+.footer-inner{max-width:1240px;margin:0 auto;padding:22px 24px 40px;font-size:var(--fs-1);color:var(--slate)}
+.footer-inner ul{margin:10px 0 0 18px}
+.footer-inner li{margin-bottom:7px}
+@media (max-width:640px){
+  .centre-title{font-size:var(--fs-4)}
+  .logo-box{width:58px;height:58px;font-size:var(--fs-3)}
+  .chartbox{height:240px}
+}
+.fireworks{position:fixed;inset:0;pointer-events:none;z-index:400}
+.toasts{position:fixed;bottom:16px;right:16px;z-index:410;
+  display:flex;flex-direction:column;gap:10px;width:min(430px,calc(100vw - 28px))}
+.toast{display:flex;gap:13px;align-items:flex-start;background:var(--paper);
+  border:1px solid var(--accent);border-left:4px solid var(--accent);
+  padding:13px 14px;box-shadow:0 12px 34px rgba(0,0,0,.18);
+  animation:toastIn .34s cubic-bezier(.2,.9,.3,1.2) both}
+.toast.grand{border-color:var(--green);border-left-color:var(--green)}
+.toast.out{animation:toastOut .3s ease-in forwards}
+.toast .mark{font-size:var(--fs-4);line-height:1.1;color:var(--accent)}
+.toast.grand .mark{color:var(--green)}
+.toast .body{flex:1;min-width:0}
+.toast .kicker{font-size:var(--fs-1);text-transform:uppercase;letter-spacing:.09em;color:var(--slate)}
+.toast .headline{font-size:var(--fs-4);font-weight:600;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;margin:2px 0 3px}
+.toast .detail{font-size:var(--fs-1);color:var(--slate);line-height:1.45}
+.toast .close{background:none;border:0;color:var(--slate);font-size:var(--fs-4);line-height:1;padding:0 2px}
+@keyframes toastIn{from{opacity:0;transform:translateY(-14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateY(-10px)}}
+.mstone-next{background:var(--mist);border:1px solid var(--line);padding:14px 16px;margin-bottom:14px}
+.mstone-next .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-size:var(--fs-1);margin-bottom:9px}
+.mstone-next .top strong{font-size:var(--fs-2);font-variant-numeric:tabular-nums}
+.mstone-bar{height:8px;background:var(--line);overflow:hidden}
+.mstone-bar i{display:block;height:100%;background:var(--accent)}
+.mstone-list{display:flex;flex-wrap:wrap;gap:8px}
+.mstone{display:flex;align-items:center;gap:8px;border:1px solid var(--line);
+  background:var(--paper);padding:7px 11px;font-size:var(--fs-1)}
+.mstone b{font-weight:600;font-variant-numeric:tabular-nums}
+.mstone span{color:var(--slate)}
+.mstone.new{border-color:var(--accent);background:var(--shade)}
+@media (prefers-reduced-motion:reduce){
+  .toast,.toast.out{animation:none}
+}
+.btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.escape-controls{display:flex;flex-wrap:wrap;gap:18px;align-items:center;
+  background:var(--mist);border:1px solid var(--line);padding:14px 16px;margin-bottom:18px}
+.escape-controls .grp{display:flex;flex-direction:column;gap:6px;min-width:210px}
+.escape-controls label{font-size:var(--fs-1);text-transform:uppercase;letter-spacing:.07em;color:var(--slate)}
+.escape-controls .val{font-size:var(--fs-1);font-weight:600;font-variant-numeric:tabular-nums}
+.escape-controls input[type=range]{width:100%}
+.escape-controls .btns{display:flex;flex-wrap:wrap;gap:6px}
+.numin{padding:6px 9px;border:1px solid var(--line);background:var(--paper);color:var(--ink);
+  font:inherit;font-size:var(--fs-1);width:120px;font-variant-numeric:tabular-nums}
+.confcell{display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+.conf{display:inline-block;padding:2px 7px;font-size:var(--fs-1);font-weight:600;
+  text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.conf-high{background:#1E7A46;color:#fff}
+.conf-mod{background:#0F7E82;color:#fff}
+.conf-low{background:var(--amber);color:#fff}
+.conf-spec{background:#B9002F;color:#fff}
+.confbar{display:block;width:78px;height:4px;background:var(--line)}
+.confbar i{display:block;height:100%;background:var(--accent)}
+.confdetail{margin-top:10px;padding:10px 12px;background:var(--mist);border:1px solid var(--line)}
+.confdetail .confhead{margin-bottom:7px}
+.confdetail ul{margin:0 0 0 18px;font-size:var(--fs-1);line-height:1.55}
+.confcap{margin-top:7px;font-size:var(--fs-1);color:var(--loss);font-weight:600}
+.ticket{border:1px solid var(--line);background:var(--paper);padding:14px 16px;margin-bottom:14px}
+.ticket-best{border-left:4px solid var(--accent)}
+.ticket-venue{border-left:4px solid var(--c1);background:var(--mist)}
+.tickethead{font-size:var(--fs-1);text-transform:uppercase;letter-spacing:.08em;color:var(--slate);margin-bottom:8px}
+.ticketline{font-size:var(--fs-3);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.ticketgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px 22px;margin-top:12px}
+.tg{display:flex;justify-content:space-between;gap:14px;padding:5px 0;border-bottom:1px solid var(--line-soft);font-size:var(--fs-1)}
+.tg .k{color:var(--slate)}
+.tg .v{text-align:right;font-variant-numeric:tabular-nums}
+.news-item{margin:6px 0 10px}
+.news-item a{color:var(--ink);text-decoration:none;font-weight:500;line-height:1.4;overflow-wrap:anywhere}
+.news-item a:hover{color:var(--accent);text-decoration:underline}
+.news-meta{font-size:var(--fs-1);margin-top:2px}
+.news-tone{margin-left:6px;font-size:var(--fs-1);padding:1px 6px;border-radius:9px;background:var(--shade)}
+.news-tone.neg{color:var(--loss)}.news-tone.pos{color:var(--green)}
+.news-attention{border-left:3px solid var(--amber);padding:4px 0 4px 14px;margin-bottom:8px}
+.news-attention h4{margin:0 0 8px}
+.news-flag{padding:8px 0;border-bottom:1px solid var(--line)}
+.news-flag:last-child{border-bottom:0}
+.news-themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.news-theme{background:var(--shade);padding:12px 14px;border-radius:6px;min-width:0}
+.news-why{font-size:var(--fs-1);margin:4px 0 8px}
+.news-holding{padding:8px 0;border-bottom:1px solid var(--line)}
+.trusted-badge{display:inline-block;margin-left:6px;font-size:var(--fs-1);padding:1px 7px;border-radius:9px;
+  background:color-mix(in srgb, var(--accent) 14%, var(--paper));color:var(--accent);font-weight:600;white-space:nowrap}
+.jump{display:flex;flex-wrap:wrap;gap:6px;margin:-4px 0 18px}
+.jump-chip{font:inherit;font-size:var(--fs-1);padding:4px 10px;border-radius:14px;border:1px solid var(--line);
+  background:var(--paper);color:var(--ink);cursor:pointer}
+.jump-chip:hover{border-color:var(--accent);color:var(--accent)}
+.folded{max-height:1000px;overflow:hidden;position:relative;
+  -webkit-mask-image:linear-gradient(to bottom,#000 85%,transparent);mask-image:linear-gradient(to bottom,#000 85%,transparent)}
+.fold-toggle{display:block;margin:-6px auto 22px;font:inherit;font-size:var(--fs-1);padding:6px 16px;border-radius:16px;
+  border:1px solid var(--line);background:var(--paper);color:var(--accent);cursor:pointer}
+.orders{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+.order{padding:9px 2px;border-bottom:1px solid var(--line)}
+.order-top{display:flex;align-items:baseline;gap:8px;min-width:0}
+.order-side{font-weight:700;font-size:var(--fs-1);letter-spacing:.04em;width:40px;flex:none}
+.order-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.order-eur{margin-left:auto;font-variant-numeric:tabular-nums;flex:none}
+.order-how{font-size:var(--fs-1);margin:2px 0 0 48px;font-variant-numeric:tabular-nums}
+.grid tr.grouphead th{border-bottom:0;padding-bottom:0;color:var(--ink);font-weight:600;text-transform:none}
+.tablewrap,.tscroll{background:
+  linear-gradient(to right,var(--paper) 30%,transparent) left center/28px 100% no-repeat local,
+  linear-gradient(to left,var(--paper) 30%,transparent) right center/28px 100% no-repeat local,
+  radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.16),transparent) left center/12px 100% no-repeat scroll,
+  radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.16),transparent) right center/12px 100% no-repeat scroll}
+details.how{margin:0 var(--s4) var(--s3);font-size:var(--fs-1);color:var(--slate)}
+details.how>summary{cursor:pointer;color:var(--slate);padding:6px 0}
+details.how .note,details.how .hint{padding:4px 0 !important;margin:0}
+details.more-reasons>summary{cursor:pointer;font-size:var(--fs-1)}
+.cscore{display:inline-block;min-width:28px;padding:1px 6px;text-align:center;border-radius:10px;
+  font-size:var(--fs-1);font-variant-numeric:tabular-nums;color:var(--ink);cursor:help;
+  background:color-mix(in srgb, var(--tone, var(--slate)) var(--mix, 14%), var(--paper))}
+.cscore.up{--tone:var(--green)} .cscore.dn{--tone:var(--loss)}
+.cidea{min-width:220px}
+.cmembers{margin:0 0 12px;padding-left:18px;font-size:var(--fs-1);line-height:1.6}
+.goodbox{background:var(--shade);border-left:3px solid var(--green);padding:13px 15px;font-size:var(--fs-1);line-height:1.6}
+.amber{color:var(--amber)}
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tablewrap .tscroll{overflow:visible}
+.note,.warnbox,.goodbox,.hint,.muted{overflow-wrap:anywhere}
+@media (max-width:760px){
+  .masthead-inner,.navbar-inner,.wrap,.footer-inner{padding-left:14px;padding-right:14px}
+  .masthead-inner{flex-wrap:wrap;gap:10px;padding-top:14px;padding-bottom:14px}
+  .masthead .spacer{display:none}
+  .wrap{padding-top:16px;padding-bottom:48px}
+  .centre-title{font-size:var(--fs-4)}
+  .logo-box{width:46px;height:46px;font-size:var(--fs-2)}
+  .navbar-inner{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .navbar-inner::-webkit-scrollbar{display:none}
+  .navbar-inner{padding:0 8px}
+  .tabrow{gap:0}
+  .tabrow button{flex:1 1 auto;padding:12px 4px;font-size:var(--fs-1)}
+  .subrow{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .panels{grid-template-columns:1fr;gap:14px}
+  .panel .body{padding:12px}
+  .panel h3{padding:11px 12px}
+  .panel .note{padding:0 12px 12px}
+  .section-head{padding:8px 12px}
+  .kpis{grid-template-columns:repeat(auto-fit,minmax(142px,1fr))}
+  .kpi{padding:12px 13px}
+  .kpi .v{font-size:var(--fs-4)}
+  .chartbox{height:230px}
+  .chartbox.tall{height:290px}
+  .tablewrap{max-height:none;overflow-x:auto;overflow-y:visible}
+  table.grid{font-size:var(--fs-1)}
+  .grid th,.grid td{padding:7px 8px}
+  .grid td:first-child{min-width:120px}
+  .tablewrap table.grid,.tscroll table.grid{min-width:560px}
+  #theoryTable td:last-child,#hedgeTable td:first-child{min-width:170px}
+  #theoryTable td:first-child{min-width:140px}
+  .escape-controls{padding:12px;gap:12px}
+  .escape-controls .grp{min-width:100%}
+  .numin{width:100%}
+  .ticketgrid{grid-template-columns:1fr}
+  .ticketline{font-size:var(--fs-2)}
+  .confcell{align-items:flex-start}
+  .confbar{width:64px}
+  .toasts{bottom:8px;right:8px;width:calc(100vw - 16px)}
+  .mstone-next .top{flex-direction:column;gap:4px}
+  .footer-inner{padding-bottom:28px}
+}
+@media (max-width:760px){
+  .masthead-inner{display:grid;grid-template-columns:auto 1fr auto;align-items:center;column-gap:10px;row-gap:8px}
+  .logo-box{width:38px;height:38px;font-size:var(--fs-1);grid-row:1}
+  .centre-title{font-size:var(--fs-3)}
+  .strap{display:none}
+  .healthchip{grid-row:1;grid-column:3;justify-self:end}
+  .bookpick{grid-row:2;grid-column:1 / 3;flex-direction:row;align-items:center;gap:8px;margin:0}
+  .bookpick label{display:none}
+  .bookpick select{min-width:0;width:100%;font-size:var(--fs-2);padding:7px 9px}
+  .themeToggle{grid-row:2;grid-column:3;margin:0;width:38px;height:38px}
+  .asat,#liveStamp{grid-column:1 / -1;text-align:left;line-height:1.4;font-size:var(--fs-1)}
+  .asat br{display:none}
+  .asat-dot{display:inline}
+  #refreshNow{grid-column:1 / -1;justify-self:start;margin:0 !important}
+  .panel .hint{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
+    overflow:hidden;cursor:pointer}
+  .panel .hint.open{display:block;-webkit-line-clamp:unset}
+  .tablewrap table.grid.stack,.tscroll table.grid.stack{min-width:0}
+  table.grid.stack,table.grid.stack tbody,table.grid.stack tr,table.grid.stack td{display:block;width:100%}
+  table.grid.stack thead{display:none}
+  table.grid.stack tr{padding:10px 0;border-bottom:1px solid var(--line)}
+  table.grid.stack td{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+    padding:3px 0;border:0;text-align:right;white-space:normal;min-width:0}
+  table.grid.stack td::before{content:attr(data-label);flex:0 0 auto;max-width:45%;text-align:left;
+    font-size:var(--fs-1);color:var(--slate);text-transform:uppercase;letter-spacing:.04em}
+  table.grid.stack td[data-label=""]::before{content:none}
+  table.grid.stack td:first-child{display:block;text-align:left;font-size:var(--fs-2);padding-bottom:4px;min-width:0}
+  table.grid.stack td:first-child::before{content:none}
+  table.grid.stack td.long{display:block;text-align:left}
+  table.grid.stack td.long::before{display:block;max-width:none;margin-bottom:2px}
+  table.grid.stack td ul{margin:0}
+  table.grid.stack td:empty{display:none}
+  table.grid.stack td:first-child[data-label=""]{display:inline-block;width:auto;margin-right:8px;font-weight:600}
+  table.grid.stack td:first-child[data-label=""] + td{display:inline-block;width:auto;text-align:left;font-size:var(--fs-2);padding-bottom:6px}
+  table.grid.stack td:first-child[data-label=""] + td::before{content:none}
+}
+@media (max-width:400px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi{padding:10px 11px}
+  .kpi .v{font-size:var(--fs-3)}
+  .kpi .s{font-size:var(--fs-1)}
+  .tg{flex-direction:column;gap:2px}
+  .tg .v{text-align:left}
+}
+.demo-ribbon{background:#7A2E0E;color:#FFF6EC;text-align:center;font-size:var(--fs-1);
+  font-weight:600;letter-spacing:.02em;padding:6px 16px}
+:root[data-theme="dark"] .demo-ribbon{background:#D4A544;color:#1C1606}
+.demo-ribbon .backlink{color:inherit;margin-left:14px;font-weight:600;text-decoration:underline;white-space:nowrap}
+.demo-footer{margin:0 0 14px;line-height:1.6}
+.demobox{background:#F5EFE0;border-left:3px solid var(--amber);color:#4A3B18;
+  padding:13px 16px;font-size:var(--fs-1);line-height:1.6;margin-bottom:18px}
+:root[data-theme="dark"] .demobox{background:#2A2415;color:#E8D9B5;border-left-color:#D4A544}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <h1 class="sr-only">Bond Portfolio Centre &mdash; a fictional demo</h1>
+  <div class="masthead-inner">
+    <span class="logo-box">Bond</span>
+    <div>
+      <div class="centre-title">Portfolio <strong>Centre</strong></div>
+      <div class="strap"><span id="strapline">your book, measured against the funds you could buy instead</span>
+        <span class="disclaimer"> · fictional demo books, <b>not investment advice</b></span></div>
+    </div>
+    <span class="spacer"></span>
+    <button class="healthchip" id="healthChip" type="button" hidden></button>
+    <div class="bookpick">
+      <label for="bookSelect" class="sr-only">Portfolio</label>
+      <select id="bookSelect"></select>
+    </div>
+    <button class="themeToggle" id="themeToggle" title="Switch between light and dark" aria-label="Switch theme"></button>
+    <div class="asat" id="asof">loading…</div>
+      <div class="asat" id="liveStamp"></div>
+    <button class="btn ghost" id="refreshNow" style="display:none;margin-left:12px">refresh</button>
+  </div>
+</header>
+
+<nav class="navbar"><div class="demo-ribbon" id="demoRibbon" role="note">Demo · synthetic data · not investment advice · not live performance <a class="backlink" href="../../">&larr; Back to portfolio</a></div><div class="navbar-inner" id="tabs"></div></nav>
+
+<main class="wrap" id="main">
+  <div id="healthBanner" style="display:none"></div>
+  <div id="demoBanner" class="demobox" style="display:none"></div>
+  <div class="banner" id="editBanner" style="display:none">
+    Showing your edits, not the sheet. They live in this browser only — nothing is written back.
+  </div>
+
+  <section class="view on" id="view-overview">
+    <div class="section-head">
+      <h2>Overview</h2>
+      <p>What this fictional book is worth, what the rules would do this month, and how they are doing against the S&amp;P 500 and inflation. The detail is one tab away: Performance for the record, Research for the evidence, Advice for the working.</p>
+    </div>
+    <div id="deskBox"></div>
+    <div id="todayBox"></div>
+    <div class="kpis" id="kpis"></div>
+    <div class="panel wide" id="benchPanel" style="margin:20px 0">
+      <h3>Against the benchmark &mdash; and against inflation</h3>
+      <div class="body"><div class="tablewrap" id="benchTable"></div></div>
+      <p class="note" id="benchNote"></p>
+    </div>
+  </section>
+
+  <section class="view" id="view-performance">
+    <div class="section-head">
+      <h2>Performance</h2>
+      <p>How this book&rsquo;s current mix would have done on the synthetic price history, and the textbook measures. The Overview keeps only today and the benchmark.</p>
+    </div>
+    <div class="panels">
+      <div class="panel wide">
+        <h3>Growth of €100</h3>
+        <div class="body"><div class="chartbox tall"><canvas id="chartGrowth"></canvas></div></div>
+        <p class="note" id="growthNote"></p>
+      </div>
+      <div class="panel">
+        <h3>Calendar years</h3>
+        <div class="body"><div class="chartbox"><canvas id="chartYears"></canvas></div></div>
+      </div>
+    </div>
+    <div class="panel wide" id="textbookPanel" style="margin:20px 0">
+      <h3>Textbook risk measures</h3>
+      <div class="body">
+        <p class="hint">Standard textbook yardsticks, computed with the usual formulas and named as the textbooks name them, for this book beside the S&amp;P 500 line it holds. Each row says which topic it belongs to.</p>
+        <div id="textbookBox"></div>
+      </div>
+      <p class="note" id="textbookNote"></p>
+    </div>
+      <div class="panel wide" id="milestonePanel">
+        <h3>Working towards</h3>
+        <div class="body">
+          <div id="achievementBox"></div>
+        </div>
+        <p class="note" id="achievementNote"></p>
+      </div>
+  </section>
+
+  <section class="view" id="view-research">
+    <div class="section-head">
+      <h2>Research</h2>
+      <p>The evidence behind the advice: what the research views did to expected returns, the committee, and the theme notes. Live-data panels from the full application (news, analyst targets, betting markets, filings) are not part of the demo.</p>
+    </div>
+      <div class="panel wide" id="macroPanel">
+        <h3>The rate world this book lives in</h3>
+        <div class="body">
+          <div class="tablewrap" id="macroTable"></div>
+          <div id="macroCurve" style="margin-top:14px"></div>
+        </div>
+        <p class="note" id="macroNote"></p>
+      </div>
+    <div class="panel wide" style="margin-bottom:20px" id="viewsPanel">
+      <h3>What the research did to the expected returns</h3>
+      <div class="body">
+        <p class="hint">Expected returns start at CAPM &mdash; beta, net of charges and the wrapper&rsquo;s tax &mdash; which can see risk, correlation and cost and no edge in any company. The accounts, the insider filings and the valuation gap are blended in as Black-Litterman views: each sized by the published effect, halved because premia shrink after publication, and shrunk further towards this book&rsquo;s own scored record as it accumulates. Low confidence on purpose.</p>
+        <div id="viewsBox"></div>
+      </div>
+      <p class="note" id="viewsNote"></p>
+    </div>
+    <div id="cioBox"></div>
+    <div id="watchBox"></div>
+    <div id="insidersBox"></div>
+    <div id="accountsBox"></div>
+
+  </section>
+
+  <section class="view" id="view-holdings">
+    <div class="section-head">
+      <h2>Fact find</h2>
+      <p>What the money is for, and what it is in. The goals first &mdash; how close each one is and what it would take to arrive &mdash; then the holdings themselves: edit a value, drop a line, or add any fund from the universe. The sheet stays the source of truth &mdash; &ldquo;reset to sheet&rdquo; brings it back. Nothing here is written to Google.</p>
+    </div>
+    <div class="panel wide key" id="goalsPanel" style="margin-bottom:20px">
+      <h3>Goals &mdash; what the money is for</h3>
+      <div class="body">
+        <p class="hint">Each goal names what it costs, when it is wanted and which books fund it. Progress is the live value of those books, in priority order &mdash; a euro already claimed by the deposit cannot also be the car. Where a goal needs more than the target mix expects to earn, the monthly contribution that would work is shown instead of a hopeful rate.</p>
+        <div id="goalsBox"></div>
+        <div id="depositForm" style="margin-top:14px">
+          <div class="goal-form">
+            <label style="grid-column:span 2">money went into
+              <select id="depositLine"></select></label>
+            <label>how much &euro; <input id="depositAmount" type="number" step="50" placeholder="1000"></label>
+            <label>this is a
+              <select id="depositMode">
+                <option value="add">deposit — add it on</option>
+                <option value="set">correction — that is the balance</option>
+              </select></label>
+            <div>
+              <button type="button" class="desk-go" onclick="recordDeposit()">Record deposit</button>
+              <span id="depositStatus" class="muted" style="font-size:var(--fs-1)"></span>
+            </div>
+          </div>
+          <p class="note muted" style="padding-top:6px">Read-only in the demo: deposits cannot be recorded.</p>
+        </div>
+        <details class="working" id="goalForm" style="margin-top:14px">
+          <summary>Add or change a goal</summary>
+          <div class="goal-form">
+            <label>id <input id="goalId" placeholder="car"></label>
+            <label>name <input id="goalName" placeholder="Car"></label>
+            <label>kind <select id="goalKind"><option value="portfolio">portfolio</option><option value="sleeve">safe sleeve</option><option value="protection">protection</option></select></label>
+            <label>target &euro; <input id="goalTarget" type="number" step="500" placeholder="15000"></label>
+            <label>date <input id="goalDate" type="date"></label>
+            <label>&euro; a month <input id="goalMonthly" type="number" step="50" placeholder="0"></label>
+            <label>books <input id="goalBooks" placeholder="Demo Saver"></label>
+            <label>priority <input id="goalPriority" type="number" step="1" placeholder="2"></label>
+            <div>
+              <button type="button" class="desk-go" onclick="saveGoal()">Save goal</button>
+              <button type="button" class="desk-go" onclick="deleteGoal()">Delete by id</button>
+              <span id="goalStatus" class="muted" style="font-size:var(--fs-1)"></span>
+            </div>
+          </div>
+        </details>
+      </div>
+      <p class="note" id="goalsNote"></p>
+    </div>
+
+    <div id="callsBox"></div>
+    <div class="panels">
+      <div class="panel wide">
+        <h3>The book</h3>
+        <div class="body"><div class="tablewrap" id="holdings"></div></div>
+      </div>
+      <div class="panel">
+        <h3>Concentration</h3>
+        <div class="body"><div class="chartbox"><canvas id="chartWeights"></canvas></div></div>
+        <p class="note" id="concNote"></p>
+      </div>
+      <div class="panel">
+        <h3>Correlation between your largest positions</h3>
+        <div class="body" style="overflow:auto"><div id="heatmapBox"></div></div>
+        <p class="note">Dark means the pair moves together. Two holdings above 0.85 are close to one position with two lines in the sheet.</p>
+      </div>
+      <div class="panel wide">
+        <h3>Income</h3>
+        <div class="body"><div id="incomeBox"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-compare">
+    <div class="section-head">
+      <h2>Against the funds</h2>
+      <p>Every row measured the same way, over the dates all of them traded. Comparing a fund's five years against your book's shorter history would be two different questions printed in one table.</p>
+    </div>
+    <div class="panels">
+      <div class="panel wide">
+        <h3>Risk and return</h3>
+        <div class="body"><div class="chartbox tall"><canvas id="chartScatter"></canvas></div></div>
+        <p class="note">Up is more return, right is more risk. Anything up and to the left of your book did better for less.</p>
+      </div>
+      <div class="panel wide">
+        <h3>Comparison table</h3>
+        <div class="body">
+          <div class="tablewrap" id="comparison"></div>
+        </div>
+      </div>
+    </div>
+<div class="controls">
+      <label for="alloc">Buy at</label>
+      <input type="range" id="alloc" min="2" max="40" step="1" value="10">
+      <strong id="allocLabel">10%</strong>
+      <span class="muted">funded pro-rata from what you already hold</span>
+    </div>
+    <div class="panels">
+      <div class="panel">
+        <h3>What buying one would do</h3>
+        <div class="body"><div class="tablewrap" id="additions"></div></div>
+      </div>
+      <div class="panel">
+        <h3>Mixing curve</h3>
+        <div class="body">
+          <div style="margin-bottom:12px">
+            <label class="muted" for="frontierFund" style="font-size:var(--fs-1)">Blend your book with</label><br>
+            <select id="frontierFund" style="max-width:100%;margin-top:5px"></select>
+          </div>
+          <div class="chartbox"><canvas id="chartFrontier"></canvas></div>
+        </div>
+        <p class="note">Each point is a mix, from all-book on one end to all-fund on the other. The curve bends because the two are not perfectly correlated — that bend is the diversification, and it is free.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-map">
+    <div class="section-head">
+      <h2>Where the money actually is</h2>
+      <p>Funds are exploded through their index's published country weights, so an ETF does not sit in one “Unknown” block bigger than everything else.</p>
+    </div>
+    <div class="panels">
+      <div class="panel wide">
+        <h3>Country exposure</h3>
+        <div class="body">
+          <div id="mapwrap"><svg id="worldmap" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="maptip" id="maptip"></div></div>
+          <div class="legend" id="mapLegend"></div>
+        </div>
+        <p class="note" id="mapNote"></p>
+      </div>
+      <div class="panel">
+        <h3>By country</h3>
+        <div class="body"><div class="tablewrap" id="countryTable"></div></div>
+      </div>
+      <div class="panel">
+        <h3>By sector</h3>
+        <div class="body"><div class="tablewrap" id="sectorTable"></div></div>
+      </div>
+    </div>
+      <div class="panels">
+      <div class="panel">
+        <h3>Sector exposure</h3>
+        <div class="body"><div class="chartbox"><canvas id="chartSector"></canvas></div></div>
+      </div>
+      <div class="panel">
+        <h3>Currency exposure</h3>
+        <div class="body"><div class="chartbox"><canvas id="chartCurrency"></canvas></div></div>
+      </div>
+      <div class="panel">
+        <h3>Where the risk actually sits</h3>
+        <div class="body"><div class="chartbox"><canvas id="chartRisk"></canvas></div></div>
+        <p class="note">Weight says how much you own. Risk share says how much of the book's movement each position is responsible for — they come apart fast once anything is concentrated or volatile.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-simulate">
+    <div class="section-head">
+      <h2>Simulate</h2>
+      <p>Six thousand paths, block-bootstrapped from the book's own daily returns so its fat tails survive into the fan rather than being smoothed into a normal curve. Sampling in 21-day blocks keeps volatility clustering intact — calm and violent stretches stay lumpy instead of averaging out.</p>
+    </div>
+    <div class="controls">
+      <label for="mcStart">Starting from</label>
+      <span class="muted">€</span><input type="number" id="mcStart" step="500" min="0" style="width:120px">
+      <button class="btn ghost" id="mcStartReset">this book</button>
+      <label for="mcYears">Horizon</label>
+      <input type="range" id="mcYears" min="1" max="30" step="1" value="10"><strong id="mcYearsLabel">10 yrs</strong>
+      <label for="mcMonthly">Monthly top-up</label>
+      <span class="muted">€</span><input type="number" id="mcMonthly" value="0" step="100" min="0" style="width:100px">
+    </div>
+    <div class="controls">
+      <label for="mcBasis">Expected return</label>
+      <select id="mcBasis">
+        <option value="cma">Building blocks — what today&rsquo;s price has to deliver</option>
+        <option value="capm">CAPM — cash + beta × equity risk premium</option>
+        <option value="custom">Set it myself</option>
+        <option value="sample">Whatever this book has done (not a forecast)</option>
+      </select>
+      <input type="number" id="mcDrift" step="0.5" style="width:90px"> %
+      <span class="muted" id="mcBasisNote"></span>
+    </div>
+    <div class="panels">
+      <div class="panel wide">
+        <h3 id="mcHeadline">Range of outcomes</h3>
+        <div class="body"><div class="chartbox tall"><canvas id="chartFan"></canvas></div></div>
+        <div class="warnbox" id="mcWarning"></div>
+      </div>
+      <div class="panel">
+        <h3>Where you land</h3>
+        <div class="body"><div class="chartbox"><canvas id="chartBox"></canvas></div></div>
+        <p class="note">The box is the middle half of outcomes, the whiskers the 5th and 95th percentile. Read the width, not the middle.</p>
+      </div>
+      <div class="panel">
+        <h3>At the horizon</h3>
+        <div class="body"><div id="mcSummary"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-transactions">
+    <div class="section-head">
+      <h2>Transactions</h2>
+      <p>The fictional trade history behind this book, generated from a seed. The full application records trades in an append-only ledger; the demo is read-only.</p>
+    </div>
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>Record a trade</h3>
+      <div class="body" id="txBox"></div>
+    </div>
+    <div class="panel wide">
+      <h3>Ledger</h3>
+      <div class="body" id="txList"></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-advice">
+    <div class="section-head">
+      <h2>Advice</h2>
+      <p>This month&rsquo;s orders first, then the mix they are walking towards, then the house rules and costs it stands on. The research behind it is on the Research tab; the four theories, hedges, tax and derivatives are folded underneath for checking.</p>
+    </div>
+    <div class="panel wide key" id="committeePanel" style="margin:0 0 20px">
+      <h3>The committee &mdash; eight views, one decision</h3>
+      <div class="body"><div id="committeeBox"></div></div>
+    </div>
+    <div id="marketBanner" class="warnbox" style="margin-bottom:20px"></div>
+    <div id="verdictBox"></div>
+    <div id="fundsAddBox"></div>
+    <div id="convictionBox"></div>
+    <div class="section-divider"><span>The detail behind it</span></div>
+    <div id="rulesBox"></div>
+    <div class="panel wide key" style="margin-bottom:20px" id="leaksPanel">
+      <h3>Where the money leaks</h3>
+      <div class="body">
+        <p class="hint">Nobody can promise a better return &mdash; the market&rsquo;s next ten years are not in this site. What is knowable to the euro is what this book gives away before the market does anything: commission, the wrapper&rsquo;s tax, fund charges, idle cash, a measured factor tilt and the record of the activity itself. A euro not paid is a euro, with certainty; a euro of hoped-for alpha has a standard error the size of the euro. Ranked worst first.</p>
+        <div id="leaksBox"></div>
+      </div>
+      <p class="note" id="leaksNote"></p>
+    </div>
+    <details class="working" id="adviceWorking">
+    <summary>Show the working &mdash; every panel behind the answer</summary>
+    <div class="panel wide" style="margin-bottom:20px" id="safePanel">
+      <h3>The safe sleeve &mdash; money with a date on it</h3>
+      <div class="body">
+        <div id="safeVerdict"></div>
+        <div class="tablewrap" id="safeTable"></div>
+        <div id="safeNote" style="margin-top:14px"></div>
+      </div>
+      <p class="note" id="safeCaveat"></p>
+    </div>
+    <div class="panel wide" style="margin-bottom:20px" id="eventsPanel">
+      <h3>Dates already on the calendar</h3>
+      <div class="body">
+        <div id="eventsImminent"></div>
+        <div class="tablewrap" id="eventsTable"></div>
+      </div>
+      <p class="note" id="eventsNote"></p>
+    </div>
+    <div class="panel wide" style="margin-bottom:20px" id="discrepancyPanel">
+      <h3>Before you place anything — unreconciled positions</h3>
+      <div class="body"><div class="tablewrap" id="discrepancyTable"></div></div>
+      <div class="warnbox" id="discrepancyNote"></div>
+    </div>
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>Orders</h3>
+      <div class="body">
+        <p class="hint">What to place, at what price, by when. Limits are set from each holding's own daily volatility — not a forecast of direction, just the observation that a stock moving 2% a day usually trades 1% better than it does right now, and that waiting is free if the wait has an expiry.</p>
+        <div id="orderBox"></div>
+      </div>
+      <div class="warnbox" id="orderNote"></div>
+    </div>
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>Options and CFDs &mdash; the specific contract, if you want one</h3>
+      <div class="body">
+        <p class="hint">Every optionable holding, priced across five expiries and six strikes, ranked by what each contributes to compound growth at its own Kelly size &mdash; not by expected return, which always crowns whichever lottery ticket is furthest out of the money. Premiums are modelled, never quoted.</p>
+        <div id="derivBox"></div>
+      </div>
+      <div class="warnbox" id="derivNote"></div>
+    </div>
+
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>CFDs &mdash; what the leverage costs before it is right about anything</h3>
+      <div class="body"><div class="tablewrap" id="cfdBox"></div></div>
+      <div class="warnbox" id="cfdNote"></div>
+    </div>
+
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>Why these funds — check the working</h3>
+      <div class="body">
+        <p class="hint">Every input that put a fund in the list, so the choice can be checked instead of trusted. Nothing here is sponsored, and no provider pays anything either way.</p>
+        <div class="tablewrap" id="auditTable"></div>
+      </div>
+      <div class="warnbox" id="auditNote"></div>
+    </div>
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>Dates that impose themselves</h3>
+      <div class="body"><div class="tablewrap" id="deadlineTable"></div></div>
+    </div>
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>What actually moves the number</h3>
+      <div class="body">
+        <p class="hint">Ranked in euro over ten years, not in percent. Allocation is the part that feels like investing and, at this pot size, close to the least important lever available.</p>
+        <div class="tablewrap" id="leverTable"></div>
+        <div class="chartbox" style="margin-top:18px"><canvas id="chartLevers"></canvas></div>
+      </div>
+      <div class="warnbox" id="leverNote"></div>
+    </div>
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>What a target actually requires</h3>
+      <div class="body"><div class="tablewrap" id="milestoneTable"></div></div>
+      <p class="note" id="milestoneNote"></p>
+    </div>
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>What compounds fastest</h3>
+      <div class="body">
+        <p class="hint">Money compounds, so what gets maximised is expected <em>log</em> return: <strong>growth ≈ return − volatility²∕2</strong>. That second term is why a lower-returning mix can leave you richer, and why past a point more risk makes you poorer.</p>
+        <div class="tablewrap" id="theoryTable"></div>
+        <div class="chartbox" style="margin-top:18px"><canvas id="chartTheories"></canvas></div>
+      </div>
+      <div class="warnbox" id="theoryCaveat"></div>
+    </div>
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>Hedges that hold up when it matters</h3>
+      <div class="body">
+        <p class="hint">Ranked by what each does to compounding at its own best size — not by how much volatility it removes, because a hedge that costs more return than the variance it saves makes you poorer slowly. The last two columns are the honest test: correlation on ordinary days against correlation on your worst 10%.</p>
+        <div class="tablewrap" id="hedgeTable"></div>
+      </div>
+      <p class="note" id="hedgeNote"></p>
+    </div>
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>How to get there</h3>
+      <div class="body">
+        <p class="hint">The trades that move today's book toward the default mix — your Buy / Hold / Sell calls on the companies, funds for the rest — cut to what one month can actually do given your cash and free sells. Trend does not change the destination — it only decides which trades go first.</p>
+        <div id="planBox"></div>
+      </div>
+      <div class="warnbox" id="planTax"></div>
+    </div>
+    <div id="adviceBox"></div>
+    </details>
+  </section>
+
+  <section class="view" id="view-cube">
+    <div class="section-head">
+      <h2>Risk surfaces</h2>
+      <p>Two shapes a flat chart cannot show. The blend surface sweeps every mix of two funds so you can see the whole trade-off at once instead of reading it off eighteen table rows. The correlation surface plots each holding's correlation to the rest of the book <em>through time</em> — because diversification is not a number, it is a number that moves, and it moves most at exactly the moment you were relying on it. Drag to rotate, scroll to zoom.</p>
+    </div>
+    <div class="controls" id="cubeControls"></div>
+    <div class="panel wide">
+      <h3 id="cubeTitle">Your book against the universe</h3>
+      <div class="body">
+        <div id="cubeWrap" style="position:relative">
+          <canvas id="cubeCanvas" style="width:100%;display:block"></canvas>
+          <div class="maptip" id="cubeTip"></div>
+        </div>
+        <div class="legend" id="cubeLegend"></div>
+      </div>
+      <p class="note" id="cubeNote"></p>
+    </div>
+  </section>
+
+  <section class="view" id="view-goal">
+    <div class="section-head">
+      <h2>Mortgage deposit</h2>
+      <p>Money with a deadline is a different kind of money. Its job is to be intact and available on the date, not to compound — so it sits outside the investable book, out of every weight and risk figure, and nothing here will ever suggest investing it.</p>
+    </div>
+    <div id="goalBox"></div>
+  </section>
+
+  <section class="view" id="view-pension">
+    <div class="controls" id="pensionOwner"></div>
+    <div class="section-head">
+      <h2>Pension</h2>
+      <p>Kept apart from the tradable books on purpose. The money is not accessible, most scheme funds have no market ticker, and folding the pot into your weights would inflate every cap and budget that depends on the tradable total. It still counts towards what you have.</p>
+    </div>
+    <div id="pensionBox"></div>
+    <div class="panels">
+      <div class="panel wide">
+        <h3>Where it gets to</h3>
+        <div class="controls">
+          <label for="penYears">Years to retirement</label>
+          <input type="range" id="penYears" min="5" max="45" step="1" value="35"><strong id="penYearsLabel">35</strong>
+          <label for="penMonthly">Monthly in</label>
+          <span class="muted">€</span><input type="number" id="penMonthly" step="25" min="0" style="width:100px">
+          <button class="btn ghost" id="penRateSave">save as my new rate</button>
+          <button class="btn ghost" id="penRateAuto">back to the average</button>
+          <label for="penCharge">Annual charge</label>
+          <input type="number" id="penCharge" step="0.05" min="0" max="5" style="width:80px"> %
+          <button class="btn ghost" id="penChargeSave">save</button>
+        </div>
+        <div class="body"><div class="chartbox tall"><canvas id="chartPension"></canvas></div></div>
+        <div class="warnbox" id="penWarning"></div>
+      </div>
+      <div class="panel">
+        <h3>Contributions in</h3>
+        <div class="body"><div class="chartbox"><canvas id="chartPenContrib"></canvas></div></div>
+      </div>
+      <div class="panel">
+        <h3>Fund split</h3>
+        <div class="body"><div class="chartbox"><canvas id="chartPenSplit"></canvas></div></div>
+        <p class="note" id="penProxyNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-explore">
+    <div class="section-head">
+      <h2>Explore a stock</h2>
+      <p>Look up any instrument in the synthetic panel &mdash; a holding or a fund &mdash; and see what owning it would do to this book. Everything here is measured from the same return matrix as the rest of the page.</p>
+    </div>
+    <div class="controls">
+      <label for="exploreTicker">Ticker</label>
+      <input id="exploreTicker" placeholder="e.g. CHPX, AWLD.AS, BALW.DE" style="width:210px">
+      <button class="btn" id="exploreGo">look it up</button>
+      <label for="exploreWeight">Buy at</label>
+      <input type="range" id="exploreWeight" min="1" max="25" step="1" value="5"><strong id="exploreWeightLabel">5%</strong>
+    </div>
+    <div id="exploreBox"></div>
+  </section>
+
+  <section class="view" id="view-protection">
+    <div class="section-head">
+      <h2>Protection</h2>
+      <p>Every other tab works on the money you have. This one works on the money you have not earned yet &mdash; which at 23 and 22 is roughly a hundred times larger, is attached to two bodies, and is the half nobody insures. The order these products belong in is not the order they are sold in, and the reason is arithmetic rather than opinion.</p>
+    </div>
+    <div class="escape-controls" id="protectionControls"></div>
+    <div id="protectionBox"></div>
+    <div class="panel wide" style="margin-bottom:20px">
+      <h3>What this adds up to</h3>
+      <div class="body"><div class="warnbox" id="protectionNote"></div></div>
+    </div>
+  </section>
+
+
+  <section class="view" id="view-escape">
+    <div class="section-head">
+      <h2>Escape velocity</h2>
+      <p>Every other tab answers how this money should be arranged. This one answers whether the arrangement can possibly get you where you said you were going &mdash; and if not, what can. It is the least flattering page here on purpose: a target is the one input nobody sanity-checks, and a goal that is merely ambitious looks identical to one that is arithmetically impossible until the required rate is written next to the best records that exist.</p>
+    </div>
+
+    <div class="escape-controls">
+      <div class="grp" style="min-width:100%">
+        <label>Target</label>
+        <div class="btns" id="escapeTargets"></div>
+      </div>
+      <div class="grp">
+        <label>Horizon</label>
+        <input type="range" id="escapeYears" min="3" max="40" step="1" value="10">
+        <div class="val" id="escapeYearsLabel"></div>
+      </div>
+      <div class="grp">
+        <label>Saved each month</label>
+        <input type="range" id="escapeMonthly" min="0" max="5000" step="50" value="400">
+        <div class="val" id="escapeMonthlyLabel"></div>
+      </div>
+    </div>
+
+    <div class="panels">
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>What the target requires</h3>
+        <div class="body">
+          <div id="escapeHead"></div>
+          <div class="chartbox tall" style="margin-top:18px"><canvas id="chartRequirement"></canvas></div>
+        </div>
+        <p class="note" id="requirementNote"></p>
+      </div>
+
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>What each rate in history would cost you</h3>
+        <div class="body">
+          <p class="hint">Every row is a real track record, net of fees, over the stretch named. The columns are the two honest ways to close a gap: put more in, or wait longer.</p>
+          <div class="tablewrap" id="costTable"></div>
+        </div>
+        <p class="note" id="costNote"></p>
+      </div>
+
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>Where the money actually comes from</h3>
+        <div class="body"><div class="chartbox tall"><canvas id="chartSources"></canvas></div></div>
+        <p class="note" id="sourcesNote"></p>
+      </div>
+
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>Backing companies &mdash; the power law, priced</h3>
+        <div class="body">
+          <p class="hint">The first route with a genuinely fat right tail. Outcome shape taken from Correlation Ventures' study of 21,000 investments 2004&ndash;2013 and 27,000 more 2009&ndash;2018 &mdash; not from a pitch deck.</p>
+          <div class="escape-controls">
+            <div class="grp"><label>Into venture each year</label>
+              <input class="numin" type="number" id="ventureStake" value="2000" min="0" step="500"></div>
+            <div class="grp"><label>Spread across this many deals</label>
+              <input class="numin" type="number" id="ventureDeals" value="4" min="1" max="50" step="1"></div>
+          </div>
+          <div id="ventureBox"></div>
+          <div class="chartbox" style="margin-top:18px"><canvas id="chartVenture"></canvas></div>
+        </div>
+        <p class="note" id="ventureNote"></p>
+      </div>
+
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>Owning one &mdash; where the billionaires actually come from</h3>
+        <div class="body">
+          <p class="hint">Two thirds of billionaire wealth is equity in a business the person built or controls. The difference between this panel and the one above is not courage or conviction; it is the ownership percentage.</p>
+          <div class="escape-controls">
+            <div class="grp"><label>Your stake at exit, after dilution (%)</label>
+              <input class="numin" type="number" id="founderStake" value="15" min="0" max="100" step="1"></div>
+          </div>
+          <div id="founderBox"></div>
+        </div>
+        <p class="note" id="founderNote"></p>
+      </div>
+
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>Leverage, and where it stops working</h3>
+        <div class="body">
+          <p class="hint">The obvious shortcut, and the reason it is not one. Borrowing multiplies the return in proportion and the drag by the square, so growth turns over at a point this book's own numbers decide.</p>
+          <div class="chartbox tall"><canvas id="chartLeverage"></canvas></div>
+        </div>
+        <p class="note" id="leverageNote"></p>
+      </div>
+
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>Options &mdash; the only convex instrument on this page</h3>
+        <div class="body">
+          <p class="hint">Priced with Black&ndash;Scholes at each line's own realised volatility, then re-read under its CAPM drift rather than the risk-neutral one the pricing model assumes. The gap between those two is the whole argument.</p>
+          <div class="escape-controls">
+            <div class="grp"><label>Underlying</label><select class="numin" id="optTicker" style="width:210px"></select></div>
+            <div class="grp"><label>Months to expiry</label>
+              <input type="range" id="optMonths" min="1" max="24" step="1" value="12">
+              <div class="val" id="optLabels"></div></div>
+            <div class="grp"><label>Strike, % of spot</label>
+              <input type="range" id="optStrike" min="70" max="200" step="5" value="110"></div>
+          </div>
+          <div id="optionBox"></div>
+          <div class="chartbox tall" style="margin-top:18px"><canvas id="chartOption"></canvas></div>
+        </div>
+        <p class="note" id="optionNote"></p>
+      </div>
+
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>The run you would have to win</h3>
+        <div class="body">
+          <p class="hint">No single option, at any strike anyone will sell you, covers the multiple the target needs. So it has to be a sequence &mdash; and the probability of a sequence is the product.</p>
+          <div class="tablewrap" id="parlayBox"></div>
+        </div>
+        <p class="note" id="parlayNote"></p>
+      </div>
+
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>Going short</h3>
+        <div class="body"><div id="shortBox"></div></div>
+        <p class="note" id="shortNote"></p>
+      </div>
+
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>Leveraged products and what daily rebalancing costs</h3>
+        <div class="body"><div class="tablewrap" id="decayBox"></div></div>
+        <p class="note" id="decayNote"></p>
+      </div>
+
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>Every shortcut, with how sure the answer is</h3>
+        <div class="body"><div class="tablewrap" id="verdictTable"></div></div>
+        <p class="note" id="verdictTableNote"></p>
+      </div>
+
+      <div class="panel wide" style="margin-bottom:20px">
+        <h3>The verdict</h3>
+        <div class="body"><div id="verdictBox"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-stress">
+    <div class="section-head">
+      <h2>Stress</h2>
+      <p>Synthetic episodes modelled on past market stresses, rather than a forecast of what could happen. Episodes appear only where your book's own history reaches them — nothing is spliced in from an index to fill a gap.</p>
+    </div>
+    <div class="panels">
+      <div class="panel wide">
+        <h3>Underwater — how far below the previous peak</h3>
+        <div class="body"><div class="chartbox tall"><canvas id="chartDrawdown"></canvas></div></div>
+      </div>
+      <div class="panel">
+        <h3>Worst and best stretches lived through</h3>
+        <div class="body"><div id="windowsBox"></div></div>
+      </div>
+      <div class="panel">
+        <h3>Episodes</h3>
+        <div class="body"><div id="episodeBox"></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="footer-inner">
+  <p class="demo-footer" id="demoFooter"><strong>Demo · synthetic data · not investment advice · not live performance.</strong> Every book, holding, trade, goal,
+    person and instrument on this page is fictional, and every price comes from a seeded simulation.
+    Nothing here describes a real account, a real security or real market history.</p>
+  <strong>What these numbers are not</strong>
+  <div id="caveats"></div>
+</div></footer>
+
+<script src="app.js"></script>
+</body>
+</html>
